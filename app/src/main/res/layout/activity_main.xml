@@ -25,5 +25,13 @@
         android:layout_height="wrap_content"
         android:text="jump to next"/>
 
+    <TextView
+        android:id="@+id/tv_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:textSize="40px"
+        android:layout_marginBottom="10dp"/>
+
 
 </LinearLayout>

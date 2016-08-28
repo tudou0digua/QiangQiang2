@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.cb.qiangqiang2.R;
-import com.cb.qiangqiang2.ui.base.BaseAutoLayoutActivity;
+import com.cb.qiangqiang2.common.base.BaseAutoLayoutActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -23,16 +23,20 @@ public class MainActivity extends BaseAutoLayoutActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //主页面不可以侧滑返回
+        getSwipeBackLayout().setEnableGesture(false);
         init();
     }
 
     private void init() {
+
         tv.setText("hello world one");
         tv2.setText("hello world two");
+
     }
 
     @OnClick({R.id.btn})
-    public void onClcik(View view){
+    public void onClcik(View view) {
         switch (view.getId()) {
             case R.id.btn:
                 Intent intent = new Intent(mContext, Activity2.class);

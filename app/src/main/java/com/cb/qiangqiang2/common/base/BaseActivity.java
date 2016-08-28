@@ -1,4 +1,4 @@
-package com.cb.qiangqiang2.ui.base;
+package com.cb.qiangqiang2.common.base;
 
 import android.content.Context;
 import android.os.Bundle;
