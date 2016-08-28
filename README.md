@@ -13,6 +13,7 @@ Android Parcelable code generator
 https://github.com/ribot/android-boilerplate  
 https://github.com/vsona/orz  
 http://www.jianshu.com/p/c2feb21064bb  
+https://github.com/CycloneAxe/phphub-android  
 https://github.com/CarlLu/MVPframe  (待看)
 
 ###第三方库使用
