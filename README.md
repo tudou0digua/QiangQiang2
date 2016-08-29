@@ -20,4 +20,4 @@ https://github.com/CarlLu/MVPframe  (待看)
 ####Dagger  
 [Dagger2从入门到放弃再到恍然大悟](http://www.jianshu.com/p/39d1df6c877d)  
 [Google官方MVP+Dagger2架构详解【从零开始搭建android框架系列（6）】](http://www.jianshu.com/p/01d3c014b0b1 )  
-[http://www.jianshu.com/p/c2feb21064bb](http://www.jianshu.com/p/c2feb21064bb)  
+[Dagger2使用](http://www.jianshu.com/p/c2feb21064bb)  
