@@ -1,7 +1,9 @@
 package com.cb.qiangqiang2.common.dagger.module;
 
 import android.app.Activity;
+import android.content.Context;
 
+import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.common.dagger.scope.PerActivity;
 
 import dagger.Module;
@@ -12,15 +14,21 @@ import dagger.Provides;
  */
 @Module
 public class ActivityModule {
-    private final Activity activity;
+    private final Activity mActivity;
 
     public ActivityModule(Activity activity) {
-        this.activity = activity;
+        this.mActivity = activity;
     }
 
     @Provides
     @PerActivity
     Activity provideActivity() {
-        return activity;
+        return mActivity;
+    }
+
+    @Provides
+    @ForActivity
+    Context provideActivityContext() {
+        return mActivity;
     }
 }

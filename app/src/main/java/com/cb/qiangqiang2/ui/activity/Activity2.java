@@ -18,6 +18,7 @@ public class Activity2 extends BaseAutoLayoutActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -26,7 +27,7 @@ public class Activity2 extends BaseAutoLayoutActivity {
     }
 
     @OnClick({R.id.btn})
-    public void onClcik(View view){
+    public void onClick(View view){
         switch (view.getId()) {
             case R.id.btn:
                 Intent intent = new Intent(mContext, Activity2.class);

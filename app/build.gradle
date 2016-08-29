@@ -83,7 +83,7 @@ dependencies {
 
     //依赖注入
     //Dagger
-    //GitHub: https://github.com/square/dagger
+    //GitHub: https://github.com/google/dagger
     compile  "com.google.dagger:dagger:$DAGGER_VERSION"
     provided 'org.glassfish:javax.annotation:10.0-b28' //Required by Dagger2
     apt daggerCompiler

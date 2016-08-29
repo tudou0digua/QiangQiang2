@@ -1,11 +1,10 @@
-package com.cb.qiangqiang2.common;
+package com.cb.qiangqiang2.common.application;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.cb.qiangqiang2.BuildConfig;
-import com.cb.qiangqiang2.common.dagger.component.ApiComponent;
 import com.cb.qiangqiang2.common.dagger.component.AppComponent;
-import com.cb.qiangqiang2.common.dagger.component.DaggerApiComponent;
 import com.cb.qiangqiang2.common.dagger.component.DaggerAppComponent;
 import com.cb.qiangqiang2.common.dagger.module.AppModule;
 import com.orhanobut.logger.Logger;
@@ -17,26 +16,12 @@ import timber.log.Timber;
  */
 public class BaseApplication extends Application {
     private AppComponent appComponent;
-    private ApiComponent apiComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         initLog();
-        initInjector();
-        initInjectorApi();
-    }
-
-    private void initInjector() {
-        appComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .build();
-    }
-
-    private void initInjectorApi() {
-        apiComponent = DaggerApiComponent.builder()
-                .appModule(new AppModule(this))
-                .build();
+        initAppComponent();
     }
 
     /**
@@ -55,11 +40,22 @@ public class BaseApplication extends Application {
         }
     }
 
+    private void initAppComponent() {
+        appComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+    }
+
+    //Dagger2: getAppComponent
     public AppComponent getAppComponent() {
+        if (appComponent == null){
+            initAppComponent();
+        }
         return appComponent;
     }
 
-    public ApiComponent getApiComponent() {
-        return apiComponent;
+    public static BaseApplication getApplication(Context context) {
+        return (BaseApplication) context.getApplicationContext();
     }
+
 }

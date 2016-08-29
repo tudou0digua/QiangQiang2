@@ -1,6 +1,10 @@
 package com.cb.qiangqiang2.common.dagger.component;
 
+import android.app.Application;
+import android.content.Context;
+
 import com.cb.qiangqiang2.common.dagger.module.AppModule;
+import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
 
 import javax.inject.Singleton;
 
@@ -12,11 +16,13 @@ import dagger.Component;
 @Singleton
 @Component(modules = AppModule.class)
 public interface AppComponent {
-//    void inject(SettingsFragment settingsFragment);
-//
-//    void inject(RecommendedFragment recommendedFragment);
-//
-//    void inject(UserSpaceActivity userSpaceActivity);
-//
-//    Navigator navigator();
+
+    @ForApplication
+    Context context();
+
+    Application application();
+
+//    RibotsService ribotsService();
+
+//    ApiServices apiServices();
 }
