@@ -18,6 +18,7 @@ https://github.com/CarlLu/MVPframe  (待看)
 
 ###第三方库使用
 ####Dagger  
+http://www.jianshu.com/p/01d3c014b0b1  
 http://www.jianshu.com/p/c2feb21064bb  
 http://blog.csdn.net/u012987546/article/details/52240880  
 http://blog.csdn.net/u012702547/article/details/52200927
