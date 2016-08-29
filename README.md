@@ -12,7 +12,7 @@ Android Parcelable code generator
 参考：  
 [PHPHub开源框架（值得参考）](https://github.com/CycloneAxe/phphub-android)  
 [Google开源框架：todo-mvp-dagger](https://github.com/googlesamples/android-architecture/tree/todo-mvp-dagger/)  
-https://github.com/ribot/android-boilerplate  [简略介绍](http://xuyushi.github.io/2016/06/18/Android%20APP%20%E6%96%B0%E6%A1%86%E6%9E%B6/)  
+https://github.com/ribot/android-boilerplate  [（简略介绍）](http://xuyushi.github.io/2016/06/18/Android%20APP%20%E6%96%B0%E6%A1%86%E6%9E%B6/)  
 https://github.com/vsona/orz  
 http://www.jianshu.com/p/c2feb21064bb  
 https://github.com/CarlLu/MVPframe  (待看)  
