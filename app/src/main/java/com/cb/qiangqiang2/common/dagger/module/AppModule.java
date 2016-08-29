@@ -9,6 +9,8 @@ import android.content.Context;
 
 import com.cb.qiangqiang2.common.application.BaseApplication;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
+import com.cb.qiangqiang2.data.api.ApiService;
+import com.cb.qiangqiang2.data.api.HttpManager;
 
 import javax.inject.Singleton;
 
@@ -46,9 +48,9 @@ public class AppModule {
 //        return RibotsService.Creator.newRibotsService();
 //    }
 
-//    @Provides
-//    @Singleton
-//    ApiServices provideApiServices(RetrofitManager retrofitManager) {
-//        return retrofitManager.getServices();
-//    }
+    @Provides
+    @Singleton
+    ApiService provideApiService(HttpManager httpManager) {
+        return httpManager.getService();
+    }
 }
