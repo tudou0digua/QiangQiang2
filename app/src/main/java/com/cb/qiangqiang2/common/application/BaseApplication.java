@@ -7,6 +7,7 @@ import com.cb.qiangqiang2.BuildConfig;
 import com.cb.qiangqiang2.common.dagger.component.AppComponent;
 import com.cb.qiangqiang2.common.dagger.component.DaggerAppComponent;
 import com.cb.qiangqiang2.common.dagger.module.AppModule;
+import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
 import timber.log.Timber;
@@ -28,14 +29,21 @@ public class BaseApplication extends Application {
      * 日志打印初始化 Timber结合Logger
      */
     private void initLog() {
+
+
+
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree(){
                 @Override
                 protected void log(int priority, String tag, String message, Throwable t) {
-                    Logger.log(priority, tag, message, t);
+                    super.log(priority, tag, message, t);
+                    //could bind Logger with Timber
+//                    Logger.log(priority, tag, message, t);
                 }
             });
         } else {
+            //Release version do not log
+            Logger.init().logLevel(LogLevel.NONE);
             //TODO deal with crash log or sth else
         }
     }

@@ -3,7 +3,7 @@ package com.cb.qiangqiang2.data.api;
 import android.content.Context;
 
 import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
-import com.cb.qiangqiang2.util.AppUtils;
+import com.cb.qiangqiang2.common.util.AppUtils;
 
 import java.io.IOException;
 

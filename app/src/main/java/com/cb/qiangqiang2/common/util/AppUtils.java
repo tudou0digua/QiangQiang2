@@ -1,4 +1,4 @@
-package com.cb.qiangqiang2.util;
+package com.cb.qiangqiang2.common.util;
 
 import android.app.Activity;
 import android.content.ComponentName;
