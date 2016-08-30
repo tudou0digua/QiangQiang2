@@ -3,7 +3,7 @@ package com.cb.qiangqiang2.data.api;
 import android.content.Context;
 
 import com.cb.qiangqiang2.common.constant.Constants;
-import com.cb.qiangqiang2.common.util.PreferencesUtils;
+import com.cb.qiangqiang2.common.util.PrefUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,7 +79,7 @@ public class HttpManager {
     public static Map<String, String> getBaseMap(Context context){
         Map<String, String> map = new HashMap<>();
 
-        if (PreferencesUtils.getString(context, Constants.FORUM_KEY) != null) {
+        if (PrefUtils.getString(context, Constants.FORUM_KEY) != null) {
 
         }
 

@@ -6,10 +6,10 @@ import android.content.SharedPreferences;
 /**
  * Created by cb on 2016/1/20.
  */
-public class PreferencesUtils {
+public class PrefUtils {
     public static String PREFERENCE_NAME = "qiangqiang_data";
 
-    private PreferencesUtils() {
+    private PrefUtils() {
         throw new AssertionError();
     }
 

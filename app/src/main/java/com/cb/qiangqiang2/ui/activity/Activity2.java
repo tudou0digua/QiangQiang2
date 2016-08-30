@@ -59,7 +59,7 @@ public class Activity2 extends BaseAutoLayoutActivity {
     }
 
     private void getTopicList() {
-        Map<String, String> map = HttpManager.getBaseMap();
+        Map<String, String> map = HttpManager.getBaseMap(mContext);
         map.put("", "");
         map.put("", "");
         map.put("", "");

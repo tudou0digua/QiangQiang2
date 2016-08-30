@@ -23,7 +23,5 @@ public interface AppComponent {
 
     Application application();
 
-//    RibotsService ribotsService();
-
     ApiService apiService();
 }
