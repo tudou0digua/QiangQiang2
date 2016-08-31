@@ -9,7 +9,6 @@ Android Parcelable code generator
 
 参考：http://stormzhang.com/android/2015/05/26/android-tools/
 ###框架搭建  
-参考：  
 [PHPHub开源框架（值得参考）](https://github.com/CycloneAxe/phphub-android)  
 [Google开源框架：todo-mvp-dagger](https://github.com/googlesamples/android-architecture/tree/todo-mvp-dagger/)  
 https://github.com/ribot/android-boilerplate  [（简略介绍）](http://xuyushi.github.io/2016/06/18/Android%20APP%20%E6%96%B0%E6%A1%86%E6%9E%B6/)  
