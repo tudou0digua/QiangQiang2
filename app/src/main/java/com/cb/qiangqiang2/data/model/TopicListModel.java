@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by cb on 2016/8/30.
  */
-public class TopicListResult {
+public class TopicListModel {
     /**
      * rs : 1
      * errcode :

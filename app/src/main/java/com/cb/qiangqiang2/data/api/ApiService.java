@@ -1,11 +1,14 @@
 package com.cb.qiangqiang2.data.api;
 
-import com.cb.qiangqiang2.data.model.LoginResult;
-import com.cb.qiangqiang2.data.model.TopicListResult;
+import com.cb.qiangqiang2.data.model.CollectionModel;
+import com.cb.qiangqiang2.data.model.LoginModel;
+import com.cb.qiangqiang2.data.model.TopicListModel;
 
 import java.util.Map;
 
+import retrofit2.Response;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -17,10 +20,18 @@ public interface ApiService {
 
     String BASE_URL = new StringBuilder(IP).append("mobcent/app/web/").toString();
 
+    public static final String UID = "uid";
+
     @POST("index.php?r=user/login")
-    Observable<LoginResult> login(@QueryMap Map<String, String> options);
+    Observable<LoginModel> login(@QueryMap Map<String, String> options);
 
     @POST("index.php?r=forum/topiclist")
-    Observable<TopicListResult> getTopicList(@QueryMap Map<String, String> options);
+    Observable<TopicListModel> getTopicList(@QueryMap Map<String, String> options);
+
+    @POST("index.php?r=user/topiclist")
+    Observable<CollectionModel> getCollectionList(@QueryMap Map<String, String> options, @Query(UID) int uid);
+
+    @POST("index.php?r=user/topiclist")
+    Observable<Response<CollectionModel>> getCollectionList2(@QueryMap Map<String, String> options, @Query(UID) int uid);
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by cb on 2016/8/30.
  */
-public class LoginResult {
+public class LoginModel {
 
     /**
      * rs : 1

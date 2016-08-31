@@ -13,7 +13,19 @@
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="jump to next"/>
+        android:text="get top topic"/>
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/btn"
+        android:text="login"/>
+    <Button
+        android:id="@+id/btn_collection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/btn_login"
+        android:text="get collection"/>
 
     <ScrollView
         android:layout_width="match_parent"

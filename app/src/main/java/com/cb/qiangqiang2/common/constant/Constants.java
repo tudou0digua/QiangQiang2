@@ -16,5 +16,12 @@ public class Constants {
     public static final String FORUM_TYPE = "forumType";
     public static final String IMEI = "imei";
 
+    //Topic
+    public static final String PAGE_SIZE = "pageSize";
+    public static final String TYPE = "type";
+
+    //user info
+    public static final String UID = "uid";
+
 
 }
