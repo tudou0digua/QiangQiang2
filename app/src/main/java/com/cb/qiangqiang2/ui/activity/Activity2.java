@@ -72,6 +72,7 @@ public class Activity2 extends BaseAutoLayoutActivity {
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         map.put(Constants.PAGE_SIZE, String.valueOf(1));
         map.put(Constants.TYPE, "favorite");
+        HttpManager.isNeedFormatDataLogger = true;
         HttpManager.toSub(apiService.getCollectionList2(map, uid), new HttpManager.OnResponse() {
             @Override
             public void onSuccess(Object result) {
@@ -140,7 +141,7 @@ public class Activity2 extends BaseAutoLayoutActivity {
                 if (o != null) {
                     String gson = new Gson().toJson(o);
                     tv.setText(gson);
-                    Logger.json(gson);
+//                    Logger.json(gson);
                 }
             }
         });

@@ -7,6 +7,9 @@ import android.widget.Toast;
 import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.model.BaseModel;
+import com.orhanobut.logger.Logger;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +37,8 @@ public class HttpManager {
     public static long READ_TIME_OUT = 10;
     public static long CONNECT_TIME_OUT = 10;
 
+    public static boolean isNeedFormatDataLogger = false;
+
     HttpLoggingInterceptor mHttpLoggingInterceptor;
 
     @Inject
@@ -46,10 +51,21 @@ public class HttpManager {
     public HttpManager() {
         mHttpLoggingInterceptor = new HttpLoggingInterceptor(new okhttp3.logging.HttpLoggingInterceptor.Logger() {
             @Override public void log(String message) {
-                Timber.tag("HttpManager-OkHttp").e(message);
+                    try {
+                        JSONObject jsonObject = new JSONObject( message );
+                        //是否需要用Logger格式化打印原生返回的json数据
+                        if (isNeedFormatDataLogger) {
+                            Logger.json(jsonObject.toString());
+                            isNeedFormatDataLogger = false;
+                        } else {
+                            Timber.tag("HttpManager-OkHttp").e(message);
+                        }
+                    } catch (Exception e){
+                        Timber.tag("HttpManager-OkHttp").e(message);
+                    }
             }
         });
-        mHttpLoggingInterceptor.setLevel(okhttp3.logging.HttpLoggingInterceptor.Level.HEADERS);
+        mHttpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     }
 
     public ApiService getService() {
