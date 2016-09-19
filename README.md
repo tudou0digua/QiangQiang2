@@ -5,7 +5,12 @@
 `Settings-->plugins`  
 GsonFormat  
 ButterKnife Zelezny  
-Android Parcelable code generator
+Android Parcelable code generator  
+### 夜间模式  
+使用Android Support Library DayNight  主题实现   
+[Android Support Library 之 夜间模式](http://wuxiaolong.me/2016/07/12/appcompatDayNight/)  
+[Android 夜间模式的设置以及需要注意的地方](http://blog.csdn.net/u014290233/article/details/52251881)  
+[android 实现【夜晚模式】的另外一种思路](https://segmentfault.com/a/1190000005736047)  
 
 参考：http://stormzhang.com/android/2015/05/26/android-tools/
 ###框架搭建  
