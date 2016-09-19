@@ -4,6 +4,9 @@ package com.cb.qiangqiang2.common.constant;
  * Created by cb on 2016/8/30.
  */
 public class Constants {
+    //system
+    public static final String IS_NIGHT_THEME = "isNightTheme";
+
     //api constant
     public static final String FORUM_KEY = "forumKey";
     public static final String ACCESS_TOKEN = "accessToken";

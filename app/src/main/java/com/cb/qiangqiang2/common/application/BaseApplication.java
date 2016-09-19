@@ -2,11 +2,14 @@ package com.cb.qiangqiang2.common.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.cb.qiangqiang2.BuildConfig;
+import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.dagger.component.AppComponent;
 import com.cb.qiangqiang2.common.dagger.component.DaggerAppComponent;
 import com.cb.qiangqiang2.common.dagger.module.AppModule;
+import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
@@ -21,6 +24,9 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //设置主题，夜间模式用到
+        boolean isNightTheme = PrefUtils.getBoolean(this, Constants.IS_NIGHT_THEME, false);
+        AppCompatDelegate.setDefaultNightMode(isNightTheme ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         initLog();
         initAppComponent();
     }
@@ -29,8 +35,6 @@ public class BaseApplication extends Application {
      * 日志打印初始化 Timber结合Logger
      */
     private void initLog() {
-
-
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree(){
