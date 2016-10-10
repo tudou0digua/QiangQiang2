@@ -22,6 +22,12 @@
         android:scaleType="centerCrop"
         android:src="@drawable/day"/>
 
+    <Button
+        android:id="@+id/btn_jump_to_custom_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="jump custom view"/>
+
     <TextView
         android:id="@+id/tv"
         android:layout_width="wrap_content"

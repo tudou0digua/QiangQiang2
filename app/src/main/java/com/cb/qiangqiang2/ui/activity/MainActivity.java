@@ -22,12 +22,6 @@ public class MainActivity extends BaseAutoLayoutActivity {
     TextView tv2;
     @BindView(R.id.btn)
     Button btn;
-    @BindView(R.id.btn_day)
-    Button btnDay;
-    @BindView(R.id.btn_night)
-    Button btnNight;
-    @BindView(R.id.tv_3)
-    TextView tv3;
 
 
     @Override
@@ -46,7 +40,7 @@ public class MainActivity extends BaseAutoLayoutActivity {
 
     }
 
-    @OnClick({R.id.btn, R.id.btn_day, R.id.btn_night})
+    @OnClick({R.id.btn, R.id.btn_day, R.id.btn_night, R.id.btn_jump_to_custom_view})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn:
@@ -62,6 +56,9 @@ public class MainActivity extends BaseAutoLayoutActivity {
                 PrefUtils.putBoolean(mContext, Constants.IS_NIGHT_THEME, true);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 recreate();
+                break;
+            case R.id.btn_jump_to_custom_view:
+                startActivity(new Intent(mContext, CustomViewActivity.class));
                 break;
         }
     }
