@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
-        android:background="@color/colorPrimary"
+        android:background="@android:color/white"
         android:orientation="horizontal">
 
         <com.cb.qiangqiang2.ui.view.TabView
@@ -79,12 +79,12 @@
             tab:text="首页"
             tab:textSize="10dp"
             tab:alpha="1"
-            tab:textPadding="3dp"
-            tab:imageDefault="@drawable/icon_hot"
-            tab:imageSelected="@drawable/icon_hot_selected"
-            tab:coloSelected="@color/colorAccent"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"/>
+            tab:textPadding="5dp"
+            tab:imageDefault="@drawable/tab_icon_home_default"
+            tab:imageSelected="@drawable/tab_icon_home_selected"
+            tab:coloSelected="#3aa3ff"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
 
     </LinearLayout>
 
