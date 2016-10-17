@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TabView">
+        <attr name="text" format="string"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="textPadding" format="dimension"/>
+        <attr name="coloSelected" format="color"/>
+        <attr name="coloDefault" format="color"/>
+        <attr name="imageDefault" format="reference"/>
+        <attr name="imageSelected" format="reference"/>
+        <attr name="alpha" format="float"/>
+    </declare-styleable>
+</resources>

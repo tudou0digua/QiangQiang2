@@ -11,6 +11,9 @@ import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseAutoLayoutActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.util.PrefUtils;
+import com.cb.qiangqiang2.test.activity.Activity2;
+import com.cb.qiangqiang2.test.activity.ContentProviderActivity;
+import com.cb.qiangqiang2.test.activity.CustomViewActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,7 +43,7 @@ public class MainActivity extends BaseAutoLayoutActivity {
 
     }
 
-    @OnClick({R.id.btn, R.id.btn_day, R.id.btn_night, R.id.btn_jump_to_custom_view})
+    @OnClick({R.id.btn, R.id.btn_day, R.id.btn_night, R.id.btn_jump_to_custom_view, R.id.btn_jump_to_content_provider})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn:
@@ -59,6 +62,9 @@ public class MainActivity extends BaseAutoLayoutActivity {
                 break;
             case R.id.btn_jump_to_custom_view:
                 startActivity(new Intent(mContext, CustomViewActivity.class));
+                break;
+            case R.id.btn_jump_to_content_provider:
+                startActivity(new Intent(mContext, ContentProviderActivity.class));
                 break;
         }
     }

@@ -3,6 +3,7 @@
     package="com.cb.qiangqiang2">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <application
         android:name=".common.application.BaseApplication"
@@ -29,10 +30,14 @@
             android:name="design_height"
             android:value="1280" />
 
+        <!--test activity star -->
         <activity
-            android:name=".ui.activity.Activity2"
+            android:name=".test.activity.Activity2"
             android:theme="@style/ActivityTheme" />
-        <activity android:name=".ui.activity.CustomViewActivity"></activity>
+        <activity android:name=".test.activity.CustomViewActivity" />
+        <activity android:name=".test.activity.ContentProviderActivity"
+            android:theme="@style/ActivityTheme"/>
+        <!--test activity end -->
     </application>
 
 </manifest>

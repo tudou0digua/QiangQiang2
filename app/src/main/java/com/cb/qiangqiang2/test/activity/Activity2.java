@@ -1,4 +1,4 @@
-package com.cb.qiangqiang2.ui.activity;
+package com.cb.qiangqiang2.test.activity;
 
 import android.os.Bundle;
 import android.view.View;
