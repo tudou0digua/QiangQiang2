@@ -33,7 +33,7 @@
         <!-- test activity star -->
         <activity
             android:name=".test.activity.MainTestActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/ActivityTheme"/>
         <activity
             android:name=".test.activity.Activity2"
             android:theme="@style/ActivityTheme" />

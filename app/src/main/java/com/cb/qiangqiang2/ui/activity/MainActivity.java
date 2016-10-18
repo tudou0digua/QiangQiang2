@@ -1,5 +1,6 @@
 package com.cb.qiangqiang2.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -7,6 +8,7 @@ import android.support.v4.view.ViewPager;
 
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseAutoLayoutActivity;
+import com.cb.qiangqiang2.test.activity.MainTestActivity;
 import com.cb.qiangqiang2.ui.fragment.BlankFragment;
 import com.cb.qiangqiang2.ui.fragment.BlankFragment2;
 import com.cb.qiangqiang2.ui.view.CustomViewPager;
@@ -93,6 +95,7 @@ public class MainActivity extends BaseAutoLayoutActivity {
             @Override
             public void onTabSelected(int position) {
                 viewpager.setCurrentItem(position, false);
+                if (position == fragments.size() - 1) startActivity(new Intent(MainActivity.this, MainTestActivity.class));
             }
         });
     }
