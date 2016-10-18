@@ -2,7 +2,7 @@ package com.cb.qiangqiang2;
 
 import android.widget.EditText;
 
-import com.cb.qiangqiang2.ui.activity.MainActivity;
+import com.cb.qiangqiang2.test.activity.MainTestActivity;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import org.robolectric.annotation.Config;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
+        MainTestActivity mainTestActivity = Robolectric.setupActivity(MainTestActivity.class);
         EditText editText = new EditText(RuntimeEnvironment.application);
         editText.setText("haha");
         Assert.assertEquals("haha", editText.getText().toString());

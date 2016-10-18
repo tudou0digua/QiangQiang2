@@ -24,16 +24,16 @@ import com.cb.qiangqiang2.R;
 
 public class TabView extends View {
     private static final int DEFAULT_COLOR = 0xBDBDBD;
-    private static final int DEFAULT_TEXT_SIZE = 12;
-    private static final int DEFAULT_TEXT_PADDING = 3;
+    private static final int DEFAULT_TEXT_SIZE = 10;
+    private static final int DEFAULT_TEXT_PADDING = 2;
     private static final String INSTANCE_STATUS = "instance_status";
     private static final String ALPHA_STATUS = "alpha_status";
 
     private float mAlpha;
-    private Bitmap mDefualtImage;
+    private Bitmap mDefaultImage;
     private Bitmap mSelectedImage;
-    private int mDefualtColor;
-    private int mSelectedColr;
+    private int mDefaultColor;
+    private int mSelectedColor;
     private int mTextSize;
     private int mTextPadding;
     private String mText;
@@ -44,7 +44,6 @@ public class TabView extends View {
     private Rect mImageRect;
     private int mWidth;
     private int mHeight;
-    private Bitmap mBitmap;
 
     public TabView(Context context) {
         super(context);
@@ -65,22 +64,22 @@ public class TabView extends View {
         if (attrs != null) {
             TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.TabView);
             if (array.getDrawable(R.styleable.TabView_imageDefault) != null) {
-                mDefualtImage = ((BitmapDrawable)array.getDrawable(R.styleable.TabView_imageDefault)).getBitmap();
+                mDefaultImage = ((BitmapDrawable)array.getDrawable(R.styleable.TabView_imageDefault)).getBitmap();
             }
             if (array.getDrawable(R.styleable.TabView_imageSelected) != null) {
                 mSelectedImage = ((BitmapDrawable)array.getDrawable(R.styleable.TabView_imageSelected)).getBitmap();
             }
             mAlpha = array.getFloat(R.styleable.TabView_alpha, 0);
-            mDefualtColor = array.getColor(R.styleable.TabView_coloDefault, DEFAULT_COLOR);
-            mSelectedColr = array.getColor(R.styleable.TabView_coloSelected, DEFAULT_COLOR);
+            mDefaultColor = array.getColor(R.styleable.TabView_coloDefault, DEFAULT_COLOR);
+            mSelectedColor = array.getColor(R.styleable.TabView_coloSelected, DEFAULT_COLOR);
             mTextSize = array.getDimensionPixelSize(R.styleable.TabView_textSize, dip2px(DEFAULT_TEXT_SIZE));
             mTextPadding = array.getDimensionPixelSize(R.styleable.TabView_textPadding, dip2px(DEFAULT_TEXT_PADDING));
             String text = array.getString(R.styleable.TabView_text);
             mText = text == null ? "" : text;
             array.recycle();
         } else {
-            mDefualtColor = DEFAULT_COLOR;
-            mSelectedColr = DEFAULT_COLOR;
+            mDefaultColor = DEFAULT_COLOR;
+            mSelectedColor = DEFAULT_COLOR;
             mTextSize = dip2px(DEFAULT_TEXT_SIZE);
             mTextPadding = dip2px(DEFAULT_TEXT_PADDING);
             mText = "";
@@ -123,12 +122,11 @@ public class TabView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
-        int alpha = (int) Math.ceil(255 * mAlpha);
-        drawImage(255 - alpha, canvas, mDefualtImage, mDefualtColor);
-        drawImage(alpha, canvas, mSelectedImage, mSelectedColr);
-        drawText(255 - alpha, canvas, mDefualtColor);
-        drawText(alpha, canvas, mSelectedColr);
+        int alpha = Math.round(255 * mAlpha);
+        if (alpha != 255) drawImage(255 - alpha, canvas, mDefaultImage, mDefaultColor);
+        if (alpha != 0) drawImage(alpha, canvas, mSelectedImage, mSelectedColor);
+        if (alpha != 255) drawText(255 - alpha, canvas, mDefaultColor);
+        if (alpha != 0) drawText(alpha, canvas, mSelectedColor);
     }
 
     private void drawText(int alpha, Canvas canvas, int textColor) {
@@ -143,10 +141,10 @@ public class TabView extends View {
         if (bitmap == null) return;
         int imageWidth = bitmap.getWidth();
         int imageHeight = bitmap.getHeight();
-        int remainHeight = mHeight - getPaddingTop() - getPaddingBottom() - mTextPadding - mTextBounds.height();
-        int imageRectWidth = Math.round(remainHeight * (imageWidth * 1.0f / imageHeight));
+        int imageRectHeight = mHeight - getPaddingTop() - getPaddingBottom() - mTextPadding - mTextBounds.height();
+        int imageRectWidth = Math.round(imageRectHeight * (imageWidth * 1.0f / imageHeight));
         int left = (mWidth - getPaddingLeft() - getPaddingRight() - imageRectWidth) / 2 + getPaddingLeft();
-        mImageRect = new Rect(left, getPaddingTop(), left + imageRectWidth, getPaddingTop() + remainHeight);
+        mImageRect = new Rect(left, getPaddingTop(), left + imageRectWidth, getPaddingTop() + imageRectHeight);
 
         int sc = canvas.saveLayer(0, 0, mWidth, mHeight, null, Canvas.ALL_SAVE_FLAG);
         mImagePaint.setColor(color);
@@ -157,17 +155,21 @@ public class TabView extends View {
         canvas.drawBitmap(bitmap, null, mImageRect, mImagePaint);
         mImagePaint.setXfermode(null);
         canvas.restoreToCount(sc);
+    }
 
-//        mBitmap = Bitmap.createBitmap(imageRectWidth, remainHeight, Bitmap.Config.ARGB_8888);
-//        Canvas bitmapCanvas = new Canvas(mBitmap);
-//        mImagePaint.setColor(color);
-//        mImagePaint.setAlpha(alpha);
-//        bitmapCanvas.drawRect(mImageRect, mImagePaint);
-//        mImagePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-//        mImagePaint.setAlpha(255);
-//        bitmapCanvas.drawBitmap(bitmap, null, mImageRect, mImagePaint);
-//        canvas.drawBitmap(mBitmap, 0, 0, null);
-//        mImagePaint.setXfermode(null);
+    public void setmAlpha(float alpha) {
+        this.mAlpha = alpha;
+        invalidateView();
+    }
+
+    public void setUnSelected(){
+        this.mAlpha = 0;
+        invalidateView();
+    }
+
+    public void setSelected(){
+        this.mAlpha = 1.0f;
+        invalidateView();
     }
 
     private void invalidateView() {

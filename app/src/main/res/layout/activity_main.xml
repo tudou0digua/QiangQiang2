@@ -1,92 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@android:color/white"
+    tools:context="com.cb.qiangqiang2.ui.activity.MainActivity">
 
-    <Button
-        android:id="@+id/btn_day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="day"/>
-
-    <Button
-        android:id="@+id/btn_night"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="night"/>
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/day"/>
-
-    <Button
-        android:id="@+id/btn_jump_to_custom_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="jump custom view"/>
-
-    <Button
-        android:id="@+id/btn_jump_to_content_provider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="jump custom content provider"/>
+    <com.cb.qiangqiang2.ui.view.CustomViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/line_bottom"/>
 
     <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/textBase"
-        android:text="Hello World!"
-        android:textSize="20dp"
-        android:layout_marginBottom="10dp"/>
-    <TextView
-        android:id="@+id/tv_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textSize="40px"
-        android:layout_marginBottom="10dp"/>
+        android:id="@+id/line_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#E0E0E0"
+        android:layout_above="@+id/tl_tab_layout"/>
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="jump to next"/>
-
-    <TextView
-        android:id="@+id/tv_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textSize="40px"
-        android:layout_marginBottom="10dp"/>
-
-    <LinearLayout
+    <com.cb.qiangqiang2.ui.view.TabLayout
+        android:id="@+id/tl_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
         android:background="@android:color/white"
-        android:orientation="horizontal">
+        android:layout_alignParentBottom="true">
 
         <com.cb.qiangqiang2.ui.view.TabView
+            android:id="@+id/tab_home"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             tab:text="首页"
             tab:textSize="10dp"
-            tab:alpha="1"
-            tab:textPadding="5dp"
+            tab:textPadding="4dp"
             tab:imageDefault="@drawable/tab_icon_home_default"
             tab:imageSelected="@drawable/tab_icon_home_selected"
-            tab:coloSelected="#3aa3ff"
+            tab:coloSelected="#3AA3FF"
+            tab:coloDefault="#BDBDBD"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"/>
 
-    </LinearLayout>
+        <com.cb.qiangqiang2.ui.view.TabView
+            android:id="@+id/tab_section"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            tab:text="版块"
+            tab:textSize="10dp"
+            tab:textPadding="4dp"
+            tab:imageDefault="@drawable/tab_icon_home_default"
+            tab:imageSelected="@drawable/tab_icon_home_selected"
+            tab:coloSelected="#3AA3FF"
+            tab:coloDefault="#BDBDBD"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
 
+        <com.cb.qiangqiang2.ui.view.TabView
+            android:id="@+id/tab_message"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            tab:text="消息"
+            tab:textSize="10dp"
+            tab:textPadding="4dp"
+            tab:imageDefault="@drawable/tab_icon_home_default"
+            tab:imageSelected="@drawable/tab_icon_home_selected"
+            tab:coloSelected="#3AA3FF"
+            tab:coloDefault="#BDBDBD"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
 
-</LinearLayout>
+        <com.cb.qiangqiang2.ui.view.TabView
+            android:id="@+id/tab_my"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            tab:text="我的"
+            tab:textSize="10dp"
+            tab:textPadding="4dp"
+            tab:imageDefault="@drawable/tab_icon_home_default"
+            tab:imageSelected="@drawable/tab_icon_home_selected"
+            tab:coloSelected="#3AA3FF"
+            tab:coloDefault="#BDBDBD"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
+
+    </com.cb.qiangqiang2.ui.view.TabLayout>
+
+</RelativeLayout>

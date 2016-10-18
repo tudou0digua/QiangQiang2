@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="day"/>
+
+    <Button
+        android:id="@+id/btn_night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="night"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/day"/>
+
+    <Button
+        android:id="@+id/btn_jump_to_custom_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="jump custom view"/>
+
+    <Button
+        android:id="@+id/btn_jump_to_content_provider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="jump custom content provider"/>
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textBase"
+        android:text="Hello World!"
+        android:textSize="20dp"
+        android:layout_marginBottom="10dp"/>
+    <TextView
+        android:id="@+id/tv_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:textSize="40px"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="jump to next"/>
+
+    <TextView
+        android:id="@+id/tv_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:textSize="40px"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <com.cb.qiangqiang2.ui.view.TabView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            tab:text="首页"
+            tab:textSize="10dp"
+            tab:textPadding="4dp"
+            tab:imageDefault="@drawable/tab_icon_home_default"
+            tab:imageSelected="@drawable/tab_icon_home_selected"
+            tab:coloSelected="#000000"
+            tab:coloDefault="@color/colorAccent"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:paddingBottom="16dp"
+            android:src="@drawable/tab_icon_home_selected"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

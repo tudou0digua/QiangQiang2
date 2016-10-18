@@ -1,31 +1,30 @@
 package com.cb.qiangqiang2.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseAutoLayoutActivity;
-import com.cb.qiangqiang2.common.constant.Constants;
-import com.cb.qiangqiang2.common.util.PrefUtils;
-import com.cb.qiangqiang2.test.activity.Activity2;
-import com.cb.qiangqiang2.test.activity.ContentProviderActivity;
-import com.cb.qiangqiang2.test.activity.CustomViewActivity;
+import com.cb.qiangqiang2.ui.fragment.BlankFragment;
+import com.cb.qiangqiang2.ui.fragment.BlankFragment2;
+import com.cb.qiangqiang2.ui.view.CustomViewPager;
+import com.cb.qiangqiang2.ui.view.TabLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class MainActivity extends BaseAutoLayoutActivity {
-    @BindView(R.id.tv)
-    TextView tv;
-    @BindView(R.id.tv_2)
-    TextView tv2;
-    @BindView(R.id.btn)
-    Button btn;
 
+    @BindView(R.id.tl_tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.viewpager)
+    CustomViewPager viewpager;
+
+    private List<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,40 +32,9 @@ public class MainActivity extends BaseAutoLayoutActivity {
         getActivityComponent().inject(this);
         //主页面不可以侧滑返回
         getSwipeBackLayout().setEnableGesture(false);
-        init();
-    }
 
-    private void init() {
-
-        tv.setText("hello world one");
-        tv2.setText("hello world two");
-
-    }
-
-    @OnClick({R.id.btn, R.id.btn_day, R.id.btn_night, R.id.btn_jump_to_custom_view, R.id.btn_jump_to_content_provider})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn:
-                Intent intent = new Intent(mContext, Activity2.class);
-                startActivity(intent);
-                break;
-            case R.id.btn_day:
-                PrefUtils.putBoolean(mContext, Constants.IS_NIGHT_THEME, false);
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                recreate();
-                break;
-            case R.id.btn_night:
-                PrefUtils.putBoolean(mContext, Constants.IS_NIGHT_THEME, true);
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                recreate();
-                break;
-            case R.id.btn_jump_to_custom_view:
-                startActivity(new Intent(mContext, CustomViewActivity.class));
-                break;
-            case R.id.btn_jump_to_content_provider:
-                startActivity(new Intent(mContext, ContentProviderActivity.class));
-                break;
-        }
+        initData();
+        initView();
     }
 
     @Override
@@ -74,8 +42,59 @@ public class MainActivity extends BaseAutoLayoutActivity {
         return R.layout.activity_main;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void initData() {
+        fragments = new ArrayList<>();
+        fragments.add(new BlankFragment2());
+        fragments.add(BlankFragment.newInstance("fragment 1", null));
+        fragments.add(BlankFragment.newInstance("fragment 2", null));
+        fragments.add(BlankFragment.newInstance("fragment 3", null));
     }
+
+    private void initView() {
+        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fragments.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return fragments.size();
+            }
+        };
+        viewpager.setAdapter(adapter);
+        viewpager.setOffscreenPageLimit(fragments.size());
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                Timber.e("position:" + position + " | positionOffset: " + positionOffset + " | positionOffsetPixels" + positionOffsetPixels);
+                if ((position + 1) == fragments.size()) {
+                    tabLayout.setSelected(position);
+                    tabLayout.setUnSelected(position - 1);
+                } else {
+                    tabLayout.setTabViewAlpha(position + 1, positionOffset);
+                    tabLayout.setTabViewAlpha(position, 1.0f - positionOffset);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        viewpager.setCurrentItem(0);
+        viewpager.setScrollingEnabled(true);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+                viewpager.setCurrentItem(position, false);
+            }
+        });
+    }
+
 }
