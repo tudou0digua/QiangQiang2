@@ -38,3 +38,15 @@ https://github.com/CarlLu/MVPframe  (待看)
 [RxJava 和 Retrofit 结合使用的几个最常见使用方式举例](https://github.com/rengwuxian/RxJavaSamples)  
 [RxJava 与 Retrofit 结合的最佳实践](http://gank.io/post/56e80c2c677659311bed9841?from=timeline&isappinstalled=0&nsukey=g1D1Y6PMp3BW%2B0%2F%2Butx4StSJxcUCTm4%2BN8T7LnPNCCeQEY1lzm6oKvXdbrlAD4E9T%2FB1quV75jJB7H9zjcRxTQ%3D%3D)  
 [Retrofit + RxAndroid 实践总结](http://blog.csdn.net/feelang/article/details/51840022)  
+
+###可参考应用
+[AndroidFire](https://github.com/jaydenxiao2016/AndroidFire)  
+AndroidFire，一款新闻阅读 App框架，基于 Material Design + MVP + RxJava + Retrofit + Glide，基本涵盖了当前 Android 端开发最常用的主流框架，基于此框架可以快速开发一个app。  
+
+![AndroidFire](https://camo.githubusercontent.com/a33963daa781dbdb60f711f781c71978e393cd7f/68747470733a2f2f6d6d62697a2e716c6f676f2e636e2f6d6d62697a5f6a70672f3245686a436363654f6d696163567349347745366344704f5948633067726b69627a6962706f784147384577424c566e3464486962334430577772657a3457654e6d466b69623139764b6962596e4d75396e517563715035677676772f303f77785f666d743d6a706567)  
+&ensp;   
+---   
+[Elephant](https://github.com/Freelander/Elephant/blob/master/README_ZH.md)  
+
+![Elephant](https://camo.githubusercontent.com/f1311ea870976ad82f3f827bc81dbf731b75db5b/687474703a2f2f7777312e73696e61696d672e636e2f6c617267652f3030367842316c7367773166386f667539663073386a33316b77317a75316b392e6a7067)
+
