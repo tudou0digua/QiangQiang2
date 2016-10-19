@@ -1,0 +1,623 @@
+签到首页版页面：
+http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign
+GET
+
+GET /plugin.php?id=dsu_paulsign:sign HTTP/1.1
+Host: www.qiangqiang5.com
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+User-Agent: Mozilla/5.0 (Linux; Xhrome  4.4.4; MI 4LTE Build/KTU84P) AppleWebKit/537.36 (KHTML, like Cocca) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36
+Accept-Encoding: gzip,deflate
+Accept-Language: zh-CN,en-US;q=0.8
+Cookie: nuOC_2132_pvi=893413618; nuOC_2132_si=s967927940; nuOC_2132_seccloud=1; nuOC_2132_nofavfid=1; nuOC_2132_connect_not_sync_t=1; nuOC_2132_smile=2D1; pgv_pvi=5250587116; pgv_info=ssi=s9146111110; amvid=652430f612ce75376b6d878882dbae9c; nuOC_2132_saltkey=RgfqQQO3; nuOC_2132_lastvisit=1451487348; nuOC_2132_seccode=1436.9c6efee38f31b39df5; nuOC_2132_auth=085fKoBZVmhmnfsnQv%2F%2FGtAEoDttsMF6byaJsFuudLxm8vfMcEwEHYDK3m6ETVRB2O%2Fd8INHxchlZDoUvm%2B3VklSVw; nuOC_2132_lastcheckfeed=44752%7C1451490998; nuOC_2132_creditnotice=0D0D6D0D0D0D0D0D0D44752; nuOC_2132_creditbase=0D0D2806D11D0D0D0D0D0; nuOC_2132_st_t=44752%7C1451659979%7C5e3a703852c9eb52cdaec4dc9578a1fb; nuOC_2132_atarget=1; nuOC_2132_st_p=44752%7C1451660008%7C9a10b6235ba5b0566449edc86590261a; nuOC_2132_visitedfid=95D56; nuOC_2132_viewid=tid_70574; nuOC_2132_home_diymode=1; nuOC_2132_lip=183.246.24.224%2C1453296938; nuOC_2132_lastact=1453297311%09plugin.php%09; nuOC_2132_security_cookiereport=9e26qeOyvUwoN0jNyB91aToV9RIlD3XO9KVcuQ1PAxI2RUOR%2FBoV; nuOC_2132_connect_is_bind=0; nuOC_2132_sid=Yzkrkw; nuOC_2132_ulastactivity=deffjJinFK2W3odxBAzKXYj49UDblupE990GzG6GFjR3Ju76U2Fe
+X-Requested-With: com.cb.registerbyhand
+
+返回：
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+<meta http-equiv="Cache-control" content="no-cache" />
+<meta name="viewport" content="width=device-width; initial-scale=1.3;  minimum-scale=1.0; maximum-scale=2.0"/>
+<meta name="MobileOptimized" content="240"/>
+<meta name="Iphone-content" content="320"/>
+<meta name="format-detection" content="telephone=no" />
+<meta name="keywords" content="" />
+<meta name="description" content=",抢抢网-好东西大家一起抢！" />
+<title>每日签到 -  抢抢网-好东西大家一起抢！ -  手机版 - Powered by Discuz!</title>
+<style type="text/css">
+* { margin: 0; padding: 0; word-wrap: break-word; }
+ul li, .xl li { list-style: none; }
+.xw0 { font-weight: 400; }
+.xw1 { font-weight: 700; }
+.xg1, .xg1 a { color: #999 !important; }
+.xg1 .xi2 { color: #999 !important; }
+.xg2 { color: #666; }
+.xi1, .onerror { color: #F60; }
+.xi2, .xi2 a, .xi3 a { color: #369 ; }
+.mtn { margin-top: 5px !important; }
+.mbn { margin-bottom: 5px !important; }
+.mtm { margin-top: 10px !important; }
+.ptn { padding-top: 5px !important; }
+.pbn { padding-bottom: 5px !important; }
+.pd2 { padding: 2px !important; }
+.pd5 { padding: 5px !important; }
+.nopd { padding: 0px !important;}
+.bt{ border-top: 1px #F2F2F2 solid !important; }
+.bbn{ border-bottom: 1px #efefef solid !important; }
+.ban { border: 1px #F2F2F2 solid !important;}
+.xs0 { font-size : 8pt;}
+
+a, .lkcss{ color: #004299; text-decoration: none;}
+a img{ text-decoration: none; border: 0px none;}
+EM { font-style: normal; }
+img{border: 0;}
+
+.odd { background: #FFF; }
+.even { background: #fbfbff;}
+
+.txt, .txt_s, .px { padding: 5px 0px; border: 1px solid #C3C3C3; background: #FFF url(./static/image/mobile/input_bg.gif) repeat-x 0 0px; width: 100%; }
+.txt_s { width: 30px; }
+
+
+body {background: #FFF; background-image:none; line-height: 130%; font-size: 10pt; font-style: normal; font-family: Arial,Helvetica,sans-serif; }
+
+.hd { padding: 3px; border-bottom: 3px solid #2B7ACD; }
+.hd a{ color: #2B7ACD; text-decoration: none; }
+.wp { padding: 2px;}
+
+.f_c { margin-top: 5px; padding: 5px; border: 1px #C2D5E3 solid; }
+.f_c p{ line-height: 24px;}
+/* common border */
+.box { margin-top:3px; background: #fbfbff; padding: 3px 0; line-height:18px;}
+.box h2 {}
+.box .on { font-weight: 700; }
+.box_ex { margin-top:0px; border-top: 0px none;}
+.box_ex2{ margin-top:0px; border-top:0px none; border-left: 0px none; border-right: 0px none; }
+
+.bm .bm_h { padding: 2px; background: #2A6EB4; border-bottom:1px #02254b solid; color: #FFF; line-height: 20px; font-size: 10pt;  }
+.bm .bm_h a, .bm .bm_h .lkcss { color: #FFF; text-decoration: none;}
+.bm .bm_c { padding: 3px 2px; border-bottom:1px solid #F2F2F2;  }
+.bm .bm_c p{ margin-bottom: 5px; }
+.bm .bm_c_bg { background: #f3f3ff; }
+.bm .bm_c em { color: #999;}
+.bm .bm_inf { background: #FBFBFF; padding: 5px 0;}
+.bm_c .bm_user {  padding: 1px 0 1px 0px; line-height: 14px;}
+.warning { margin-top: 4px; padding: 3px; border: 1px #CDCDCD solid; color:#666; }
+.warning a{ color: #F26C4F;}
+
+.pg { padding: 4px 0;}
+.pg strong{ padding:2px 6px; }
+.pg a{ padding: 2px 6px; }
+.pipe { margin: 0 1px; font-size:12px; font-weight: 300; color: #c4c4c4; }
+
+/* footer */
+.ft{ margin:2px 0 2px 2px; padding: 1px; }
+
+.fl { margin-top: 5px; }
+.tl { margin-top: 5px;}
+.tl a{ text-decoration: none;}
+.tl .bm .bm_c img{ vertical-align: middle;}
+.moder { margin-top: 2px; padding: 2px; border: 0px none; background: #FFF;}
+.flif { border: none; background: none; color: #666;}
+.ttp a{ margin: 0 2px;}
+
+/* viewthread */
+.vt { margin-top: 5px;}
+.vt .bm .bm_h a { display: inline; width: auto;}
+.vt .bm .bm_inf{ color: #444; }
+.vt .bm .bm_c { padding: 1px; border-top: 1px #e9e9ff solid; border-bottom: 1px #e9e9ff solid; background: #fbfbff; color: #666;  }
+.vt .pbody { margin-top: 1px; margin-bottom: 4px;}
+.vt .pbody h2{ font-weight: 300;}
+.vt .pbody .mes { padding: 1px;}
+.vt .bm .bm_c .attach_h { margin-top: 4px;}
+.vt .bm .bm_c .attach .vm{ width: 14px; vertical-align: middle;}
+.attach img { width: 16px; vertical-align: middle; }
+.vt .postmessage{ padding: 3px 0; line-height: normal;}
+.inbox { padding: 3px 0;}
+.viewimg { padding: 2px;}
+.viewsort img { vertical-align:top; }
+
+/* newpost */
+.sort { padding: 2px; border: 1px #efefef solid; background: #FFF; }
+.quote { padding: 5px; font-style: italic; }
+
+/* profile */
+.profile_bm_c { padding: 0px !important;}
+.profile_table td{ padding:0 3px; border-top: 1px #efefef solid;}
+.profile_table th { border-top: 2px #efefef solid;}
+.jammer { font-size: 10px; color:#FFF;}
+</style>
+</head>
+<body>
+<div class="hd"><a href="forum.php?mobile=2" title=" 抢抢网-好东西大家一起抢！ - 手机版"><img src="./static/image/mobile/logo.gif" /></a></div>
+<div class="wp">
+<div class="pd2">
+<a href="home.php?mod=space&amp;uid=44752&amp;do=profile&amp;mobile=2">tudou0digua</a><span class="pipe">|</span><a href="home.php?mod=space&amp;do=pm&amp;mobile=2" >消息</a><span class="pipe">|</span><a href="home.php?mod=space&amp;uid=44752&amp;do=favorite&amp;view=me&amp;type=forum&amp;mobile=2">收藏</a><span class="pipe">|</span><a href="home.php?mod=space&amp;uid=44752&amp;do=thread&amp;view=me&amp;mobile=2">我的帖子</a><span class="pipe">|</span><a href="member.php?mod=logging&amp;action=logout&amp;formhash=9562549c&amp;mobile=2" title="退出">退出</a></div>
+<div class="box">
+<a href="./forum.php?mobile=yes" class="nvhm" title="首页">抢抢网-好东西大家一起抢！</a><em> &gt; </em><a href="plugin.php?id=dsu_paulsign:sign&amp;mobile=yes">每日签到</a>
+</div>
+<div id="ct" class="wp">
+<div class="vt">
+<div class="bm mtn">
+<div class="bm_h">
+今天签到了吗？请选择您此刻的心情并写下今天最想说的话！</div>
+<div class="bm_c">
+<form name="qiandao" method="post" action="plugin.php?id=dsu_paulsign:sign&amp;operation=qiandao&amp;infloat=0&amp;inajax=0&amp;mobile=yes">
+<input type="hidden" name="formhash" value="9562549c">
+<label for="mind"><strong>签到心情选择</strong></label>
+<select name="qdxq"><option value="kx">开心</option>
+<option value="ng">难过</option>
+<option value="ym">郁闷</option>
+<option value="wl">无聊</option>
+<option value="nu">怒</option>
+<option value="ch">擦汗</option>
+<option value="fd">奋斗</option>
+<option value="yl">慵懒</option>
+<option value="shuai">衰</option>
+</select>
+<br>
+<label for="mode"><strong>今日最想说模式</strong></label>
+<label><input type="radio" name="qdmode" value="1" checked="checked" onclick="if(checked == true){document.getElementById('mode1').style.display='';document.getElementById('mode2').style.display='none';}">&nbsp;自己填写</label>&nbsp;&nbsp;
+<label><input type="radio" name="qdmode" value="2" onclick="if(checked == true){document.getElementById('mode1').style.display='none';document.getElementById('mode2').style.display='';}">&nbsp;快速选择</label>&nbsp;&nbsp;<div id="mode1" style="display:;">
+<label for="zxs"><strong>我今天最想说</strong></label>
+<input type="text" name="todaysay" id="todaysay" class="txt" />
+<span class="xg2">限制最少3个,最多50个中文字数</span>
+</div>
+<div id="mode2" style="display:none;">
+<label for="fastreply"><strong>快速语句选择</strong></label>
+<select name="fastreply"><option value="0" style="color:#475a72">我来啦，抢抢加油</option>
+<option value="1" style="color:#69a29">新的一天，新的开始哦，我要抢更多东西</option>
+<option value="2" style="color:#18a539">这几天的收获很丰盛</option>
+<option value="3" style="color:#48766">膜拜下，希望收到更多的礼品</option>
+<option value="4" style="color:#85111d">我爱抢抢~开心每一天</option>
+<option value="5" style="color:#6f9a42">抢礼物，抢餐厅，抢签到，抢老公，我就是要抢！</option>
+</select>
+</div>
+<div class="inbox">
+<input type="submit" value="点我签到!">
+</div>
+</form>
+</div>
+</div>
+<div class="bm">
+<div class="bm_h">签到服务台</div>
+<div class="bm_c add">
+<p><font color=#FF0000><b>tudou0digua</b></font> , 您累计已签到: <b>373</b> 天</p>
+<p>您本月已累计签到:<b>3</b> 天</p>
+<p>【<span class=gray>今天未签到</span>】</p>
+<p>您上次签到时间:<font color=#ff00cc>2016-01-23 22:18</font> </p>
+<p>您目前获得的总奖励为:银币 <font color=#ff00cc><b>2413</b></font>  , 上次获得的奖励为:银币 <font color=#ff00cc><b>8</b></font> .</p>
+<p>您目前的等级: <font color=green><b>[LV.9]以坛为家II</b></font> , Tips: 您只需再签到 <font color=#FF0000><b>377</b></font> 天就可以提升到下一个等级: <font color=#FF0000><b>[LV.10]以坛为家III</b></font> .</p>
+</div>
+</div>
+</div>
+</div></div>
+<img src="http://pingtcss.qq.com/pingd?r2=5091456&ui=44752&ty=2&rt=plugin&pn=1&qq=010&logo=11&url=/plugin.php&arg=id%3Ddsu_paulsign%3Asign&tz=-8&dm=www.qiangqiang5.com&pvi=1523849045&si=s524019464&rnd=1135435589&ext=mt=0" height="1" width="1" style="float:right" noerror="true" /><div class="ft">
+<p><a href="http://www.qiangqiang5.com" target="_blank">抢抢网</a></p>
+<p>Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a></strong> <em>X3.1</em></p>
+<p><a href="forum.php?mobile=2">首页</a><span class="pipe">|</span>标准版<span class="pipe">|</span><a href="http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&mobile=2" class="xw0" title="触屏版">触屏版</a><span class="pipe">|</span><a href="http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&mobile=no" class="xw0" title="电脑版">电脑版</a></p>
+</div>
+</body>
+</html>
+
+签到（签到语用模板）：
+http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes
+	id=dsu_paulsign:sign&
+	operation=qiandao&
+	infloat=0&
+	inajax=0&
+	mobile=yes
+	
+POST
+Text：
+	formhash=bea81d56&
+	qdxq=kx&
+	qdmode=2&（都为2）
+	todaysay=&（“”）
+	fastreply=0（从上到下0、1、2、3、4。。。）
+	
+POST /plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes HTTP/1.1
+Host: www.qiangqiang5.com
+Content-Length: 56
+Cache-Control: max-age=0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Origin: http://www.qiangqiang5.com
+User-Agent: Mozilla/5.0 (Linux; Xhrome  4.4.4; MI 4LTE Build/KTU84P) AppleWebKit/537.36 (KHTML, like Cocca) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36
+Content-Type: application/x-www-form-urlencoded
+Referer: http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign
+Accept-Encoding: gzip,deflate
+Accept-Language: zh-CN,en-US;q=0.8
+Cookie: nuOC_2132_pvi=893413618; nuOC_2132_si=s967927940; nuOC_2132_seccloud=1; nuOC_2132_nofavfid=1; nuOC_2132_connect_not_sync_t=1; nuOC_2132_smile=2D1; pgv_pvi=5250587116; pgv_info=ssi=s9146111110; amvid=652430f612ce75376b6d878882dbae9c; nuOC_2132_saltkey=RgfqQQO3; nuOC_2132_lastvisit=1451487348; nuOC_2132_seccode=1436.9c6efee38f31b39df5; nuOC_2132_auth=085fKoBZVmhmnfsnQv%2F%2FGtAEoDttsMF6byaJsFuudLxm8vfMcEwEHYDK3m6ETVRB2O%2Fd8INHxchlZDoUvm%2B3VklSVw; nuOC_2132_lastcheckfeed=44752%7C1451490998; nuOC_2132_creditnotice=0D0D6D0D0D0D0D0D0D44752; nuOC_2132_creditbase=0D0D2806D11D0D0D0D0D0; nuOC_2132_st_t=44752%7C1451659979%7C5e3a703852c9eb52cdaec4dc9578a1fb; nuOC_2132_atarget=1; nuOC_2132_st_p=44752%7C1451660008%7C9a10b6235ba5b0566449edc86590261a; nuOC_2132_visitedfid=95D56; nuOC_2132_viewid=tid_70574; nuOC_2132_home_diymode=1; nuOC_2132_lip=183.246.24.224%2C1453296938; nuOC_2132_security_cookiereport=9e26qeOyvUwoN0jNyB91aToV9RIlD3XO9KVcuQ1PAxI2RUOR%2FBoV; nuOC_2132_ulastactivity=deffjJinFK2W3odxBAzKXYj49UDblupE990GzG6GFjR3Ju76U2Fe; nuOC_2132_lastact=1453297339%09plugin.php%09; nuOC_2132_connect_is_bind=0; nuOC_2132_sid=Yzkrkw
+X-Requested-With: com.cb.registerbyhand
+
+formhash=bea81d56&qdxq=kx&qdmode=2&todaysay=&fastreply=0
+
+关键词：
+<div class="f_c">
+<div id="messagetext">
+<p>恭喜你签到成功!获得随机奖励 银币 7 .</p>
+<p><a href="plugin.php?id=dsu_paulsign:sign&amp;mobile=yes" class="mtn" >[点此返回]</a></p>
+</div>
+
+签到（自定义签到语）：
+http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes
+	id=dsu_paulsign:sign&
+	operation=qiandao&
+	infloat=0&
+	inajax=0&
+	mobile=yes
+	
+POST
+	formhash=1cc0e118&
+	qdxq=kx& （签到心情：1、开心：kx；2、怒：nu；3、衰：shuai；4、难过：ng；5、奋斗：fd）
+	qdmode=1& （都为1）
+	todaysay=Ggcxc%E8%8E%AB%E6%96%87%E8%94%9A&（Ggcx莫文蔚）
+	fastreply=0	（都为0）
+	
+POST /plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes HTTP/1.1
+Host: www.qiangqiang5.com
+Content-Length: 88
+Cache-Control: max-age=0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Origin: http://www.qiangqiang5.com
+User-Agent: Mozilla/5.0 (Linux; Xhrome  4.4.4; MI 4LTE Build/KTU84P) AppleWebKit/537.36 (KHTML, like Cocca) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36
+Content-Type: application/x-www-form-urlencoded
+Referer: http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&mobile=2
+Accept-Encoding: gzip,deflate
+Accept-Language: zh-CN,en-US;q=0.8
+Cookie: pgv_pvi=5250587116; pgv_info=ssi=s9146111110; amvid=652430f612ce75376b6d878882dbae9c; nuOC_2132_pvi=1249467082; nuOC_2132_si=s1244360801; nuOC_2132_saltkey=z0BCuX02; nuOC_2132_lastvisit=1453294628; nuOC_2132_ulastactivity=97f1vhs%2FO3frI2k1QLi48PZsE%2BOXhHEX09wOm48JH5pPvrIHW4Wk; nuOC_2132_auth=2e8awec0VDE7%2BNZUgLa6KZ7LKg6ASZLBAKgttLszz3RQxAUeQ%2FDI4by5HDL5t6F1yhLqZQaQhxiGGhATtfUMaL7eLw; nuOC_2132_lastcheckfeed=72468%7C1453298335; nuOC_2132_lip=183.246.24.224%2C1453298193; nuOC_2132_security_cookiereport=8a47kyKUTwT0qvI4i%2BWTqh%2Fvxd3WEMaYdXv9rqDRP%2FUhGLuLuqdk; nuOC_2132_lastact=1453298338%09plugin.php%09; nuOC_2132_connect_is_bind=0; nuOC_2132_sid=nlslGT
+X-Requested-With: com.cb.registerbyhand
+
+formhash=1cc0e118&qdxq=kx&qdmode=1&todaysay=Ggcxc%E8%8E%AB%E6%96%87%E8%94%9A&fastreply=0
+
+关键词：
+<div class="f_c">
+<div id="messagetext">
+<p>恭喜你签到成功!获得随机奖励 银币 5 .</p>
+<p><a href="plugin.php?id=dsu_paulsign:sign&amp;mobile=yes" class="mtn" >[点此返回]</a></p>
+</div>
+</div></div>
+
+点此范围：
+http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&mobile=yes
+GET
+
+GET /plugin.php?id=dsu_paulsign:sign&mobile=yes HTTP/1.1
+Host: www.qiangqiang5.com
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+User-Agent: Mozilla/5.0 (Linux; Xhrome  4.4.4; MI 4LTE Build/KTU84P) AppleWebKit/537.36 (KHTML, like Cocca) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36
+Referer: http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes
+Accept-Encoding: gzip,deflate
+Accept-Language: zh-CN,en-US;q=0.8
+Cookie: pgv_pvi=5250587116; pgv_info=ssi=s9146111110; amvid=652430f612ce75376b6d878882dbae9c; nuOC_2132_pvi=1249467082; nuOC_2132_si=s1244360801; nuOC_2132_saltkey=z0BCuX02; nuOC_2132_lastvisit=1453294628; nuOC_2132_ulastactivity=97f1vhs%2FO3frI2k1QLi48PZsE%2BOXhHEX09wOm48JH5pPvrIHW4Wk; nuOC_2132_auth=2e8awec0VDE7%2BNZUgLa6KZ7LKg6ASZLBAKgttLszz3RQxAUeQ%2FDI4by5HDL5t6F1yhLqZQaQhxiGGhATtfUMaL7eLw; nuOC_2132_lastcheckfeed=72468%7C1453298335; nuOC_2132_lip=183.246.24.224%2C1453298193; nuOC_2132_security_cookiereport=8a47kyKUTwT0qvI4i%2BWTqh%2Fvxd3WEMaYdXv9rqDRP%2FUhGLuLuqdk; nuOC_2132_lastact=1453298374%09plugin.php%09; nuOC_2132_connect_is_bind=0; nuOC_2132_creditnotice=0D0D5D0D0D0D0D0D0D72468; nuOC_2132_creditbase=0D0D0D0D0D0D0D0D0; nuOC_2132_sid=nlslGT
+X-Requested-With: com.cb.registerbyhand
+
+关键词：
+今天已签到
+
+
+签到（自定义关键词）：
+http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes
+POST
+Text：
+	formhash=9562549c
+	&qdxq=ng&
+	qdmode=1&
+	todaysay=%E5%93%88%E5%93%88%E5%93%88%E5%93%88%E5%93%88%E5%93%88%E5%93%88&
+	fastreply=0
+
+POST /plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes HTTP/1.1
+Host: www.qiangqiang5.com
+Content-Length: 119
+Cache-Control: max-age=0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Origin: http://www.qiangqiang5.com
+User-Agent: Mozilla/5.0 (Linux; Xhrome  4.4.4; MI 4LTE Build/KTU84P) AppleWebKit/537.36 (KHTML, like Cocca) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36
+Content-Type: application/x-www-form-urlencoded
+Referer: http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign
+Accept-Encoding: gzip,deflate
+Accept-Language: zh-CN,en-US;q=0.8
+Cookie: nuOC_2132_saltkey=TWRV6y3P; nuOC_2132_auth=23a89cOTzsD2hK0P7Cmkft6vK9%2FX5Q3Pvk9UfaLAyw2jm%2FGk5fyHL9J7C9o8n%2FtU%2FYy1RRtoK2pRjChEEHvs7N1Xiw; nuOC_2132_lastvisit=1453555052; nuOC_2132_lip=183.246.24.70%2C1453558509; nuOC_2132_lastact=1453558652%09plugin.php%09; nuOC_2132_security_cookiereport=5a4emzyVQAg9SlIryQfJOwhfs4WCGQxDvwQtvjUmLP%2Fx9BZj9lbl; nuOC_2132_connect_is_bind=0; nuOC_2132_pvi=402032445; nuOC_2132_si=s1960964166; nuOC_2132_ulastactivity=7d17llE0JKbnP3i%2FM%2Bh0RQDXbMhB7jUbDji8I5%2FtT0PrAC72YB%2Fv; nuOC_2132_sid=ZkN2Qn
+X-Requested-With: com.cb.qiangqiang
+
+formhash=9562549c&qdxq=ng&qdmode=1&todaysay=%E5%93%88%E5%93%88%E5%93%88%E5%93%88%E5%93%88%E5%93%88%E5%93%88&fastreply=0	
+
+返回：
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+<meta http-equiv="Cache-control" content="no-cache" />
+<meta name="viewport" content="width=device-width; initial-scale=1.3;  minimum-scale=1.0; maximum-scale=2.0"/>
+<meta name="MobileOptimized" content="240"/>
+<meta name="Iphone-content" content="320"/>
+<meta name="format-detection" content="telephone=no" />
+<meta name="keywords" content="" />
+<meta name="description" content=",抢抢网-好东西大家一起抢！" />
+<title> 抢抢网-好东西大家一起抢！ -  手机版 - Powered by Discuz!</title>
+<style type="text/css">
+* { margin: 0; padding: 0; word-wrap: break-word; }
+ul li, .xl li { list-style: none; }
+.xw0 { font-weight: 400; }
+.xw1 { font-weight: 700; }
+.xg1, .xg1 a { color: #999 !important; }
+.xg1 .xi2 { color: #999 !important; }
+.xg2 { color: #666; }
+.xi1, .onerror { color: #F60; }
+.xi2, .xi2 a, .xi3 a { color: #369 ; }
+.mtn { margin-top: 5px !important; }
+.mbn { margin-bottom: 5px !important; }
+.mtm { margin-top: 10px !important; }
+.ptn { padding-top: 5px !important; }
+.pbn { padding-bottom: 5px !important; }
+.pd2 { padding: 2px !important; }
+.pd5 { padding: 5px !important; }
+.nopd { padding: 0px !important;}
+.bt{ border-top: 1px #F2F2F2 solid !important; }
+.bbn{ border-bottom: 1px #efefef solid !important; }
+.ban { border: 1px #F2F2F2 solid !important;}
+.xs0 { font-size : 8pt;}
+
+a, .lkcss{ color: #004299; text-decoration: none;}
+a img{ text-decoration: none; border: 0px none;}
+EM { font-style: normal; }
+img{border: 0;}
+
+.odd { background: #FFF; }
+.even { background: #fbfbff;}
+
+.txt, .txt_s, .px { padding: 5px 0px; border: 1px solid #C3C3C3; background: #FFF url(./static/image/mobile/input_bg.gif) repeat-x 0 0px; width: 100%; }
+.txt_s { width: 30px; }
+
+
+body {background: #FFF; background-image:none; line-height: 130%; font-size: 10pt; font-style: normal; font-family: Arial,Helvetica,sans-serif; }
+
+.hd { padding: 3px; border-bottom: 3px solid #2B7ACD; }
+.hd a{ color: #2B7ACD; text-decoration: none; }
+.wp { padding: 2px;}
+
+.f_c { margin-top: 5px; padding: 5px; border: 1px #C2D5E3 solid; }
+.f_c p{ line-height: 24px;}
+/* common border */
+.box { margin-top:3px; background: #fbfbff; padding: 3px 0; line-height:18px;}
+.box h2 {}
+.box .on { font-weight: 700; }
+.box_ex { margin-top:0px; border-top: 0px none;}
+.box_ex2{ margin-top:0px; border-top:0px none; border-left: 0px none; border-right: 0px none; }
+
+.bm .bm_h { padding: 2px; background: #2A6EB4; border-bottom:1px #02254b solid; color: #FFF; line-height: 20px; font-size: 10pt;  }
+.bm .bm_h a, .bm .bm_h .lkcss { color: #FFF; text-decoration: none;}
+.bm .bm_c { padding: 3px 2px; border-bottom:1px solid #F2F2F2;  }
+.bm .bm_c p{ margin-bottom: 5px; }
+.bm .bm_c_bg { background: #f3f3ff; }
+.bm .bm_c em { color: #999;}
+.bm .bm_inf { background: #FBFBFF; padding: 5px 0;}
+.bm_c .bm_user {  padding: 1px 0 1px 0px; line-height: 14px;}
+.warning { margin-top: 4px; padding: 3px; border: 1px #CDCDCD solid; color:#666; }
+.warning a{ color: #F26C4F;}
+
+.pg { padding: 4px 0;}
+.pg strong{ padding:2px 6px; }
+.pg a{ padding: 2px 6px; }
+.pipe { margin: 0 1px; font-size:12px; font-weight: 300; color: #c4c4c4; }
+
+/* footer */
+.ft{ margin:2px 0 2px 2px; padding: 1px; }
+
+.fl { margin-top: 5px; }
+.tl { margin-top: 5px;}
+.tl a{ text-decoration: none;}
+.tl .bm .bm_c img{ vertical-align: middle;}
+.moder { margin-top: 2px; padding: 2px; border: 0px none; background: #FFF;}
+.flif { border: none; background: none; color: #666;}
+.ttp a{ margin: 0 2px;}
+
+/* viewthread */
+.vt { margin-top: 5px;}
+.vt .bm .bm_h a { display: inline; width: auto;}
+.vt .bm .bm_inf{ color: #444; }
+.vt .bm .bm_c { padding: 1px; border-top: 1px #e9e9ff solid; border-bottom: 1px #e9e9ff solid; background: #fbfbff; color: #666;  }
+.vt .pbody { margin-top: 1px; margin-bottom: 4px;}
+.vt .pbody h2{ font-weight: 300;}
+.vt .pbody .mes { padding: 1px;}
+.vt .bm .bm_c .attach_h { margin-top: 4px;}
+.vt .bm .bm_c .attach .vm{ width: 14px; vertical-align: middle;}
+.attach img { width: 16px; vertical-align: middle; }
+.vt .postmessage{ padding: 3px 0; line-height: normal;}
+.inbox { padding: 3px 0;}
+.viewimg { padding: 2px;}
+.viewsort img { vertical-align:top; }
+
+/* newpost */
+.sort { padding: 2px; border: 1px #efefef solid; background: #FFF; }
+.quote { padding: 5px; font-style: italic; }
+
+/* profile */
+.profile_bm_c { padding: 0px !important;}
+.profile_table td{ padding:0 3px; border-top: 1px #efefef solid;}
+.profile_table th { border-top: 2px #efefef solid;}
+.jammer { font-size: 10px; color:#FFF;}
+</style>
+</head>
+<body>
+<div class="hd"><a href="forum.php?mobile=yes" title=" 抢抢网-好东西大家一起抢！ - 手机版"><img src="./static/image/mobile/logo.gif" /></a></div>
+<div class="wp">
+<div class="pd2">
+<a href="home.php?mod=space&amp;uid=44752&amp;do=profile&amp;mobile=yes">tudou0digua</a><span class="pipe">|</span><a href="home.php?mod=space&amp;do=pm&amp;mobile=yes" >消息</a><span class="pipe">|</span><a href="home.php?mod=space&amp;uid=44752&amp;do=favorite&amp;view=me&amp;type=forum&amp;mobile=yes">收藏</a><span class="pipe">|</span><a href="home.php?mod=space&amp;uid=44752&amp;do=thread&amp;view=me&amp;mobile=yes">我的帖子</a><span class="pipe">|</span><a href="member.php?mod=logging&amp;action=logout&amp;formhash=9562549c&amp;mobile=yes" title="退出">退出</a></div>
+<div class="f_c">
+<div id="messagetext">
+<p>恭喜你签到成功!获得随机奖励 银币 8 .</p>
+<p><a href="plugin.php?id=dsu_paulsign:sign&amp;mobile=yes" class="mtn" >[点此返回]</a></p>
+</div>
+</div></div>
+<img src="http://pingtcss.qq.com/pingd?r2=5091456&ui=44752&ty=2&rt=plugin&pn=1&qq=010&logo=11&url=/plugin.php&arg=id%3Ddsu_paulsign%3Asign%26operation%3Dqiandao%26infloat%3D0%26inajax%3D0%26mobile%3Dyes&tz=-8&dm=www.qiangqiang5.com&pvi=402032445&si=s1960964166&rdm=www.qiangqiang5.com&rarg=id%3Ddsu_paulsign%3Asign&rurl=/plugin.php&rnd=551757910&ext=mt=0" height="1" width="1" style="float:right" noerror="true" /><div class="ft">
+<p><a href="http://www.qiangqiang5.com" target="_blank">抢抢网</a></p>
+<p>Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a></strong> <em>X3.1</em></p>
+<p><a href="forum.php?mobile=yes">首页</a><span class="pipe">|</span>标准版<span class="pipe">|</span><a href="http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=2" class="xw0" title="触屏版">触屏版</a><span class="pipe">|</span><a href="http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=no" class="xw0" title="电脑版">电脑版</a></p>
+</div>
+</body>
+</html>
+
+签到（签到语用模板：第二个（开心的一天。。。））：
+http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes
+POST：
+
+Text：
+	formhash=1cc0e118&
+	qdxq=nu&
+	qdmode=2&
+	todaysay=&
+	fastreply=1
+	
+POST /plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes HTTP/1.1
+Host: www.qiangqiang5.com
+Content-Length: 56
+Cache-Control: max-age=0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Origin: http://www.qiangqiang5.com
+User-Agent: Mozilla/5.0 (Linux; Xhrome  4.4.4; MI 4LTE Build/KTU84P) AppleWebKit/537.36 (KHTML, like Cocca) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36
+Content-Type: application/x-www-form-urlencoded
+Referer: http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign
+Accept-Encoding: gzip,deflate
+Accept-Language: zh-CN,en-US;q=0.8
+Cookie: pgv_pvi=5250587116; pgv_info=ssi=s9146111110; amvid=652430f612ce75376b6d878882dbae9c; nuOC_2132_pvi=1249467082; nuOC_2132_si=s1244360801; nuOC_2132_saltkey=z0BCuX02; nuOC_2132_lastvisit=1453294628; nuOC_2132_auth=2e8awec0VDE7%2BNZUgLa6KZ7LKg6ASZLBAKgttLszz3RQxAUeQ%2FDI4by5HDL5t6F1yhLqZQaQhxiGGhATtfUMaL7eLw; nuOC_2132_lastcheckfeed=72468%7C1453298335; nuOC_2132_creditnotice=0D0D5D0D0D0D0D0D0D72468; nuOC_2132_creditbase=0D0D0D0D0D0D0D0D0; nuOC_2132_nofavfid=1; nuOC_2132_home_diymode=1; nuOC_2132_st_p=72468%7C1453343693%7Ca9073abf6f15ebdbaedb712745212eab; nuOC_2132_visitedfid=95; nuOC_2132_viewid=tid_75214; nuOC_2132_lip=183.246.24.224%2C1453468761; nuOC_2132_lastact=1453558999%09plugin.php%09; nuOC_2132_security_cookiereport=4736iwRvvOEKUsKGYaUSh7JU041vFGZRc2gHFExTgkW5ipN4b%2BkU; nuOC_2132_connect_is_bind=0; nuOC_2132_sid=VX9wUu; nuOC_2132_ulastactivity=86f96EOH14fw8v0v%2B0ZZwKmLn2l9yRrxhTiLjTzC0yUJLwTXp88G
+X-Requested-With: com.cb.registerbyhand
+
+formhash=1cc0e118&qdxq=nu&qdmode=2&todaysay=&fastreply=1
+
+回复：
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+<meta http-equiv="Cache-control" content="no-cache" />
+<meta name="viewport" content="width=device-width; initial-scale=1.3;  minimum-scale=1.0; maximum-scale=2.0"/>
+<meta name="MobileOptimized" content="240"/>
+<meta name="Iphone-content" content="320"/>
+<meta name="format-detection" content="telephone=no" />
+<meta name="keywords" content="" />
+<meta name="description" content=",抢抢网-好东西大家一起抢！" />
+<title> 抢抢网-好东西大家一起抢！ -  手机版 - Powered by Discuz!</title>
+<style type="text/css">
+* { margin: 0; padding: 0; word-wrap: break-word; }
+ul li, .xl li { list-style: none; }
+.xw0 { font-weight: 400; }
+.xw1 { font-weight: 700; }
+.xg1, .xg1 a { color: #999 !important; }
+.xg1 .xi2 { color: #999 !important; }
+.xg2 { color: #666; }
+.xi1, .onerror { color: #F60; }
+.xi2, .xi2 a, .xi3 a { color: #369 ; }
+.mtn { margin-top: 5px !important; }
+.mbn { margin-bottom: 5px !important; }
+.mtm { margin-top: 10px !important; }
+.ptn { padding-top: 5px !important; }
+.pbn { padding-bottom: 5px !important; }
+.pd2 { padding: 2px !important; }
+.pd5 { padding: 5px !important; }
+.nopd { padding: 0px !important;}
+.bt{ border-top: 1px #F2F2F2 solid !important; }
+.bbn{ border-bottom: 1px #efefef solid !important; }
+.ban { border: 1px #F2F2F2 solid !important;}
+.xs0 { font-size : 8pt;}
+
+a, .lkcss{ color: #004299; text-decoration: none;}
+a img{ text-decoration: none; border: 0px none;}
+EM { font-style: normal; }
+img{border: 0;}
+
+.odd { background: #FFF; }
+.even { background: #fbfbff;}
+
+.txt, .txt_s, .px { padding: 5px 0px; border: 1px solid #C3C3C3; background: #FFF url(./static/image/mobile/input_bg.gif) repeat-x 0 0px; width: 100%; }
+.txt_s { width: 30px; }
+
+
+body {background: #FFF; background-image:none; line-height: 130%; font-size: 10pt; font-style: normal; font-family: Arial,Helvetica,sans-serif; }
+
+.hd { padding: 3px; border-bottom: 3px solid #2B7ACD; }
+.hd a{ color: #2B7ACD; text-decoration: none; }
+.wp { padding: 2px;}
+
+.f_c { margin-top: 5px; padding: 5px; border: 1px #C2D5E3 solid; }
+.f_c p{ line-height: 24px;}
+/* common border */
+.box { margin-top:3px; background: #fbfbff; padding: 3px 0; line-height:18px;}
+.box h2 {}
+.box .on { font-weight: 700; }
+.box_ex { margin-top:0px; border-top: 0px none;}
+.box_ex2{ margin-top:0px; border-top:0px none; border-left: 0px none; border-right: 0px none; }
+
+.bm .bm_h { padding: 2px; background: #2A6EB4; border-bottom:1px #02254b solid; color: #FFF; line-height: 20px; font-size: 10pt;  }
+.bm .bm_h a, .bm .bm_h .lkcss { color: #FFF; text-decoration: none;}
+.bm .bm_c { padding: 3px 2px; border-bottom:1px solid #F2F2F2;  }
+.bm .bm_c p{ margin-bottom: 5px; }
+.bm .bm_c_bg { background: #f3f3ff; }
+.bm .bm_c em { color: #999;}
+.bm .bm_inf { background: #FBFBFF; padding: 5px 0;}
+.bm_c .bm_user {  padding: 1px 0 1px 0px; line-height: 14px;}
+.warning { margin-top: 4px; padding: 3px; border: 1px #CDCDCD solid; color:#666; }
+.warning a{ color: #F26C4F;}
+
+.pg { padding: 4px 0;}
+.pg strong{ padding:2px 6px; }
+.pg a{ padding: 2px 6px; }
+.pipe { margin: 0 1px; font-size:12px; font-weight: 300; color: #c4c4c4; }
+
+/* footer */
+.ft{ margin:2px 0 2px 2px; padding: 1px; }
+
+.fl { margin-top: 5px; }
+.tl { margin-top: 5px;}
+.tl a{ text-decoration: none;}
+.tl .bm .bm_c img{ vertical-align: middle;}
+.moder { margin-top: 2px; padding: 2px; border: 0px none; background: #FFF;}
+.flif { border: none; background: none; color: #666;}
+.ttp a{ margin: 0 2px;}
+
+/* viewthread */
+.vt { margin-top: 5px;}
+.vt .bm .bm_h a { display: inline; width: auto;}
+.vt .bm .bm_inf{ color: #444; }
+.vt .bm .bm_c { padding: 1px; border-top: 1px #e9e9ff solid; border-bottom: 1px #e9e9ff solid; background: #fbfbff; color: #666;  }
+.vt .pbody { margin-top: 1px; margin-bottom: 4px;}
+.vt .pbody h2{ font-weight: 300;}
+.vt .pbody .mes { padding: 1px;}
+.vt .bm .bm_c .attach_h { margin-top: 4px;}
+.vt .bm .bm_c .attach .vm{ width: 14px; vertical-align: middle;}
+.attach img { width: 16px; vertical-align: middle; }
+.vt .postmessage{ padding: 3px 0; line-height: normal;}
+.inbox { padding: 3px 0;}
+.viewimg { padding: 2px;}
+.viewsort img { vertical-align:top; }
+
+/* newpost */
+.sort { padding: 2px; border: 1px #efefef solid; background: #FFF; }
+.quote { padding: 5px; font-style: italic; }
+
+/* profile */
+.profile_bm_c { padding: 0px !important;}
+.profile_table td{ padding:0 3px; border-top: 1px #efefef solid;}
+.profile_table th { border-top: 2px #efefef solid;}
+.jammer { font-size: 10px; color:#FFF;}
+</style>
+</head>
+<body>
+<div class="hd"><a href="forum.php?mobile=yes" title=" 抢抢网-好东西大家一起抢！ - 手机版"><img src="./static/image/mobile/logo.gif" /></a></div>
+<div class="wp">
+<div class="pd2">
+<a href="home.php?mod=space&amp;uid=72468&amp;do=profile&amp;mobile=yes">testabc0000001</a><span class="pipe">|</span><a href="home.php?mod=space&amp;do=pm&amp;mobile=yes" >消息</a><span class="pipe">|</span><a href="home.php?mod=space&amp;uid=72468&amp;do=favorite&amp;view=me&amp;type=forum&amp;mobile=yes">收藏</a><span class="pipe">|</span><a href="home.php?mod=space&amp;uid=72468&amp;do=thread&amp;view=me&amp;mobile=yes">我的帖子</a><span class="pipe">|</span><a href="member.php?mod=logging&amp;action=logout&amp;formhash=1cc0e118&amp;mobile=yes" title="退出">退出</a></div>
+<div class="f_c">
+<div id="messagetext">
+<p>恭喜你签到成功!获得随机奖励 银币 5 .</p>
+<p><a href="plugin.php?id=dsu_paulsign:sign&amp;mobile=yes" class="mtn" >[点此返回]</a></p>
+</div>
+</div></div>
+<img src="http://pingtcss.qq.com/pingd?r2=5091456&ui=72468&ty=2&rt=plugin&pn=1&qq=010&logo=11&url=/plugin.php&arg=id%3Ddsu_paulsign%3Asign%26operation%3Dqiandao%26infloat%3D0%26inajax%3D0%26mobile%3Dyes&tz=-8&dm=www.qiangqiang5.com&pvi=1249467082&si=s1244360801&rdm=www.qiangqiang5.com&rarg=id%3Ddsu_paulsign%3Asign&rurl=/plugin.php&rnd=406182447&ext=mt=0" height="1" width="1" style="float:right" noerror="true" /><div class="ft">
+<p><a href="http://www.qiangqiang5.com" target="_blank">抢抢网</a></p>
+<p>Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a></strong> <em>X3.1</em></p>
+<p><a href="forum.php?mobile=yes">首页</a><span class="pipe">|</span>标准版<span class="pipe">|</span><a href="http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=2" class="xw0" title="触屏版">触屏版</a><span class="pipe">|</span><a href="http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=no" class="xw0" title="电脑版">电脑版</a></p>
+</div>
+</body>
+</html>
+	
