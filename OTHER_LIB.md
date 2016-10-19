@@ -1,6 +1,7 @@
 [开源组件合集-泡在网上的日子](http://www.jcodecraeer.com/plus/list.php?tid=31&TotalResult=1170&PageNo=1)
-####图标资源  
+####图标 资源  
 google官方图标库 [Material icons](https://design.google.com/icons/)  
+[material design 配色](https://www.materialpalette.com/cyan/teal)  
 &ensp;   
 
 ####一些可用的第三方库    
