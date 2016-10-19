@@ -91,6 +91,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:paddingBottom="16dp"
+            android:tint="@color/colorPrimaryDark"
             android:src="@drawable/tab_icon_home_selected"/>
 
     </LinearLayout>
