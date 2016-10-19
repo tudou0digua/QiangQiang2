@@ -35,6 +35,7 @@ public class SuperSwipeRefreshLayout extends SwipeRefreshLayout {
         final DisplayMetrics metrics = getResources().getDisplayMetrics();
         mLoadMoreProgressDiameter = (int) (40 * metrics.density);
 
+        mLoadMoreProgressBar.setVisibility(GONE);
     }
 
     @Override

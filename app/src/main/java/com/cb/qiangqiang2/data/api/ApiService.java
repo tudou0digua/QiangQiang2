@@ -1,8 +1,7 @@
 package com.cb.qiangqiang2.data.api;
 
-import com.cb.qiangqiang2.data.model.CollectionModel;
 import com.cb.qiangqiang2.data.model.LoginModel;
-import com.cb.qiangqiang2.data.model.TopicListModel;
+import com.cb.qiangqiang2.data.model.PostModel;
 
 import java.util.Map;
 
@@ -26,12 +25,12 @@ public interface ApiService {
     Observable<LoginModel> login(@QueryMap Map<String, String> options);
 
     @POST("index.php?r=forum/topiclist")
-    Observable<TopicListModel> getTopicList(@QueryMap Map<String, String> options);
+    Observable<PostModel> getTopicList(@QueryMap Map<String, String> options);
 
     @POST("index.php?r=user/topiclist")
-    Observable<CollectionModel> getCollectionList(@QueryMap Map<String, String> options, @Query(UID) int uid);
+    Observable<PostModel> getCollectionList(@QueryMap Map<String, String> options, @Query(UID) int uid);
 
     @POST("index.php?r=user/topiclist")
-    Observable<Response<CollectionModel>> getCollectionList2(@QueryMap Map<String, String> options, @Query(UID) int uid);
+    Observable<Response<PostModel>> getCollectionList2(@QueryMap Map<String, String> options, @Query(UID) int uid);
 
 }

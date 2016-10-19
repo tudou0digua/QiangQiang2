@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:paddingLeft="@dimen/padding_left"
+    android:paddingRight="@dimen/padding_right">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="@dimen/post_avatar_width"
+            android:layout_height="@dimen/post_avatar_width"
+            android:src="@drawable/default_icon"/>
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size1"
+            android:textColor="@color/text_primary"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="23333"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/tv_time"
+            android:layout_alignStart="@+id/tv_time" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_avatar"
+            android:layout_below="@+id/tv_name"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/text_size6"
+            android:textColor="@color/text_second_primary"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            tools:text="1分钟前"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="5dp"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_size2"
+        android:paddingTop="5dp"
+        tools:text="hahahaha\nhahah"/>
+
+    <TextView
+        android:id="@+id/tv_title_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="5dp"
+        android:textColor="@color/text_second_primary"
+        android:textSize="@dimen/text_size1"
+        android:layout_marginTop="5dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        tools:text="hahahaha\nhahah"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="6dp"
+            android:drawableLeft="@drawable/post_num_icon"
+            android:textSize="@dimen/text_size6"
+            android:textColor="@color/text_second_primary"
+            android:layout_alignParentRight="true"
+            tools:text="66"/>
+
+        <TextView
+            android:id="@+id/tv_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="6dp"
+            android:drawableLeft="@drawable/read_num_icon"
+            android:textSize="@dimen/text_size6"
+            android:textColor="@color/text_second_primary"
+            android:layout_toLeftOf="@+id/tv_comment"
+            android:layout_marginRight="10dp"
+            tools:text="233"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider"
+        android:background="@color/divider_color"/>
+
+</LinearLayout>
