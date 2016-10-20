@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +32,9 @@ import butterknife.ButterKnife;
  * 帖子列表Fragment
  */
 public class PostFragment extends BaseFragment implements PostMvpView {
-    private static final String TYPE = "type";
-    public static final int HOME_POST = 0;
-    public static final int NORMAL_POST = 1;
+    private static final String BOARD_ID = "mBoardId";
+    private static final String SORT_BY = "sortBy";
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
     @BindView(R.id.rl_top)
     RelativeLayout mRlTop;
     @BindView(R.id.swipe_refresh_layout)
@@ -53,17 +49,19 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     @Inject
     PostPresenter postPresenter;
 
-    private int type;
+    private int mBoardId = 0;
+    private String mSortBy = "";
     private int nextPage = 2;
 
     public PostFragment() {
         // Required empty public constructor
     }
 
-    public static PostFragment newInstance(int type) {
+    public static PostFragment newInstance(int boardId, String sortBy) {
         PostFragment fragment = new PostFragment();
         Bundle args = new Bundle();
-        args.putInt(TYPE, type);
+        args.putInt(BOARD_ID, boardId);
+        args.putString(SORT_BY, sortBy);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,7 +70,8 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            type = getArguments().getInt(TYPE);
+            mBoardId = getArguments().getInt(BOARD_ID);
+            mSortBy = getArguments().getString(SORT_BY);
         }
     }
 
@@ -88,6 +87,8 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     }
 
     private void initView() {
+        if (mBoardId != 0 && mRlTop != null) mRlTop.setVisibility(View.GONE);
+
         //初始化下拉刷新和上拉加载布局
         int homepage_refresh_spacing = 40;
         mSwipeRefreshLayout.setProgressViewOffset(false, -homepage_refresh_spacing * 2, homepage_refresh_spacing);
@@ -95,12 +96,12 @@ public class PostFragment extends BaseFragment implements PostMvpView {
         mSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                postPresenter.refreshPostListData(HOME_POST, 1, 46);
+                postPresenter.refreshPostListData(mSortBy, 1, mBoardId);
             }
 
             @Override
             public void onLoad() {
-                postPresenter.loadMorePostListData(HOME_POST, nextPage, 46);
+                postPresenter.loadMorePostListData(mSortBy, nextPage, mBoardId);
             }
 
             @Override
@@ -169,7 +170,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
         mRecycleView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         mRecycleView.setAdapter(mAdapter);
 
-        postPresenter.refreshPostListData(HOME_POST, 1, 46);
+        postPresenter.refreshPostListData(mSortBy, 1, mBoardId);
     }
 
 

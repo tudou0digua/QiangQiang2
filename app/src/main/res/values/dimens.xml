@@ -27,4 +27,7 @@
 
     <!--帖子列表-->
     <dimen name="post_avatar_width">40dp</dimen>
+
+    <!--板块列表-->
+    <dimen name="indicator_height">30dp</dimen>
 </resources>

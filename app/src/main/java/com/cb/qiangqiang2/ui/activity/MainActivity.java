@@ -10,6 +10,7 @@ import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseAutoLayoutActivity;
 import com.cb.qiangqiang2.test.activity.MainTestActivity;
 import com.cb.qiangqiang2.ui.fragment.BlankFragment;
+import com.cb.qiangqiang2.ui.fragment.BoardFragment;
 import com.cb.qiangqiang2.ui.fragment.PostFragment;
 import com.cb.qiangqiang2.ui.view.CustomViewPager;
 import com.cb.qiangqiang2.ui.view.TabLayout;
@@ -47,8 +48,9 @@ public class MainActivity extends BaseAutoLayoutActivity {
     private void initData() {
         fragments = new ArrayList<>();
 //        fragments.add(new BlankFragment2());
-        fragments.add(PostFragment.newInstance(PostFragment.HOME_POST));
-        fragments.add(BlankFragment.newInstance("fragment 1", null));
+        fragments.add(PostFragment.newInstance(0, "new"));
+        fragments.add(BoardFragment.newInstance("", ""));
+//        fragments.add(BlankFragment.newInstance("fragment 1", null));
         fragments.add(BlankFragment.newInstance("fragment 2", null));
         fragments.add(BlankFragment.newInstance("fragment 3", null));
     }

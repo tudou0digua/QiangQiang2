@@ -31,12 +31,13 @@ public class PostPresenter extends BasePresenter<PostMvpView> {
     public PostPresenter() {
     }
 
-    public void refreshPostListData(int type, int page, int boardId){
+    public void refreshPostListData(String sortBy, int page, int boardId){
         if (getMvpView() != null) getMvpView().showLoading();
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         map.put(Constants.PAGE_SIZE, Constants.DEFAULT_PAGE_SIZE);
         map.put(Constants.PAGE, String.valueOf(page));
         map.put(Constants.BOARD_ID, String.valueOf(boardId));
+        map.put(Constants.SORT_BY, sortBy);
         HttpManager.toSub(apiService.getTopicList(map), new HttpManager.OnResponse() {
             @Override
             public void onSuccess(Object result) {
@@ -59,11 +60,12 @@ public class PostPresenter extends BasePresenter<PostMvpView> {
         }, mContext);
     }
 
-    public void loadMorePostListData(int type, int page, int boardId){
+    public void loadMorePostListData(String sortBy, int page, int boardId){
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         map.put(Constants.PAGE_SIZE, Constants.DEFAULT_PAGE_SIZE);
         map.put(Constants.PAGE, String.valueOf(page));
         map.put(Constants.BOARD_ID, String.valueOf(boardId));
+        map.put(Constants.SORT_BY, sortBy);
         HttpManager.toSub(apiService.getTopicList(map), new HttpManager.OnResponse() {
             @Override
             public void onSuccess(Object result) {

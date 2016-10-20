@@ -1,5 +1,6 @@
 package com.cb.qiangqiang2.data.api;
 
+import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.data.model.PostModel;
 
@@ -26,6 +27,9 @@ public interface ApiService {
 
     @POST("index.php?r=forum/topiclist")
     Observable<PostModel> getTopicList(@QueryMap Map<String, String> options);
+
+    @POST("index.php?r=forum/forumlist")
+    Observable<BoardModel> getBoardList(@QueryMap Map<String, String> options);
 
     @POST("index.php?r=user/topiclist")
     Observable<PostModel> getCollectionList(@QueryMap Map<String, String> options, @Query(UID) int uid);

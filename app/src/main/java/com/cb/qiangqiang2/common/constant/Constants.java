@@ -25,6 +25,7 @@ public class Constants {
     public static final String TYPE = "type";
     public static final String PAGE = "page";
     public static final String BOARD_ID = "boardId";
+    public static final String SORT_BY = "sortby";
 
     //user info
     public static final String UID = "uid";
