@@ -157,7 +157,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 //            }
 //        });
 //
-//        mSwipeRefreshLayout.setOnLoadMoreListener(new SuperSwipeRefreshLayout2.OnLoadMoreListener() {
+//        mSwipeRefreshLayout.setOnLoadMoreListener(new SuperSwipeRefreshLayout2.OnRefreshAndLoadMoreListener() {
 //            @Override
 //            public void onLoadMore() {
 //                postPresenter.loadMorePostListData(HOME_POST, nextPage, 46);

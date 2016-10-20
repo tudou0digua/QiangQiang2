@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ScrollView;
 
+import timber.log.Timber;
+
 /**
  * Created by cb on 2016/10/19.
  * ref: https://github.com/nuptboyzhb/SuperSwipeRefreshLayout/blob/master/SuperSwipeRefreshLayout-Demo-AS/lib/src/main/java/com/github/nuptboyzhb/lib/SuperSwipeRefreshLayout.java
@@ -23,9 +25,14 @@ import android.widget.ScrollView;
  */
 
 public class SuperSwipeRefreshLayout2 extends SwipeRefreshLayout {
+    private static final int INVALID_POINTER = -1;
+
     private View mTarget;
     private boolean isLoadingMore = false;
-    private OnLoadMoreListener mOnLoadMoreListener;
+    private OnRefreshAndLoadMoreListener mOnRefreshAndLoadMoreListener;
+    private int mActivePointerId = INVALID_POINTER;
+    private float mInitialMotionY;
+    private float mInitialDownY;
 
     public SuperSwipeRefreshLayout2(Context context) {
         super(context);
@@ -58,31 +65,121 @@ public class SuperSwipeRefreshLayout2 extends SwipeRefreshLayout {
         }
     }
 
-    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-        this.mOnLoadMoreListener = mOnLoadMoreListener;
+    public void setOnLoadMoreListener(final OnRefreshAndLoadMoreListener mOnRefreshAndLoadMoreListener) {
+        this.mOnRefreshAndLoadMoreListener = mOnRefreshAndLoadMoreListener;
+        if (mOnRefreshAndLoadMoreListener != null) {
+            setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    mOnRefreshAndLoadMoreListener.onRefresh();
+                }
+            });
+        }
     }
 
     public void setLoadingMore(boolean loadingMore) {
         isLoadingMore = loadingMore;
     }
 
+    private float getMotionEventY(MotionEvent ev, int activePointerId) {
+        final int index = MotionEventCompat.findPointerIndex(ev, activePointerId);
+        if (index < 0) {
+            return -1;
+        }
+        return MotionEventCompat.getY(ev, index);
+    }
+
+    public boolean canChildScrollDown() {
+        ensureTarget();
+        if (android.os.Build.VERSION.SDK_INT < 14) {
+            if (mTarget instanceof AbsListView) {
+                final AbsListView absListView = (AbsListView) mTarget;
+                return absListView.getCount() > 0
+                        && (absListView.getLastVisiblePosition() < absListView.getCount() - 1 || absListView
+                        .getChildAt(absListView.getLastVisiblePosition() - absListView.getFirstVisiblePosition())
+                        .getBottom() > absListView.getPaddingBottom() + getMeasuredHeight());
+            } else if (mTarget instanceof ScrollView) { // ScrollView
+                return mTarget.getScrollY() + mTarget.getMeasuredHeight() < ((ScrollView)mTarget).getChildAt(0).getMeasuredHeight();
+            } else {
+                return true;
+            }
+        } else {
+            return ViewCompat.canScrollVertically(mTarget, 1);
+        }
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (!isRefreshing() && !isLoadingMore) {
-            final int action = MotionEventCompat.getActionMasked(ev);
-            switch (action) {
-                case MotionEvent.ACTION_DOWN:
+        if (isRefreshing() || isLoadingMore) return false;
+        final int action = MotionEventCompat.getActionMasked(ev);
 
-                    break;
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL:
-                case MotionEvent.ACTION_MOVE:
-                    if (mOnLoadMoreListener != null && isChildScrollToBottom()) {
-                        return true;
-                    }
-                    break;
-            }
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
+                final float initialDownY = getMotionEventY(ev, mActivePointerId);
+                if (initialDownY == -1) {
+                    return false;
+                }
+                mInitialDownY = initialDownY;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (mActivePointerId == INVALID_POINTER) {
+                    Timber.e("Got ACTION_MOVE event but don't have an active pointer id.");
+                    return false;
+                }
+
+                final float y = getMotionEventY(ev, mActivePointerId);
+                if (y == -1) {
+                    return false;
+                }
+                final float yDiff = y - mInitialDownY;
+
+//                if (yDiff > 0) {
+//                    if(canChildScrollUp() || mListener == null){
+//                        return false;
+//                    }else {
+//                        if (yDiff > mTouchSlop && !mIsBeingDragged && mListener.canRefresh()) {
+//                            mInitialMotionY = mInitialDownY + mTouchSlop;
+//                            mIsBeingDragged = true;
+//                            mProgress.setAlpha(STARTING_PROGRESS_ALPHA);
+//                        }
+//                    }
+//                }
+//                else
+//                {
+//                    if(canChildScrollDown() || mListener == null){
+//                        return false;
+//                    }else {
+//                        if (yDiff < 0 && mListener.canLoadMore()){
+//                            mLoading = true;
+//                            return true;
+//                        }
+//                    }
+//                }
+                break;
+            case MotionEventCompat.ACTION_POINTER_UP:
+                onSecondaryPointerUp(ev);
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                mActivePointerId = INVALID_POINTER;
+                break;
         }
+
+//        if (!isRefreshing() && !isLoadingMore) {
+//            switch (action) {
+//                case MotionEvent.ACTION_DOWN:
+//
+//                    break;
+//                case MotionEvent.ACTION_UP:
+//                case MotionEvent.ACTION_CANCEL:
+//                case MotionEvent.ACTION_MOVE:
+//                    if (mOnRefreshAndLoadMoreListener != null && isChildScrollToBottom()) {
+//                        return true;
+//                    }
+//                    break;
+//            }
+//        }
         return super.onInterceptTouchEvent(ev);
     }
 
@@ -93,15 +190,26 @@ public class SuperSwipeRefreshLayout2 extends SwipeRefreshLayout {
             switch (action) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
-                    if (mOnLoadMoreListener != null && isChildScrollToBottom()) {
+                    if (mOnRefreshAndLoadMoreListener != null && isChildScrollToBottom()) {
                         isLoadingMore = true;
-                        mOnLoadMoreListener.onLoadMore();
+                        mOnRefreshAndLoadMoreListener.onLoadMore();
                         return false;
                     }
                     break;
             }
         }
         return super.onTouchEvent(ev);
+    }
+
+    private void onSecondaryPointerUp(MotionEvent ev) {
+        final int pointerIndex = MotionEventCompat.getActionIndex(ev);
+        final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
+        if (pointerId == mActivePointerId) {
+            // This was our active pointer going up. Choose a new
+            // active pointer and adjust accordingly.
+            final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+            mActivePointerId = MotionEventCompat.getPointerId(ev, newPointerIndex);
+        }
     }
 
     /**
@@ -193,7 +301,9 @@ public class SuperSwipeRefreshLayout2 extends SwipeRefreshLayout {
         return false;
     }
 
-    public interface OnLoadMoreListener {
+    public interface OnRefreshAndLoadMoreListener {
         void onLoadMore();
+
+        void onRefresh();
     }
 }
