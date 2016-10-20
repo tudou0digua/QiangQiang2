@@ -7,7 +7,7 @@ import java.util.List;
  * Created by cb on 2016/10/19.
  */
 
-public class PostModel {
+public class PostModel extends BaseModel{
     /**
      * {
      "rs": 1,
@@ -99,16 +99,7 @@ public class PostModel {
      "total_num": 37978
      }
      */
-    private int rs;
-    private String errcode;
-    /**
-     * errCode : 00000000
-     * errInfo : 调用成功,没有任何错误
-     * version : 2.6.1.0
-     * alert : 0
-     */
 
-    private HeadBean head;
     /**
      * externInfo : {"padding":""}
      */
@@ -182,30 +173,6 @@ public class PostModel {
      */
 
     private List<ListBean> list;
-
-    public int getRs() {
-        return rs;
-    }
-
-    public void setRs(int rs) {
-        this.rs = rs;
-    }
-
-    public String getErrcode() {
-        return errcode;
-    }
-
-    public void setErrcode(String errcode) {
-        this.errcode = errcode;
-    }
-
-    public HeadBean getHead() {
-        return head;
-    }
-
-    public void setHead(HeadBean head) {
-        this.head = head;
-    }
 
     public BodyBean getBody() {
         return body;
@@ -301,45 +268,6 @@ public class PostModel {
 
     public void setList(List<ListBean> list) {
         this.list = list;
-    }
-
-    public static class HeadBean {
-        private String errCode;
-        private String errInfo;
-        private String version;
-        private int alert;
-
-        public String getErrCode() {
-            return errCode;
-        }
-
-        public void setErrCode(String errCode) {
-            this.errCode = errCode;
-        }
-
-        public String getErrInfo() {
-            return errInfo;
-        }
-
-        public void setErrInfo(String errInfo) {
-            this.errInfo = errInfo;
-        }
-
-        public String getVersion() {
-            return version;
-        }
-
-        public void setVersion(String version) {
-            this.version = version;
-        }
-
-        public int getAlert() {
-            return alert;
-        }
-
-        public void setAlert(int alert) {
-            this.alert = alert;
-        }
     }
 
     public static class BodyBean {

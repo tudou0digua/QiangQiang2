@@ -91,4 +91,5 @@ dependencies {
     apt daggerCompiler
 
     compile 'me.zhanghai.android.materialprogressbar:library:1.1.7'
+    compile 'com.mamengmami.android:waveswiperefreshlayout:1.0.0'
 }

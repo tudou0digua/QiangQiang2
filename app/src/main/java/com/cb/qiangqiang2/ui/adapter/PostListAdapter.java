@@ -15,6 +15,7 @@ import com.cb.qiangqiang2.common.glide.GlideCircleTransform;
 import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.data.model.PostModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,8 +43,21 @@ public class PostListAdapter extends RecyclerView.Adapter {
 
     public void setPostModel(PostModel postModel) {
         this.postModel = postModel;
-        mLists = this.postModel.getList();
+        List<PostModel.ListBean> list = postModel.getList();
+        if (list == null) {
+            mLists = new ArrayList<>();
+        } else {
+            mLists = this.postModel.getList();
+        }
         notifyDataSetChanged();
+    }
+
+    public void addData(PostModel postModel) {
+        List<PostModel.ListBean> list = postModel.getList();
+        if (list == null) return;
+        int start = mLists.size();
+        mLists.addAll(list);
+        notifyItemRangeInserted(start, list.size());
     }
 
     @Override

@@ -88,10 +88,6 @@ public class Activity2 extends BaseAutoLayoutActivity {
                 Toast.makeText(Activity2.this, "error" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onCompleted() {
-
-            }
         }, mContext);
     }
 

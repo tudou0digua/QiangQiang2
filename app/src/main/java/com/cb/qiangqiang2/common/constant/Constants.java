@@ -20,8 +20,11 @@ public class Constants {
     public static final String IMEI = "imei";
 
     //Topic
+    public static final String DEFAULT_PAGE_SIZE = "20";
     public static final String PAGE_SIZE = "pageSize";
     public static final String TYPE = "type";
+    public static final String PAGE = "page";
+    public static final String BOARD_ID = "boardId";
 
     //user info
     public static final String UID = "uid";

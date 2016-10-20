@@ -10,8 +10,8 @@ public class BaseModel {
      * head : {"alert":1,"errCode":"00100001","errInfo":"您需要先登录才能继续本操作","version":"2.6.0.1"}
      */
 
-    private int rs;
-    private String errcode;
+    protected int rs;
+    protected String errcode;
 
     /**
      * alert : 1
@@ -19,7 +19,7 @@ public class BaseModel {
      * errInfo : 您需要先登录才能继续本操作
      * version : 2.6.0.1
      */
-    private HeadBean head;
+    protected HeadBean head;
 
     public int getRs() {
         return rs;

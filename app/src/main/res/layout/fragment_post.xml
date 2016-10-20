@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cb.qiangqiang2.ui.fragment.PostFragment">
@@ -13,27 +14,54 @@
 
     </RelativeLayout>
 
-    <com.cb.qiangqiang2.ui.view.SuperSwipeRefreshLayout
+
+    <com.maimengmami.waveswiperefreshlayout.WaveSwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:above_wave_color="@color/colorPrimaryLight"
+        app:blow_wave_color="@color/colorPrimary"
         android:layout_below="@+id/rl_top">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.maimengmami.waveswiperefreshlayout.WaveSwipeRefreshLayout>
+
+    <!--<com.cb.qiangqiang2.ui.view.SuperSwipeRefreshLayout3-->
+        <!--android:id="@+id/swipe_refresh_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/rl_top">-->
 
         <!--<android.support.v7.widget.RecyclerView-->
             <!--android:id="@+id/recycle_view"-->
             <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
+            <!--android:layout_height="match_parent"/>-->
 
-        <!--</android.support.v7.widget.RecyclerView>-->
+    <!--</com.cb.qiangqiang2.ui.view.SuperSwipeRefreshLayout3>-->
 
-    </com.cb.qiangqiang2.ui.view.SuperSwipeRefreshLayout>
+    <!--<com.cb.qiangqiang2.ui.view.SuperSwipeRefreshLayout2-->
+        <!--android:id="@+id/swipe_refresh_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/rl_top">-->
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycle_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rl_top">
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/recycle_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
 
-    </android.support.v7.widget.RecyclerView>
+    <!--</com.cb.qiangqiang2.ui.view.SuperSwipeRefreshLayout2>-->
+
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/recycle_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/rl_top">-->
+
+    <!--</android.support.v7.widget.RecyclerView>-->
 
 </RelativeLayout>

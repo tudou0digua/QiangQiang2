@@ -95,44 +95,14 @@ public class HttpManager {
                 .subscribe(s);
     }
 
-    public static void toSubscribe(Observable o, @NonNull final OnResponse onResponse){
-        o.subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber() {
-                    @Override
-                    public void onCompleted() {
-                        onResponse.onCompleted();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        onResponse.onError(e);
-                    }
-
-                    @Override
-                    public void onNext(Object o) {
-                        BaseModel baseModel = (BaseModel) o;
-                        if (baseModel.getRs() == 1){
-                            onResponse.onSuccess(0);
-                        } else {
-                            switch (baseModel.getHead().getErrCode()){
-                                case 00100001:
-                                    //TODO not sign in
-
-                                    break;
-                            }
-                        }
-                    }
-                });
-    }
-
     public static void toSub(Observable o, @NonNull final OnResponse onResponse, final Context context){
-        o.compose(new DefaultTransformer(context))
+        o.compose(new SchedulerTransformer())
                 .subscribe(new Subscriber() {
                     @Override
                     public void onCompleted() {
-                        onResponse.onCompleted();
+                        if (onResponse instanceof OnResponseWithComplete) {
+                            ((OnResponseWithComplete)onResponse).onComplete();
+                        }
                     }
 
                     @Override
@@ -142,22 +112,24 @@ public class HttpManager {
 
                     @Override
                     public void onNext(Object o) {
-                        BaseModel baseModel = (BaseModel) o;
-                        if (baseModel.getRs() == 1){
-                            onResponse.onSuccess(o);
-                        } else {
-                            switch (baseModel.getHead().getErrCode()){
-                                case 00100001:
-                                    //TODO not sign in
-                                    Toast.makeText(context, baseModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
-                                    break;
+                        if (o instanceof BaseModel) {
+                            BaseModel baseModel = (BaseModel) o;
+                            if (baseModel.getRs() == 1){
+                                onResponse.onSuccess(o);
+                            } else {
+                                switch (baseModel.getHead().getErrCode()){
+                                    case 00100001:
+                                        //TODO 未登陆 可进行登陆等操作
+                                        Toast.makeText(context, baseModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
+                                        break;
+                                }
                             }
+                        } else {
+                            onResponse.onSuccess(o);
                         }
                     }
                 });
     }
-
-
 
     public static Map<String, String> getBaseMap(Context context){
         Map<String, String> map = new HashMap<>();
@@ -173,7 +145,10 @@ public class HttpManager {
     public interface OnResponse{
         void onSuccess(Object result);
         void onError(Throwable e);
-        void onCompleted();
+    }
+
+    public interface OnResponseWithComplete extends OnResponse{
+        void onComplete();
     }
 
 }

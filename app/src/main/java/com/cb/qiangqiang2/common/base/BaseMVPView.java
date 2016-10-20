@@ -7,4 +7,6 @@ public interface BaseMVPView {
     void showLoading();
 
     void hideLoading();
+
+    void loadError(Throwable e);
 }
