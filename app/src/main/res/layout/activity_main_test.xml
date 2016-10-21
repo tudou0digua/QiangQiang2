@@ -73,6 +73,7 @@
         android:orientation="horizontal">
 
         <com.cb.qiangqiang2.ui.view.TabView
+            android:id="@+id/tabview"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"

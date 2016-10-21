@@ -2,12 +2,14 @@ package com.cb.qiangqiang2.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseAutoLayoutActivity;
+import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.test.activity.MainTestActivity;
 import com.cb.qiangqiang2.ui.fragment.BlankFragment;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;
@@ -21,13 +23,15 @@ import java.util.List;
 import butterknife.BindView;
 
 public class MainActivity extends BaseAutoLayoutActivity {
-
+    private static final int EXIT_INTERVAL = 2000;
+    
     @BindView(R.id.tl_tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     CustomViewPager viewpager;
 
     private List<Fragment> fragments;
+    private long lastBackClickTime = Constants.DEFAULT_INVALIDE_TIME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,32 @@ public class MainActivity extends BaseAutoLayoutActivity {
                 if (position == fragments.size() - 1) startActivity(new Intent(MainActivity.this, MainTestActivity.class));
             }
         });
+        tabLayout.setOnTabDoubleClickListener(new TabLayout.OnTabDoubleClickListener() {
+            @Override
+            public void onTabDoubleClick(int position) {
+                if (position == 0 && viewpager.getCurrentItem() == 0){
+                    ((PostFragment)fragments.get(0)).scrollToTop();
+                }
+            }
+        });
     }
 
+    @Override
+    public void onBackPressed() {
+        long currentTime = System.currentTimeMillis();
+        if (lastBackClickTime == Constants.DEFAULT_INVALIDE_TIME) {
+            lastBackClickTime = currentTime;
+            showSnackBar();
+            return;
+        } else if ((currentTime - lastBackClickTime) <= EXIT_INTERVAL){
+            super.onBackPressed();
+        } else if ((currentTime - lastBackClickTime) > EXIT_INTERVAL) {
+            lastBackClickTime = currentTime;
+            showSnackBar();
+        }
+    }
+
+    private void showSnackBar() {
+        Snackbar.make(tabLayout, getString(R.string.exit), Snackbar.LENGTH_SHORT).show();
+    }
 }

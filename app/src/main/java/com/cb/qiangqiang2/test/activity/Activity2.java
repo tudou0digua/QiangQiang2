@@ -1,7 +1,10 @@
 package com.cb.qiangqiang2.test.activity;
 
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,10 @@ public class Activity2 extends BaseAutoLayoutActivity {
     @BindView(R.id.tv)
     TextView tv;
 
+    GestureDetector gestureDetector;
+    @BindView(R.id.btn)
+    Button btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +47,48 @@ public class Activity2 extends BaseAutoLayoutActivity {
     }
 
     private void init() {
+        gestureDetector = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                Toast.makeText(mContext, "这是双击事件", Toast.LENGTH_SHORT).show();
+                return super.onDoubleTap(e);
+            }
 
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+//                Toast.makeText(mContext, "单击击事件 onSingleTapUp", Toast.LENGTH_SHORT).show();
+                return super.onSingleTapUp(e);
+            }
+
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                Toast.makeText(mContext, "单击击事件 onSingleTapConfirmed", Toast.LENGTH_SHORT).show();
+                return super.onSingleTapConfirmed(e);
+            }
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+        });
+        tv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "单击击事件", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
     }
 
     @Override

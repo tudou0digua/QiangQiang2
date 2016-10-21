@@ -8,4 +8,6 @@
     <string name="tab2">版块</string>
     <string name="tab3">消息</string>
     <string name="tab4">我的</string>
+
+    <string name="exit">再按一次退出程序。</string>
 </resources>

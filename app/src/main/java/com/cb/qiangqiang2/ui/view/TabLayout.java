@@ -4,7 +4,8 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
-import android.view.View;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -16,7 +17,10 @@ import java.util.List;
 
 public class TabLayout extends LinearLayout {
     private OnTabSelectedListener onTabSelectedListener;
+    private OnTabDoubleClickListener onTabDoubleClickListener;
+
     private List<TabView> tabViewList;
+    private Context context;
 
     public TabLayout(Context context) {
         super(context);
@@ -28,11 +32,17 @@ public class TabLayout extends LinearLayout {
 
     public TabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initData(context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public TabLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        initData(context);
+    }
+
+    private void initData(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -43,16 +53,42 @@ public class TabLayout extends LinearLayout {
             final int position = i;
             TabView tabView = (TabView) getChildAt(i);
             tabViewList.add(tabView);
-            tabView.setOnClickListener(new OnClickListener() {
+//            tabView.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    resetTabStatus();
+//                    tabViewList.get(position).setSelected();
+//                    if (onTabSelectedListener != null) {
+//                        onTabSelectedListener.onTabSelected(position);
+//                    }
+//                }
+//            });
+            tabView.setGestureDetector(new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+
                 @Override
-                public void onClick(View v) {
+                public boolean onSingleTapConfirmed(MotionEvent e) {
                     resetTabStatus();
                     tabViewList.get(position).setSelected();
                     if (onTabSelectedListener != null) {
                         onTabSelectedListener.onTabSelected(position);
                     }
+                    return super.onSingleTapConfirmed(e);
                 }
-            });
+
+                @Override
+                public boolean onDown(MotionEvent e) {
+                    //需返回true，不然后续监听不会触发
+                    return true;
+                }
+
+                @Override
+                public boolean onDoubleTap(MotionEvent e) {
+                    if (onTabDoubleClickListener != null) {
+                        onTabDoubleClickListener.onTabDoubleClick(position);
+                    }
+                    return super.onDoubleTap(e);
+                }
+            }));
         }
     }
 
@@ -74,11 +110,27 @@ public class TabLayout extends LinearLayout {
         tabViewList.get(position).setmAlpha(alpha);
     }
 
+    public void setOnTabDoubleClickListener(OnTabDoubleClickListener onTabDoubleClickListener) {
+        this.onTabDoubleClickListener = onTabDoubleClickListener;
+    }
+
     public void setOnTabSelectedListener(OnTabSelectedListener onTabSelectedListener) {
         this.onTabSelectedListener = onTabSelectedListener;
     }
 
-    public interface OnTabSelectedListener{
+    public TabView getTabView(int position) {
+        if (tabViewList != null && tabViewList.size() > position && position >= 0) {
+            return tabViewList.get(position);
+        } else {
+            return null;
+        }
+    }
+
+    public interface OnTabSelectedListener {
         void onTabSelected(int position);
+    }
+
+    public interface OnTabDoubleClickListener {
+        void onTabDoubleClick(int position);
     }
 }

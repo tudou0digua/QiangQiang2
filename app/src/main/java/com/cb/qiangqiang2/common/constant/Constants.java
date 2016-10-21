@@ -6,6 +6,7 @@ package com.cb.qiangqiang2.common.constant;
 public class Constants {
     //system
     public static final String IS_NIGHT_THEME = "isNightTheme";
+    public static final int DEFAULT_INVALIDE_TIME = -1;
 
     //api constant
     public static final String FORUM_KEY = "forumKey";

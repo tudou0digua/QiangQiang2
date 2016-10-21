@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
+import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.data.api.ApiService;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.mvpview.PostMvpView;
@@ -90,7 +91,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
         if (mBoardId != 0 && mRlTop != null) mRlTop.setVisibility(View.GONE);
 
         //初始化下拉刷新和上拉加载布局
-        int homepage_refresh_spacing = 40;
+        int homepage_refresh_spacing = AppUtils.dip2px(getActivity(), 10);
         mSwipeRefreshLayout.setProgressViewOffset(false, -homepage_refresh_spacing * 2, homepage_refresh_spacing);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         mSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
@@ -115,62 +116,19 @@ public class PostFragment extends BaseFragment implements PostMvpView {
             }
         });
 
-//        mSwipeRefreshLayout.setTargetScrollWithLayout(false);
-//        mSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout3.OnPullRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                postPresenter.refreshPostListData(HOME_POST, 1, 46);
-//            }
-//
-//            @Override
-//            public void onPullDistance(int distance) {
-//
-//            }
-//
-//            @Override
-//            public void onPullEnable(boolean enable) {
-//
-//            }
-//        });
-//
-//        mSwipeRefreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout3.OnPushLoadMoreListener() {
-//            @Override
-//            public void onLoadMore() {
-//                postPresenter.loadMorePostListData(HOME_POST, nextPage, 46);
-//            }
-//
-//            @Override
-//            public void onPushDistance(int distance) {
-//
-//            }
-//
-//            @Override
-//            public void onPushEnable(boolean enable) {
-//
-//            }
-//        });
-
-
-//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                postPresenter.refreshPostListData(HOME_POST, 1, 46);
-//            }
-//        });
-//
-//        mSwipeRefreshLayout.setOnLoadMoreListener(new SuperSwipeRefreshLayout2.OnRefreshAndLoadMoreListener() {
-//            @Override
-//            public void onLoadMore() {
-//                postPresenter.loadMorePostListData(HOME_POST, nextPage, 46);
-//            }
-//        });
-
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecycleView.setItemAnimator(new DefaultItemAnimator());
         mRecycleView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         mRecycleView.setAdapter(mAdapter);
 
         postPresenter.refreshPostListData(mSortBy, 1, mBoardId);
+    }
+
+    public void scrollToTop(){
+        if (mRecycleView != null && mRecycleView.getAdapter() != null
+                && mRecycleView.getAdapter().getItemCount() > 0) {
+            mRecycleView.smoothScrollToPosition(0);
+        }
     }
 
 

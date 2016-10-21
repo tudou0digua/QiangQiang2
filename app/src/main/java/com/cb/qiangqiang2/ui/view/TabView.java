@@ -14,6 +14,8 @@ import android.os.Looper;
 import android.os.Parcelable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.cb.qiangqiang2.R;
@@ -44,6 +46,7 @@ public class TabView extends View {
     private Rect mImageRect;
     private int mWidth;
     private int mHeight;
+    private GestureDetector mGestureDetector;
 
     public TabView(Context context) {
         super(context);
@@ -155,6 +158,17 @@ public class TabView extends View {
         canvas.drawBitmap(bitmap, null, mImageRect, mImagePaint);
         mImagePaint.setXfermode(null);
         canvas.restoreToCount(sc);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        //使用mGestureDetector监听tabview的双击事件
+        if (mGestureDetector != null) return mGestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
+    public void setGestureDetector(GestureDetector mGestureDetector) {
+        this.mGestureDetector = mGestureDetector;
     }
 
     public void setmAlpha(float alpha) {
