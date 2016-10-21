@@ -10,6 +10,7 @@ import com.cb.qiangqiang2.common.dagger.module.ActivityModule;
 import com.cb.qiangqiang2.common.dagger.scope.PerActivity;
 import com.cb.qiangqiang2.test.activity.Activity2;
 import com.cb.qiangqiang2.test.activity.MainTestActivity;
+import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.cb.qiangqiang2.ui.activity.MainActivity;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;
 import com.cb.qiangqiang2.ui.fragment.PostFragment;
@@ -27,11 +28,15 @@ public interface ActivityComponent {
 
     void inject(MainActivity mainActivity);
 
-    void inject(MainTestActivity mainTestActivity);
+    void inject(BoardDragEditActivity boardDragEditActivity);
 
-    void inject(Activity2 activity2);
+    void inject(BoardFragment boardFragment);
 
     void inject(PostFragment postFragment);
 
-    void inject(BoardFragment boardFragment);
+
+
+    void inject(MainTestActivity mainTestActivity);
+
+    void inject(Activity2 activity2);
 }

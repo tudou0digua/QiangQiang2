@@ -31,7 +31,7 @@ public class Activity2 extends BaseAutoLayoutActivity {
     @Inject
     ApiService apiService;
 
-    @BindView(R.id.tv)
+    @BindView(R.id.tv_content)
     TextView tv;
 
     GestureDetector gestureDetector;

@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
+import com.cb.qiangqiang2.common.constant.Constants;
+import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.model.BoardBean;
 import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.mvpview.BoardMvpView;
@@ -210,8 +212,15 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
                     lists.add(bean);
                 }
             }
+//            if (TextUtils.isEmpty(PrefUtils.getString(getActivity(), Constants.BOARD_LIST))) {
+//
+//            }
+
             Gson gson = new Gson();
-            Logger.json(gson.toJson(lists));
+            String data = gson.toJson(lists);
+            PrefUtils.putString(getActivity(), Constants.BOARD_LIST, data);
+            Logger.json(PrefUtils.getString(getActivity(), Constants.BOARD_LIST));
+
             setIndicator();
         } catch (Exception e) {
             e.printStackTrace();

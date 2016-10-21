@@ -24,7 +24,7 @@ public class BlankFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    @BindView(R.id.tv)
+    @BindView(R.id.tv_content)
     TextView tv;
 
     // TODO: Rename and change types of parameters

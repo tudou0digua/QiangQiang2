@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainTestActivity extends BaseAutoLayoutActivity {
-    @BindView(R.id.tv)
+    @BindView(R.id.tv_content)
     TextView tv;
     @BindView(R.id.tv_2)
     TextView tv2;

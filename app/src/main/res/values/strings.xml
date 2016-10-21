@@ -10,4 +10,11 @@
     <string name="tab4">我的</string>
 
     <string name="exit">再按一次退出程序。</string>
+    <string name="board_edit">板块编辑</string>
+
+    <string name="tip_drag">长按编辑,拖拽排序</string>
+    <string name="other_board">其他板块</string>
+    <string name="my_board">我的板块</string>
+    <string name="edit">编辑</string>
+    <string name="finish">完成</string>
 </resources>

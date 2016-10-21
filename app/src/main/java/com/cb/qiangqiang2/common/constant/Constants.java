@@ -7,6 +7,7 @@ public class Constants {
     //system
     public static final String IS_NIGHT_THEME = "isNightTheme";
     public static final int DEFAULT_INVALIDE_TIME = -1;
+    public static final String BOARD_LIST = "boardList";
 
     //api constant
     public static final String FORUM_KEY = "forumKey";
