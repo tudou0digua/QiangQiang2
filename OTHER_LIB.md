@@ -16,6 +16,8 @@ google官方图标库 [Material icons](https://design.google.com/icons/)
 [使用ItemTouchHelper高效地实现 今日头条 、网易新闻 的频道排序、移动](http://www.jianshu.com/p/d30fd8da4eac)  [ItemTouchHelperDemo](https://github.com/YoKeyword/ItemTouchHelperDemo)  
 &ensp;  
 ![ItemTouchHelperDemo](https://camo.githubusercontent.com/ffdf764e108d0e9dcd9d24da20f71d8ff0957b75/687474703a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f3933373835312d326466353066663938333364643338362e6769663f696d6167654d6f6772322f6175746f2d6f7269656e742f7374726970)  
+&ensp;  
+[拖拽RecyclerView](https://github.com/hehonghui/android-tech-frontier/blob/master/issue-18/%E6%8B%96%E6%8B%BDRecyclerView.md)  
 
 #####换肤框架  
 [Bilibili/MagicaSakura](https://github.com/Bilibili/MagicaSakura)  
