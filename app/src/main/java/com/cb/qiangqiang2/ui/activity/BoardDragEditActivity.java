@@ -13,11 +13,15 @@ import android.widget.Toast;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
+import com.cb.qiangqiang2.common.event.BoardChangeEvent;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.model.BoardBean;
 import com.cb.qiangqiang2.ui.view.dragview.ItemDragHelperCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +40,10 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
     @BindView(R.id.activity_board_drag_edit)
     RelativeLayout mActivityBoardDragEdit;
 
-    private List<BoardBean> mListData;
+    private List<BoardBean> mSelectedListData;
+    private List<BoardBean> mUnSelectdListData;
+    private BoardEditAdapter adapter;
+    private ItemTouchHelper itemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +54,35 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
 
     private void initView() {
         //获得板块列表数据
-        String boards = PrefUtils.getString(mContext, Constants.BOARD_LIST);
-        if (TextUtils.isEmpty(boards)) return;
-        Gson gson = new Gson();
-        mListData = gson.fromJson(boards, new TypeToken<List<BoardBean>>(){}.getType());
-        if (mListData == null || mListData.size() < 1) return;
+        String boardSelectedStr = PrefUtils.getString(mContext, Constants.BOARD_LIST_SELECTED);
+        if (boardSelectedStr != null) {
+            Gson gson = new Gson();
+            List<BoardBean> listSelected = gson.fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>(){}.getType());
+            mSelectedListData = listSelected;
+        } else {
+            String boards = PrefUtils.getString(mContext, Constants.BOARD_LIST);
+            if (TextUtils.isEmpty(boards)) return;
+            Gson gson = new Gson();
+            mSelectedListData = gson.fromJson(boards, new TypeToken<List<BoardBean>>(){}.getType());
+        }
+        String boardUnSelectedStr = PrefUtils.getString(mContext, Constants.BOARD_LIST_UNSELETED);
+        if (boardUnSelectedStr != null) {
+            Gson gson = new Gson();
+            List<BoardBean> listUnSelected = gson.fromJson(boardUnSelectedStr, new TypeToken<List<BoardBean>>(){}.getType());
+            mUnSelectdListData = listUnSelected;
+        } else {
+            mUnSelectdListData = new ArrayList<>();
+        }
+        if (mSelectedListData == null) return;
 
         GridLayoutManager manager = new GridLayoutManager(this, 3);
         mRecycleView.setLayoutManager(manager);
 
-        ItemDragHelperCallback callback = new ItemDragHelperCallback();
-        final ItemTouchHelper helper = new ItemTouchHelper(callback);
-        helper.attachToRecyclerView(mRecycleView);
+        ItemDragHelperCallback itemDragHelperCallback = new ItemDragHelperCallback();
+        itemTouchHelper = new ItemTouchHelper(itemDragHelperCallback);
+        itemTouchHelper.attachToRecyclerView(mRecycleView);
 
-        final BoardEditAdapter adapter = new BoardEditAdapter(this, helper, mListData, new ArrayList<BoardBean>());
+        adapter = new BoardEditAdapter(this, itemTouchHelper, mSelectedListData, mUnSelectdListData);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -73,7 +95,7 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
         adapter.setOnMyChannelItemClickListener(new BoardEditAdapter.OnMyChannelItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                Toast.makeText(BoardDragEditActivity.this, mListData.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(BoardDragEditActivity.this, mSelectedListData.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -88,5 +110,21 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
         switch (view.getId()) {
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setSelectResult();
+        super.onBackPressed();
+    }
+
+    private void setSelectResult() {
+        Gson gson = new Gson();
+        Logger.json(gson.toJson(adapter.getmMyBoardItems()));
+        Logger.json(gson.toJson(adapter.getmOtherBoardItems()));
+
+        PrefUtils.putString(mContext, Constants.BOARD_LIST_SELECTED, gson.toJson(adapter.getmMyBoardItems()));
+        PrefUtils.putString(mContext, Constants.BOARD_LIST_UNSELETED, gson.toJson(adapter.getmOtherBoardItems()));
+        EventBus.getDefault().post(new BoardChangeEvent());
     }
 }

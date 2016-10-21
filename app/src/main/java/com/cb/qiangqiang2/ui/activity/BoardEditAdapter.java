@@ -30,18 +30,18 @@ import java.util.List;
  * Created by YoKeyword on 15/12/28.
  */
 public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OnItemMoveListener {
-    // 我的频道 标题部分
-    public static final int TYPE_MY_CHANNEL_HEADER = 0;
-    // 我的频道
+    // 我的板块 标题部分
+    public static final int TYPE_MY_BOARD_HEADER = 0;
+    // 我的板块
     public static final int TYPE_MY = 1;
-    // 其他频道 标题部分
-    public static final int TYPE_OTHER_CHANNEL_HEADER = 2;
-    // 其他频道
+    // 其他板块 标题部分
+    public static final int TYPE_OTHER_BOARD_HEADER = 2;
+    // 其他板块
     public static final int TYPE_OTHER = 3;
 
-    // 我的频道之前的header数量  该demo中 即标题部分 为 1
+    // 我的板块之前的header数量  该demo中 即标题部分 为 1
     private static final int COUNT_PRE_MY_HEADER = 1;
-    // 其他频道之前的header数量  该demo中 即标题部分 为 COUNT_PRE_MY_HEADER + 1
+    // 其他板块之前的header数量  该demo中 即标题部分 为 COUNT_PRE_MY_HEADER + 1
     private static final int COUNT_PRE_OTHER_HEADER = COUNT_PRE_MY_HEADER + 1;
 
     private static final long ANIM_TIME = 360L;
@@ -57,26 +57,34 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     // 是否为 编辑 模式
     private boolean isEditMode;
 
-    private List<BoardBean> mMyChannelItems;
-    private List<BoardBean> mOtherChannelItems;
+    private List<BoardBean> mMyBoardItems;
+    private List<BoardBean> mOtherBoardItems;
 
-    // 我的频道点击事件
+    // 我的板块点击事件
     private OnMyChannelItemClickListener mChannelItemClickListener;
 
-    public BoardEditAdapter(Context context, ItemTouchHelper helper, List<BoardBean> mMyChannelItems, List<BoardBean> mOtherChannelItems) {
+    public List<BoardBean> getmMyBoardItems() {
+        return mMyBoardItems;
+    }
+
+    public List<BoardBean> getmOtherBoardItems() {
+        return mOtherBoardItems;
+    }
+
+    public BoardEditAdapter(Context context, ItemTouchHelper helper, List<BoardBean> mMyBoardItems, List<BoardBean> mOtherBoardItems) {
         this.mInflater = LayoutInflater.from(context);
         this.mItemTouchHelper = helper;
-        this.mMyChannelItems = mMyChannelItems;
-        this.mOtherChannelItems = mOtherChannelItems;
+        this.mMyBoardItems = mMyBoardItems;
+        this.mOtherBoardItems = mOtherBoardItems;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {    // 我的频道 标题部分
-            return TYPE_MY_CHANNEL_HEADER;
-        } else if (position == mMyChannelItems.size() + 1) {    // 其他频道 标题部分
-            return TYPE_OTHER_CHANNEL_HEADER;
-        } else if (position > 0 && position < mMyChannelItems.size() + 1) {
+        if (position == 0) {    // 我的板块 标题部分
+            return TYPE_MY_BOARD_HEADER;
+        } else if (position == mMyBoardItems.size() + 1) {    // 其他板块 标题部分
+            return TYPE_OTHER_BOARD_HEADER;
+        } else if (position > 0 && position < mMyBoardItems.size() + 1) {
             return TYPE_MY;
         } else {
             return TYPE_OTHER;
@@ -87,7 +95,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         final View view;
         switch (viewType) {
-            case TYPE_MY_CHANNEL_HEADER:
+            case TYPE_MY_BOARD_HEADER:
                 view = mInflater.inflate(R.layout.item_my_board_header, parent, false);
                 final MyChannelHeaderViewHolder holder = new MyChannelHeaderViewHolder(view);
                 holder.tvBtnEdit.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +122,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         int position = myHolder.getAdapterPosition();
                         if (isEditMode) {
                             RecyclerView recyclerView = ((RecyclerView) parent);
-                            View targetView = recyclerView.getLayoutManager().findViewByPosition(mMyChannelItems.size() + COUNT_PRE_OTHER_HEADER);
+                            View targetView = recyclerView.getLayoutManager().findViewByPosition(mMyBoardItems.size() + COUNT_PRE_OTHER_HEADER);
                             View currentView = recyclerView.getLayoutManager().findViewByPosition(position);
                             // 如果targetView不在屏幕内,则indexOfChild为-1  此时不需要添加动画,因为此时notifyItemMoved自带一个向目标移动的动画
                             // 如果在屏幕内,则添加一个位移动画
@@ -124,9 +132,9 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
                                 int spanCount = ((GridLayoutManager) manager).getSpanCount();
 
-                                // 移动后 高度将变化 (我的频道Grid 最后一个item在新的一行第一个)
-                                if ((mMyChannelItems.size() - COUNT_PRE_MY_HEADER) % spanCount == 0) {
-                                    View preTargetView = recyclerView.getLayoutManager().findViewByPosition(mMyChannelItems.size() + COUNT_PRE_OTHER_HEADER - 1);
+                                // 移动后 高度将变化 (我的板块Grid 最后一个item在新的一行第一个)
+                                if ((mMyBoardItems.size() - COUNT_PRE_MY_HEADER) % spanCount == 0) {
+                                    View preTargetView = recyclerView.getLayoutManager().findViewByPosition(mMyBoardItems.size() + COUNT_PRE_OTHER_HEADER - 1);
                                     targetX = preTargetView.getLeft();
                                     targetY = preTargetView.getTop();
                                 } else {
@@ -191,7 +199,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 });
                 return myHolder;
 
-            case TYPE_OTHER_CHANNEL_HEADER:
+            case TYPE_OTHER_BOARD_HEADER:
                 view = mInflater.inflate(R.layout.item_other_board_header, parent, false);
                 return new RecyclerView.ViewHolder(view) {
                 };
@@ -209,7 +217,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         // 如果RecyclerView滑动到底部,移动的目标位置的y轴 - height
                         View currentView = manager.findViewByPosition(currentPiosition);
                         // 目标位置的前一个item  即当前MyChannel的最后一个
-                        View preTargetView = manager.findViewByPosition(mMyChannelItems.size() - 1 + COUNT_PRE_MY_HEADER);
+                        View preTargetView = manager.findViewByPosition(mMyBoardItems.size() - 1 + COUNT_PRE_MY_HEADER);
 
                         // 如果targetView不在屏幕内,则为-1  此时不需要添加动画,因为此时notifyItemMoved自带一个向目标移动的动画
                         // 如果在屏幕内,则添加一个位移动画
@@ -217,7 +225,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             int targetX = preTargetView.getLeft();
                             int targetY = preTargetView.getTop();
 
-                            int targetPosition = mMyChannelItems.size() - 1 + COUNT_PRE_OTHER_HEADER;
+                            int targetPosition = mMyBoardItems.size() - 1 + COUNT_PRE_OTHER_HEADER;
 
                             GridLayoutManager gridLayoutManager = ((GridLayoutManager) manager);
                             int spanCount = gridLayoutManager.getSpanCount();
@@ -232,7 +240,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 // 最后一个item可见
                                 if (gridLayoutManager.findLastVisibleItemPosition() == getItemCount() - 1) {
                                     // 最后的item在最后一行第一个位置
-                                    if ((getItemCount() - 1 - mMyChannelItems.size() - COUNT_PRE_OTHER_HEADER) % spanCount == 0) {
+                                    if ((getItemCount() - 1 - mMyBoardItems.size() - COUNT_PRE_OTHER_HEADER) % spanCount == 0) {
                                         // RecyclerView实际高度 > 屏幕高度 && RecyclerView实际高度 < 屏幕高度 + item.height
                                         int firstVisiblePostion = gridLayoutManager.findFirstVisibleItemPosition();
                                         if (firstVisiblePostion == 0) {
@@ -259,7 +267,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             // 则 需要延迟250秒 notifyItemMove , 这是因为这种情况 , 并不触发ItemAnimator , 会直接刷新界面
                             // 导致我们的位移动画刚开始,就已经notify完毕,引起不同步问题
                             if (currentPiosition == gridLayoutManager.findLastVisibleItemPosition()
-                                    && (currentPiosition - mMyChannelItems.size() - COUNT_PRE_OTHER_HEADER) % spanCount != 0
+                                    && (currentPiosition - mMyBoardItems.size() - COUNT_PRE_OTHER_HEADER) % spanCount != 0
                                     && (targetPosition - COUNT_PRE_MY_HEADER) % spanCount != 0) {
                                 moveOtherToMyWithDelay(otherHolder);
                             } else {
@@ -282,7 +290,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof MyViewHolder) {
 
             MyViewHolder myHolder = (MyViewHolder) holder;
-            myHolder.tvContent.setText(mMyChannelItems.get(position - COUNT_PRE_MY_HEADER).getName());
+            myHolder.tvContent.setText(mMyBoardItems.get(position - COUNT_PRE_MY_HEADER).getName());
             if (isEditMode) {
                 myHolder.ivCancel.setVisibility(View.VISIBLE);
             } else {
@@ -290,7 +298,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
 
         } else if (holder instanceof OtherViewHolder) {
-            ((OtherViewHolder) holder).tvContent.setText(mOtherChannelItems.get(position - mMyChannelItems.size() - COUNT_PRE_OTHER_HEADER).getName());
+            ((OtherViewHolder) holder).tvContent.setText(mOtherBoardItems.get(position - mMyBoardItems.size() - COUNT_PRE_OTHER_HEADER).getName());
 
         } else if (holder instanceof MyChannelHeaderViewHolder) {
 
@@ -305,8 +313,8 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        // 我的频道  标题 + 我的频道.size + 其他频道 标题 + 其他频道.size
-        return mMyChannelItems.size() + mOtherChannelItems.size() + COUNT_PRE_OTHER_HEADER;
+        // 我的板块  标题 + 我的板块.size + 其他板块 标题 + 其他板块.size
+        return mMyBoardItems.size() + mOtherBoardItems.size() + COUNT_PRE_OTHER_HEADER;
     }
 
     /**
@@ -342,7 +350,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     /**
-     * 我的频道 移动到 其他频道
+     * 我的板块 移动到 其他板块
      *
      * @param myHolder
      */
@@ -350,18 +358,18 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         int position = myHolder.getAdapterPosition();
 
         int startPosition = position - COUNT_PRE_MY_HEADER;
-        if (startPosition > mMyChannelItems.size() - 1) {
+        if (startPosition > mMyBoardItems.size() - 1) {
             return;
         }
-        BoardBean item = mMyChannelItems.get(startPosition);
-        mMyChannelItems.remove(startPosition);
-        mOtherChannelItems.add(0, item);
+        BoardBean item = mMyBoardItems.get(startPosition);
+        mMyBoardItems.remove(startPosition);
+        mOtherBoardItems.add(0, item);
 
-        notifyItemMoved(position, mMyChannelItems.size() + COUNT_PRE_OTHER_HEADER);
+        notifyItemMoved(position, mMyBoardItems.size() + COUNT_PRE_OTHER_HEADER);
     }
 
     /**
-     * 其他频道 移动到 我的频道
+     * 其他板块 移动到 我的板块
      *
      * @param otherHolder
      */
@@ -370,11 +378,11 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (position == -1) {
             return;
         }
-        notifyItemMoved(position, mMyChannelItems.size() - 1 + COUNT_PRE_MY_HEADER);
+        notifyItemMoved(position, mMyBoardItems.size() - 1 + COUNT_PRE_MY_HEADER);
     }
 
     /**
-     * 其他频道 移动到 我的频道 伴随延迟
+     * 其他板块 移动到 我的板块 伴随延迟
      *
      * @param otherHolder
      */
@@ -386,7 +394,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         delayHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                notifyItemMoved(position, mMyChannelItems.size() - 1 + COUNT_PRE_MY_HEADER);
+                notifyItemMoved(position, mMyBoardItems.size() - 1 + COUNT_PRE_MY_HEADER);
             }
         }, ANIM_TIME);
     }
@@ -396,13 +404,13 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private int processItemRemoveAdd(OtherViewHolder otherHolder) {
         int position = otherHolder.getAdapterPosition();
 
-        int startPosition = position - mMyChannelItems.size() - COUNT_PRE_OTHER_HEADER;
-        if (startPosition > mOtherChannelItems.size() - 1) {
+        int startPosition = position - mMyBoardItems.size() - COUNT_PRE_OTHER_HEADER;
+        if (startPosition > mOtherBoardItems.size() - 1) {
             return -1;
         }
-        BoardBean item = mOtherChannelItems.get(startPosition);
-        mOtherChannelItems.remove(startPosition);
-        mMyChannelItems.add(item);
+        BoardBean item = mOtherBoardItems.get(startPosition);
+        mOtherBoardItems.remove(startPosition);
+        mMyBoardItems.add(item);
         return position;
     }
 
@@ -436,9 +444,9 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        BoardBean item = mMyChannelItems.get(fromPosition - COUNT_PRE_MY_HEADER);
-        mMyChannelItems.remove(fromPosition - COUNT_PRE_MY_HEADER);
-        mMyChannelItems.add(toPosition - COUNT_PRE_MY_HEADER, item);
+        BoardBean item = mMyBoardItems.get(fromPosition - COUNT_PRE_MY_HEADER);
+        mMyBoardItems.remove(fromPosition - COUNT_PRE_MY_HEADER);
+        mMyBoardItems.add(toPosition - COUNT_PRE_MY_HEADER, item);
         notifyItemMoved(fromPosition, toPosition);
     }
 
@@ -502,7 +510,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     /**
-     * 我的频道
+     * 我的板块
      */
     class MyViewHolder extends RecyclerView.ViewHolder implements OnDragVHListener {
         private TextView tvContent;
@@ -532,7 +540,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     /**
-     * 其他频道
+     * 其他板块
      */
     class OtherViewHolder extends RecyclerView.ViewHolder {
         private TextView tvContent;
@@ -546,7 +554,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     /**
-     * 我的频道  标题部分
+     * 我的板块  标题部分
      */
     class MyChannelHeaderViewHolder extends RecyclerView.ViewHolder {
         private TextView tvBtnEdit;

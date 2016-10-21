@@ -15,12 +15,14 @@ import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
 import com.cb.qiangqiang2.common.constant.Constants;
+import com.cb.qiangqiang2.common.event.BoardChangeEvent;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.model.BoardBean;
 import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.mvpview.BoardMvpView;
 import com.cb.qiangqiang2.presenter.BoardPresenter;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -31,6 +33,10 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerInd
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,8 +117,16 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
 
     private void initView() {
         lists = new ArrayList<>();
-        boardPresenter.loadBoardData();
-
+        String boardSelectedStr = PrefUtils.getString(getActivity(), Constants.BOARD_LIST_SELECTED);
+        if (boardSelectedStr != null) {
+            Gson gson = new Gson();
+            List<BoardBean> listSelected = gson.fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>() {
+            }.getType());
+            lists = listSelected;
+            setIndicator();
+        } else {
+            boardPresenter.loadBoardData();
+        }
 
     }
 
@@ -241,5 +255,31 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
     public void loadError(Throwable e) {
         e.printStackTrace();
         Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BoardChangeEvent event) {
+        String boardSelectedStr = PrefUtils.getString(getActivity(), Constants.BOARD_LIST_SELECTED);
+        if (boardSelectedStr != null) {
+            Gson gson = new Gson();
+            List<BoardBean> listSelected = gson.fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>() {
+            }.getType());
+            lists = listSelected;
+            setIndicator();
+        } else {
+            boardPresenter.loadBoardData();
+        }
     }
 }

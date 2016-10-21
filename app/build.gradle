@@ -94,4 +94,5 @@ dependencies {
     compile 'me.zhanghai.android.materialprogressbar:library:1.1.7'
     compile 'com.mamengmami.android:waveswiperefreshlayout:1.0.0'
     compile 'com.github.hackware1993:MagicIndicator:1.4.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
