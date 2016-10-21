@@ -13,6 +13,9 @@ google官方图标库 [Material icons](https://design.google.com/icons/)
 当App崩溃的时，把崩溃信息保存到本地的同时，自动给GitHub提交崩溃issue，你只需要几句，就能完成所有配置  
 另外，崩溃信息支持邮件上传和HTTP上传，自动提交到issue使用的是邮件上传的方式。如果你拥有私人服务器，你也可以使用HTTP上传  
 
+[使用ItemTouchHelper高效地实现 今日头条 、网易新闻 的频道排序、移动](http://www.jianshu.com/p/d30fd8da4eac)  [ItemTouchHelperDemo](https://github.com/YoKeyword/ItemTouchHelperDemo)  
+![ItemTouchHelperDemo](https://camo.githubusercontent.com/ffdf764e108d0e9dcd9d24da20f71d8ff0957b75/687474703a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f3933373835312d326466353066663938333364643338362e6769663f696d6167654d6f6772322f6175746f2d6f7269656e742f7374726970)  
+
 #####换肤框架  
 [Bilibili/MagicaSakura](https://github.com/Bilibili/MagicaSakura)  
 [52inc/Scoops](https://github.com/52inc/Scoops)  
