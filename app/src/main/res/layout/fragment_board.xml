@@ -19,11 +19,25 @@
 
     </RelativeLayout>
 
-    <net.lucode.hackware.magicindicator.MagicIndicator
-        android:id="@+id/magic_indicator"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="@dimen/indicator_height" />
+        android:layout_height="@dimen/indicator_height"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/magic_indicator"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/indicator_height"/>
+
+        <ImageView
+            android:id="@+id/iv_edit_board"
+            android:layout_width="@dimen/indicator_height"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_add"
+            android:padding="5dp"/>
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"

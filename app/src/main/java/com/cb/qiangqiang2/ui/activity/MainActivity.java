@@ -103,7 +103,6 @@ public class MainActivity extends BaseAutoLayoutActivity {
             public void onTabSelected(int position) {
                 viewpager.setCurrentItem(position, false);
                 if (position == fragments.size() - 1) startActivity(new Intent(MainActivity.this, MainTestActivity.class));
-                if (position == fragments.size() - 2) startActivity(new Intent(MainActivity.this, BoardDragEditActivity.class));
             }
         });
         tabLayout.setOnTabDoubleClickListener(new TabLayout.OnTabDoubleClickListener() {

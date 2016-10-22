@@ -14,6 +14,7 @@ import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.common.glide.GlideCircleTransform;
 import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.data.model.PostModel;
+import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class PostListAdapter extends RecyclerView.Adapter {
 
     private PostModel postModel;
     private List<PostModel.ListBean> mLists;
+    private OnItemClickListener mOnItemClickListener;
 
     @Inject
     public PostListAdapter() {

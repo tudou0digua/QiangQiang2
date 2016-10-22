@@ -29,7 +29,7 @@
     <dimen name="post_avatar_width">40dp</dimen>
 
     <!--板块列表-->
-    <dimen name="indicator_height">32dp</dimen>
+    <dimen name="indicator_height">36dp</dimen>
     <dimen name="board_drag_item_bg_corner">5dp</dimen>
     <dimen name="board_drag_item_height">36dp</dimen>
     <dimen name="board_drag_item_title_padding_top">18dp</dimen>

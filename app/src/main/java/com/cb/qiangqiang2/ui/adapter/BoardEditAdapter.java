@@ -1,4 +1,4 @@
-package com.cb.qiangqiang2.ui.activity;
+package com.cb.qiangqiang2.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -61,13 +61,13 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private List<BoardBean> mOtherBoardItems;
 
     // 我的板块点击事件
-    private OnMyChannelItemClickListener mChannelItemClickListener;
+    private OnMyBoardItemClickListener mChannelItemClickListener;
 
-    public List<BoardBean> getmMyBoardItems() {
+    public List<BoardBean> getSelectedBoardItems() {
         return mMyBoardItems;
     }
 
-    public List<BoardBean> getmOtherBoardItems() {
+    public List<BoardBean> getOtherBoardItems() {
         return mOtherBoardItems;
     }
 
@@ -205,8 +205,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 };
 
             case TYPE_OTHER:
-                view = mInflater.inflate(R.layout.item_my_board, parent, false);
-                view.findViewById(R.id.iv_cancel).setVisibility(View.INVISIBLE);
+                view = mInflater.inflate(R.layout.item_other_board, parent, false);
                 final OtherViewHolder otherHolder = new OtherViewHolder(view);
                 otherHolder.tvContent.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -264,7 +263,7 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             // 并且 当前位置不在grid的第一个位置
                             // 并且 目标位置不在grid的第一个位置
 
-                            // 则 需要延迟250秒 notifyItemMove , 这是因为这种情况 , 并不触发ItemAnimator , 会直接刷新界面
+                            // 则 需要延迟250毫秒 notifyItemMove , 这是因为这种情况 , 并不触发ItemAnimator , 会直接刷新界面
                             // 导致我们的位移动画刚开始,就已经notify完毕,引起不同步问题
                             if (currentPiosition == gridLayoutManager.findLastVisibleItemPosition()
                                     && (currentPiosition - mMyBoardItems.size() - COUNT_PRE_OTHER_HEADER) % spanCount != 0
@@ -501,11 +500,11 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return translateAnimation;
     }
 
-    interface OnMyChannelItemClickListener {
+    public interface OnMyBoardItemClickListener {
         void onItemClick(View v, int position);
     }
 
-    public void setOnMyChannelItemClickListener(OnMyChannelItemClickListener listener) {
+    public void setOnMyBoardItemClickListener(OnMyBoardItemClickListener listener) {
         this.mChannelItemClickListener = listener;
     }
 
@@ -544,12 +543,10 @@ public class BoardEditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     class OtherViewHolder extends RecyclerView.ViewHolder {
         private TextView tvContent;
-        private ImageView ivCancel;
 
         public OtherViewHolder(View itemView) {
             super(itemView);
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
-            ivCancel = (ImageView) itemView.findViewById(R.id.iv_cancel);
         }
     }
 

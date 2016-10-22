@@ -16,6 +16,7 @@ import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.event.BoardChangeEvent;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.model.BoardBean;
+import com.cb.qiangqiang2.ui.adapter.BoardEditAdapter;
 import com.cb.qiangqiang2.ui.view.dragview.ItemDragHelperCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -41,7 +42,7 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
     RelativeLayout mActivityBoardDragEdit;
 
     private List<BoardBean> mSelectedListData;
-    private List<BoardBean> mUnSelectdListData;
+    private List<BoardBean> mUnSelectedListData;
     private BoardEditAdapter adapter;
     private ItemTouchHelper itemTouchHelper;
 
@@ -53,6 +54,7 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
     }
 
     private void initView() {
+        initToolbar();
         //获得板块列表数据
         String boardSelectedStr = PrefUtils.getString(mContext, Constants.BOARD_LIST_SELECTED);
         if (boardSelectedStr != null) {
@@ -69,9 +71,9 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
         if (boardUnSelectedStr != null) {
             Gson gson = new Gson();
             List<BoardBean> listUnSelected = gson.fromJson(boardUnSelectedStr, new TypeToken<List<BoardBean>>(){}.getType());
-            mUnSelectdListData = listUnSelected;
+            mUnSelectedListData = listUnSelected;
         } else {
-            mUnSelectdListData = new ArrayList<>();
+            mUnSelectedListData = new ArrayList<>();
         }
         if (mSelectedListData == null) return;
 
@@ -82,7 +84,7 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
         itemTouchHelper = new ItemTouchHelper(itemDragHelperCallback);
         itemTouchHelper.attachToRecyclerView(mRecycleView);
 
-        adapter = new BoardEditAdapter(this, itemTouchHelper, mSelectedListData, mUnSelectdListData);
+        adapter = new BoardEditAdapter(this, itemTouchHelper, mSelectedListData, mUnSelectedListData);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -92,10 +94,21 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
         });
         mRecycleView.setAdapter(adapter);
 
-        adapter.setOnMyChannelItemClickListener(new BoardEditAdapter.OnMyChannelItemClickListener() {
+        adapter.setOnMyBoardItemClickListener(new BoardEditAdapter.OnMyBoardItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
                 Toast.makeText(BoardDragEditActivity.this, mSelectedListData.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void initToolbar() {
+        mToolbar.setTitle(R.string.title_board_edit);
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -120,11 +133,11 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
 
     private void setSelectResult() {
         Gson gson = new Gson();
-        Logger.json(gson.toJson(adapter.getmMyBoardItems()));
-        Logger.json(gson.toJson(adapter.getmOtherBoardItems()));
+        Logger.json(gson.toJson(adapter.getSelectedBoardItems()));
+        Logger.json(gson.toJson(adapter.getOtherBoardItems()));
 
-        PrefUtils.putString(mContext, Constants.BOARD_LIST_SELECTED, gson.toJson(adapter.getmMyBoardItems()));
-        PrefUtils.putString(mContext, Constants.BOARD_LIST_UNSELETED, gson.toJson(adapter.getmOtherBoardItems()));
+        PrefUtils.putString(mContext, Constants.BOARD_LIST_SELECTED, gson.toJson(adapter.getSelectedBoardItems()));
+        PrefUtils.putString(mContext, Constants.BOARD_LIST_UNSELETED, gson.toJson(adapter.getOtherBoardItems()));
         EventBus.getDefault().post(new BoardChangeEvent());
     }
 }

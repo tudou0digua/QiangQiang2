@@ -2,6 +2,7 @@ package com.cb.qiangqiang2.ui.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -21,6 +22,7 @@ import com.cb.qiangqiang2.data.model.BoardBean;
 import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.mvpview.BoardMvpView;
 import com.cb.qiangqiang2.presenter.BoardPresenter;
+import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
@@ -45,6 +47,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 板块列表
@@ -142,8 +145,8 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
                 ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
-                colorTransitionPagerTitleView.setNormalColor(getResources().getColor(R.color.text_second_primary));
-                colorTransitionPagerTitleView.setSelectedColor(getResources().getColor(R.color.colorPrimary));
+                colorTransitionPagerTitleView.setNormalColor(getResources().getColor(R.color.colorPrimaryDarkReal));
+                colorTransitionPagerTitleView.setSelectedColor(getResources().getColor(R.color.text_primary_white));
                 colorTransitionPagerTitleView.setText(lists.get(index).getName());
                 colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -157,7 +160,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
             @Override
             public IPagerIndicator getIndicator(Context context) {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
-                indicator.setColors(getResources().getColor(R.color.colorPrimary));
+                indicator.setColors(getResources().getColor(R.color.text_primary_white));
                 indicator.setMode(LinePagerIndicator.MODE_WRAP_CONTENT);
                 return indicator;
             }
@@ -190,6 +193,15 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
         mViewPager.setAdapter(adapter);
 
         ViewPagerHelper.bind(mMagicIndicator, mViewPager);
+    }
+
+    @OnClick({R.id.iv_edit_board})
+    public void onClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_edit_board:
+                startActivity(new Intent(getActivity(), BoardDragEditActivity.class));
+                break;
+        }
     }
 
     @Override
@@ -226,10 +238,6 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
                     lists.add(bean);
                 }
             }
-//            if (TextUtils.isEmpty(PrefUtils.getString(getActivity(), Constants.BOARD_LIST))) {
-//
-//            }
-
             Gson gson = new Gson();
             String data = gson.toJson(lists);
             PrefUtils.putString(getActivity(), Constants.BOARD_LIST, data);

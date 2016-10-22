@@ -6,15 +6,8 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/title_height"
-    android:background="@color/colorPrimary"
+    android:background="?attr/colorPrimary"
     app:navigationIcon="@drawable/ic_arrow_back"
-    app:titleTextColor="@color/text_title"
-    >
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </RelativeLayout>
+    app:titleTextAppearance="@style/ToolbarTitleText">
 
 </android.support.v7.widget.Toolbar>

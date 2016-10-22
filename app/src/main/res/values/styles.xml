@@ -31,4 +31,9 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
+    <style name="ToolbarTitleText">
+        <item name="android:textSize">@dimen/title_text_size1</item>
+        <item name="android:textColor">@color/text_title</item>
+    </style>
+
 </resources>
