@@ -14,6 +14,7 @@ import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
 
 import butterknife.BindView;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
+import timber.log.Timber;
 
 public class WebViewActivity extends BaseSwipeBackActivity {
     public static final String TITLE = "title";
@@ -65,13 +66,14 @@ public class WebViewActivity extends BaseSwipeBackActivity {
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
+                Timber.e("newProgress: " + newProgress);
+                mProgressBar.setProgress(newProgress);
                 if (newProgress == 100) {
                     mProgressBar.setVisibility(View.GONE);
                 } else {
                     if (mProgressBar.getVisibility() == View.GONE) {
                         mProgressBar.setVisibility(View.VISIBLE);
                     }
-                    mProgressBar.setProgress(newProgress);
                 }
                 super.onProgressChanged(view, newProgress);
             }
