@@ -1,9 +1,9 @@
 package com.cb.qiangqiang2.ui.fragment;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,6 +17,7 @@ import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
 import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.event.BoardChangeEvent;
+import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.model.BoardBean;
 import com.cb.qiangqiang2.data.model.BoardModel;
@@ -26,15 +27,6 @@ import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
-
-import net.lucode.hackware.magicindicator.MagicIndicator;
-import net.lucode.hackware.magicindicator.ViewPagerHelper;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -63,10 +55,11 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
 
     @Inject
     BoardPresenter boardPresenter;
-    @BindView(R.id.magic_indicator)
-    MagicIndicator mMagicIndicator;
+
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
+    @BindView(R.id.tab_layout)
+    TabLayout mTabLayout;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -126,54 +119,14 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
             List<BoardBean> listSelected = gson.fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>() {
             }.getType());
             lists = listSelected;
-            setIndicator();
+            setViewPager();
         } else {
             boardPresenter.loadBoardData();
         }
 
     }
 
-    private void setIndicator() {
-        CommonNavigator commonNavigator = new CommonNavigator(getActivity());
-        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
-
-            @Override
-            public int getCount() {
-                return lists == null ? 0 : lists.size();
-            }
-
-            @Override
-            public IPagerTitleView getTitleView(Context context, final int index) {
-                ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
-                colorTransitionPagerTitleView.setNormalColor(getResources().getColor(R.color.colorPrimaryDarkReal));
-                colorTransitionPagerTitleView.setSelectedColor(getResources().getColor(R.color.text_primary_white));
-                colorTransitionPagerTitleView.setText(lists.get(index).getName());
-                colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mViewPager.setCurrentItem(index);
-                    }
-                });
-                return colorTransitionPagerTitleView;
-            }
-
-            @Override
-            public IPagerIndicator getIndicator(Context context) {
-                LinePagerIndicator indicator = new LinePagerIndicator(context);
-                indicator.setColors(getResources().getColor(R.color.text_primary_white));
-                indicator.setMode(LinePagerIndicator.MODE_WRAP_CONTENT);
-                return indicator;
-            }
-        });
-        mMagicIndicator.setNavigator(commonNavigator);
-
-        setViewPager();
-
-
-    }
-
     private void setViewPager() {
-
         fragments = new ArrayList<>();
         for (BoardBean list : lists) {
             fragments.add(PostFragment.newInstance(list.getId(), "all"));
@@ -188,11 +141,16 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
             public int getCount() {
                 return fragments.size();
             }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return lists.get(position).getName();
+            }
         };
 
         mViewPager.setAdapter(adapter);
-
-        ViewPagerHelper.bind(mMagicIndicator, mViewPager);
+        mTabLayout.setupWithViewPager(mViewPager);
+        AppUtils.dynamicSetTabLayoutMode(mTabLayout, getActivity());
     }
 
     @OnClick({R.id.iv_edit_board})
@@ -243,7 +201,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
             PrefUtils.putString(getActivity(), Constants.BOARD_LIST, data);
             Logger.json(PrefUtils.getString(getActivity(), Constants.BOARD_LIST));
 
-            setIndicator();
+            setViewPager();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -285,7 +243,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
             List<BoardBean> listSelected = gson.fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>() {
             }.getType());
             lists = listSelected;
-            setIndicator();
+            setViewPager();
         } else {
             boardPresenter.loadBoardData();
         }

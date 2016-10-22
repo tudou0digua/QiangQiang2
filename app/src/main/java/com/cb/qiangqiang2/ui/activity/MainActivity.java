@@ -1,21 +1,30 @@
 package com.cb.qiangqiang2.ui.activity;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.ViewGroup;
 
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseAutoLayoutActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
+import com.cb.qiangqiang2.common.event.PostScrollEvent;
 import com.cb.qiangqiang2.test.activity.MainTestActivity;
 import com.cb.qiangqiang2.ui.fragment.BlankFragment;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;
 import com.cb.qiangqiang2.ui.fragment.PostFragment;
 import com.cb.qiangqiang2.ui.view.CustomViewPager;
 import com.cb.qiangqiang2.ui.view.TabLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +124,35 @@ public class MainActivity extends BaseAutoLayoutActivity {
         });
     }
 
+    /**
+     * 菜单显示隐藏动画
+     * @param showOrHide true:show
+     */
+    private void startAnimation(boolean showOrHide){
+        final ViewGroup.LayoutParams layoutParams = tabLayout.getLayoutParams();
+        ValueAnimator valueAnimator;
+        ObjectAnimator alpha;
+        int tabHeight = getResources().getDimensionPixelOffset(R.dimen.tab_height);
+        if(!showOrHide){
+            valueAnimator = ValueAnimator.ofInt(tabHeight, 0);
+            alpha = ObjectAnimator.ofFloat(tabLayout, "alpha", 1, 0);
+        }else{
+            valueAnimator = ValueAnimator.ofInt(0, tabHeight);
+            alpha = ObjectAnimator.ofFloat(tabLayout, "alpha", 0, 1);
+        }
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                layoutParams.height= (int) valueAnimator.getAnimatedValue();
+                tabLayout.setLayoutParams(layoutParams);
+            }
+        });
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.setDuration(500);
+        animatorSet.playTogether(valueAnimator,alpha);
+        animatorSet.start();
+    }
+
     @Override
     public void onBackPressed() {
         long currentTime = System.currentTimeMillis();
@@ -133,4 +171,23 @@ public class MainActivity extends BaseAutoLayoutActivity {
     private void showSnackBar() {
         Snackbar.make(tabLayout, getString(R.string.exit), Snackbar.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(PostScrollEvent event) {
+        startAnimation(event.isShowTabLayout());
+    }
+
+
 }

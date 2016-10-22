@@ -19,4 +19,6 @@
     <string name="my_board">我的板块</string>
     <string name="edit">编辑</string>
     <string name="finish">完成</string>
+
+    <string name="post_scroll_behavior">com.cb.qiangqiang2.ui.view.behavior.PostScrollBehavior</string>
 </resources>

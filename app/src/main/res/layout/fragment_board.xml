@@ -1,53 +1,73 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.cb.qiangqiang2.ui.fragment.BoardFragment">
 
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/colorPrimary">
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab2"
+                android:textColor="@color/text_title"
+                android:textSize="@dimen/text_size3"
+                android:layout_gravity="center"/>
+
+        </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size3"
-            android:textColor="@color/white"
-            android:text="@string/tab2"
-            android:layout_centerInParent="true"/>
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary">
 
-    </RelativeLayout>
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                app:tabIndicatorColor="@color/white"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/indicator_height"
-        android:orientation="horizontal"
-        android:background="@color/colorPrimary">
+            <ImageView
+                android:id="@+id/iv_edit_board"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_add"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="8dp"/>
+        </LinearLayout>
 
-        <net.lucode.hackware.magicindicator.MagicIndicator
-            android:id="@+id/magic_indicator"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="@dimen/indicator_height"/>
-
-        <ImageView
-            android:id="@+id/iv_edit_board"
-            android:layout_width="@dimen/indicator_height"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_add"
-            android:padding="5dp"/>
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider"
-        android:background="@color/divider_color"/>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/floating_action_button_margin"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_behavior="@string/post_scroll_behavior"
+        android:src="@drawable/ic_arrow_upward"/>
+
+</android.support.design.widget.CoordinatorLayout>

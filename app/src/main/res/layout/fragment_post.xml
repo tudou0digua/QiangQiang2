@@ -1,34 +1,17 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cb.qiangqiang2.ui.fragment.PostFragment">
-
-    <RelativeLayout
-        android:id="@+id/rl_top"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/colorPrimary">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size3"
-            android:textColor="@color/white"
-            android:text="@string/tab1"
-            android:layout_centerInParent="true"/>
-
-    </RelativeLayout>
-
 
     <com.maimengmami.waveswiperefreshlayout.WaveSwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:above_wave_color="@color/colorPrimaryLight"
-        app:blow_wave_color="@color/colorPrimary"
-        android:layout_below="@+id/rl_top">
+        app:blow_wave_color="@color/colorPrimary">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycle_view"
@@ -36,39 +19,5 @@
             android:layout_height="match_parent"/>
 
     </com.maimengmami.waveswiperefreshlayout.WaveSwipeRefreshLayout>
-
-    <!--<com.cb.qiangqiang2.ui.view.SuperSwipeRefreshLayout3-->
-        <!--android:id="@+id/swipe_refresh_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@+id/rl_top">-->
-
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/recycle_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"/>-->
-
-    <!--</com.cb.qiangqiang2.ui.view.SuperSwipeRefreshLayout3>-->
-
-    <!--<com.cb.qiangqiang2.ui.view.SuperSwipeRefreshLayout2-->
-        <!--android:id="@+id/swipe_refresh_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@+id/rl_top">-->
-
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/recycle_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"/>-->
-
-    <!--</com.cb.qiangqiang2.ui.view.SuperSwipeRefreshLayout2>-->
-
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/recycle_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@+id/rl_top">-->
-
-    <!--</android.support.v7.widget.RecyclerView>-->
 
 </RelativeLayout>

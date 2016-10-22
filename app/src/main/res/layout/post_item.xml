@@ -1,112 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_post_item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@color/white"
-    android:paddingLeft="@dimen/padding_left"
-    android:paddingRight="@dimen/padding_right">
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="6dp"
+    app:cardElevation="2dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:id="@+id/ll_post_item_container"
+        android:paddingLeft="@dimen/padding_left"
+        android:paddingRight="@dimen/padding_right"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="@dimen/post_avatar_width"
-            android:layout_height="@dimen/post_avatar_width"
-            android:src="@drawable/default_icon"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="@dimen/post_avatar_width"
+                android:layout_height="@dimen/post_avatar_width"
+                android:src="@drawable/default_icon"/>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tv_time"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/tv_time"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_size1"
+                tools:text="23333"/>
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/iv_avatar"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_second_primary"
+                android:textSize="@dimen/text_size6"
+                tools:text="1分钟前"
+                />
+
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size1"
+            android:lineSpacingExtra="5dp"
+            android:paddingTop="5dp"
             android:textColor="@color/text_primary"
-            android:maxLines="1"
-            android:ellipsize="end"
-            tools:text="23333"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/tv_time"
-            android:layout_alignStart="@+id/tv_time" />
+            android:textSize="@dimen/text_size2"
+            tools:text="hahahaha\nhahah"/>
 
         <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_title_detail"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_avatar"
-            android:layout_below="@+id/tv_name"
-            android:layout_marginLeft="10dp"
-            android:textSize="@dimen/text_size6"
-            android:textColor="@color/text_second_primary"
-            android:maxLines="1"
-            android:ellipsize="end"
             android:layout_marginTop="5dp"
-            tools:text="1分钟前"
-            />
+            android:ellipsize="end"
+            android:lineSpacingExtra="5dp"
+            android:maxLines="2"
+            android:textColor="@color/text_second_primary"
+            android:textSize="@dimen/text_size1"
+            tools:text="hahahaha\nhahah"/>
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lineSpacingExtra="5dp"
-        android:textColor="@color/text_primary"
-        android:textSize="@dimen/text_size2"
-        android:paddingTop="5dp"
-        tools:text="hahahaha\nhahah"/>
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:drawableLeft="@drawable/post_num_icon"
+                android:drawablePadding="6dp"
+                android:textColor="@color/text_second_primary"
+                android:textSize="@dimen/text_size6"
+                tools:text="66"/>
 
-    <TextView
-        android:id="@+id/tv_title_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lineSpacingExtra="5dp"
-        android:textColor="@color/text_second_primary"
-        android:textSize="@dimen/text_size1"
-        android:layout_marginTop="5dp"
-        android:maxLines="2"
-        android:ellipsize="end"
-        tools:text="hahahaha\nhahah"/>
+            <TextView
+                android:id="@+id/tv_read"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/tv_comment"
+                android:drawableLeft="@drawable/read_num_icon"
+                android:drawablePadding="6dp"
+                android:textColor="@color/text_second_primary"
+                android:textSize="@dimen/text_size6"
+                tools:text="233"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp">
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="6dp"
-            android:drawableLeft="@drawable/post_num_icon"
-            android:textSize="@dimen/text_size6"
-            android:textColor="@color/text_second_primary"
-            android:layout_alignParentRight="true"
-            tools:text="66"/>
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider"
+            android:background="@color/divider_color"
+            android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/tv_read"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="6dp"
-            android:drawableLeft="@drawable/read_num_icon"
-            android:textSize="@dimen/text_size6"
-            android:textColor="@color/text_second_primary"
-            android:layout_toLeftOf="@+id/tv_comment"
-            android:layout_marginRight="10dp"
-            tools:text="233"/>
+    </LinearLayout>
 
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider"
-        android:background="@color/divider_color"
-        android:visibility="gone"/>
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

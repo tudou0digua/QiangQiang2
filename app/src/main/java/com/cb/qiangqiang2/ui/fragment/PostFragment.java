@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.cb.qiangqiang2.R;
@@ -24,13 +23,13 @@ import com.cb.qiangqiang2.presenter.PostPresenter;
 import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.cb.qiangqiang2.ui.adapter.PostListAdapter;
 import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
-import com.cb.qiangqiang2.ui.view.DividerItemDecoration;
 import com.maimengmami.waveswiperefreshlayout.WaveSwipeRefreshLayout;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 帖子列表Fragment
@@ -39,8 +38,6 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     private static final String BOARD_ID = "mBoardId";
     private static final String SORT_BY = "sortBy";
 
-    @BindView(R.id.rl_top)
-    RelativeLayout mRlTop;
     @BindView(R.id.swipe_refresh_layout)
     WaveSwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycle_view)
@@ -91,8 +88,6 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     }
 
     private void initView() {
-        if (mBoardId != 0 && mRlTop != null) mRlTop.setVisibility(View.GONE);
-
         //初始化下拉刷新和上拉加载布局
         int homepage_refresh_spacing = AppUtils.dip2px(getActivity(), 10);
         mSwipeRefreshLayout.setProgressViewOffset(false, -homepage_refresh_spacing * 2, homepage_refresh_spacing);
@@ -143,13 +138,20 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecycleView.setItemAnimator(new DefaultItemAnimator());
-        mRecycleView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+//        mRecycleView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         mRecycleView.setAdapter(mAdapter);
 
         postPresenter.refreshPostListData(mSortBy, 1, mBoardId);
     }
 
-    public void scrollToTop(){
+    @OnClick({})
+    public void onClicked(View view) {
+        switch (view.getId()) {
+
+        }
+    }
+
+    public void scrollToTop() {
         if (mRecycleView != null && mRecycleView.getAdapter() != null
                 && mRecycleView.getAdapter().getItemCount() > 0) {
             mRecycleView.smoothScrollToPosition(0);
