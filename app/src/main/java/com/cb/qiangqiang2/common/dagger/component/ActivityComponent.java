@@ -12,6 +12,7 @@ import com.cb.qiangqiang2.test.activity.Activity2;
 import com.cb.qiangqiang2.test.activity.MainTestActivity;
 import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.cb.qiangqiang2.ui.activity.MainActivity;
+import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;
 import com.cb.qiangqiang2.ui.fragment.PostFragment;
 
@@ -29,6 +30,8 @@ public interface ActivityComponent {
     void inject(MainActivity mainActivity);
 
     void inject(BoardDragEditActivity boardDragEditActivity);
+
+    void inject(WebViewActivity webViewActivity);
 
     void inject(BoardFragment boardFragment);
 

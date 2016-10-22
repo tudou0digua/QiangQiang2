@@ -1,6 +1,7 @@
 package com.cb.qiangqiang2.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,7 +21,9 @@ import com.cb.qiangqiang2.data.api.ApiService;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.mvpview.PostMvpView;
 import com.cb.qiangqiang2.presenter.PostPresenter;
+import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.cb.qiangqiang2.ui.adapter.PostListAdapter;
+import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
 import com.cb.qiangqiang2.ui.view.DividerItemDecoration;
 import com.maimengmami.waveswiperefreshlayout.WaveSwipeRefreshLayout;
 
@@ -116,6 +119,28 @@ public class PostFragment extends BaseFragment implements PostMvpView {
             }
         });
 
+        mAdapter.setOnItemClickListener(new OnItemClickListener<PostModel.ListBean>() {
+            @Override
+            public void onItemClick(int position, View view, PostModel.ListBean listBean) {
+                String url =
+                        "http://www.qiangqiang5.com/api/mobile/index.php?module=%s&page=%s&charset=%s&image=%s&ppp=%s&debug=%s&tid=%s&mobile=%s&version=%s";
+                url = String.format(url,
+                        "viewthread",
+                        "1",
+                        "utf-8",
+                        "1",
+                        "10",
+                        "1",
+                        String.valueOf(listBean.getTopic_id()),
+                        "no",
+                        "3");
+                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                intent.putExtra(WebViewActivity.TITLE, listBean.getBoard_name());
+                intent.putExtra(WebViewActivity.URL, url);
+                getActivity().startActivity(intent);
+            }
+        });
+
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecycleView.setItemAnimator(new DefaultItemAnimator());
         mRecycleView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
@@ -130,7 +155,6 @@ public class PostFragment extends BaseFragment implements PostMvpView {
             mRecycleView.smoothScrollToPosition(0);
         }
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

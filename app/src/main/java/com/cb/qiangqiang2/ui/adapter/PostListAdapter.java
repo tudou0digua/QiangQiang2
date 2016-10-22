@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -36,11 +37,15 @@ public class PostListAdapter extends RecyclerView.Adapter {
 
     private PostModel postModel;
     private List<PostModel.ListBean> mLists;
-    private OnItemClickListener mOnItemClickListener;
+    private OnItemClickListener<PostModel.ListBean> mOnItemClickListener;
 
     @Inject
     public PostListAdapter() {
 
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 
     public void setPostModel(PostModel postModel) {
@@ -69,9 +74,9 @@ public class PostListAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         PostListItemViewHolder viewHolder = (PostListItemViewHolder) holder;
-        PostModel.ListBean bean = mLists.get(position);
+        final PostModel.ListBean bean = mLists.get(position);
         Glide.with(mContext)
                 .load(bean.getUserAvatar())
                 .bitmapTransform(new GlideCircleTransform(mContext))
@@ -83,6 +88,12 @@ public class PostListAdapter extends RecyclerView.Adapter {
         viewHolder.mTvTitleDetail.setText(bean.getSubject());
         viewHolder.mTvRead.setText(String.valueOf(bean.getHits()));
         viewHolder.mTvComment.setText(String.valueOf(bean.getReplies()));
+        viewHolder.mLlPostItemContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnItemClickListener != null) mOnItemClickListener.onItemClick(position, v, bean);
+            }
+        });
     }
 
     @Override
@@ -105,6 +116,8 @@ public class PostListAdapter extends RecyclerView.Adapter {
         TextView mTvComment;
         @BindView(R.id.tv_read)
         TextView mTvRead;
+        @BindView(R.id.ll_post_item_container)
+        LinearLayout mLlPostItemContainer;
 
         public PostListItemViewHolder(View itemView) {
             super(itemView);
