@@ -45,12 +45,8 @@ public class MainActivity extends BaseAutoLayoutActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivityComponent().inject(this);
         //主页面不可以侧滑返回
         getSwipeBackLayout().setEnableGesture(false);
-
-        initData();
-        initView();
     }
 
     @Override
@@ -58,7 +54,13 @@ public class MainActivity extends BaseAutoLayoutActivity {
         return R.layout.activity_main;
     }
 
-    private void initData() {
+    @Override
+    protected void injectActivity() {
+        getActivityComponent().inject(this);
+    }
+
+    @Override
+    protected void initData() {
         fragments = new ArrayList<>();
 //        fragments.add(new BlankFragment2());
         fragments.add(PostFragment.newInstance(0, "new"));
@@ -68,7 +70,8 @@ public class MainActivity extends BaseAutoLayoutActivity {
         fragments.add(BlankFragment.newInstance("fragment 3", null));
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {

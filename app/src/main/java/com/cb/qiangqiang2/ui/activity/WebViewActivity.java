@@ -35,19 +35,23 @@ public class WebViewActivity extends BaseSwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivityComponent().inject(this);
-        initData();
-        initView();
     }
 
-    private void initData() {
+    @Override
+    protected void injectActivity() {
+        getActivityComponent().inject(this);
+    }
+
+    @Override
+    protected void initData() {
         mTitle = getIntent().getStringExtra(TITLE);
         mUrl = getIntent().getStringExtra(URL);
         if (mTitle == null) mTitle = "";
         if (mUrl == null) mUrl = "";
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
         mToolbar.setTitle(mTitle);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

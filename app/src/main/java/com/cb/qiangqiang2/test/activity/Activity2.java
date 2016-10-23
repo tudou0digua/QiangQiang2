@@ -96,6 +96,16 @@ public class Activity2 extends BaseAutoLayoutActivity {
         return R.layout.activity_2;
     }
 
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
     @OnClick({R.id.btn, R.id.btn_login, R.id.btn_collection})
     public void onClick(View view) {
         switch (view.getId()) {

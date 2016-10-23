@@ -19,12 +19,7 @@ public abstract class BaseSwipeBackActivity extends BaseActivity implements Swip
         super.onCreate(savedInstanceState);
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
-        //for bind butter knife
-//        setContentView(getLayoutId());
-//        ButterKnife.bind(this);
     }
-
-//    protected abstract int getLayoutId();
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {

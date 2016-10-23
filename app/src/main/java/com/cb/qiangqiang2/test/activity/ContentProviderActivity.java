@@ -29,7 +29,13 @@ public class ContentProviderActivity extends BaseAutoLayoutActivity {
         return R.layout.activity_content_provider;
     }
 
-    private void initView() {
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
         getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
     }
 

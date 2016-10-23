@@ -1,6 +1,7 @@
 package com.cb.qiangqiang2.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.common.glide.GlideCircleTransform;
 import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.data.model.PostModel;
+import com.cb.qiangqiang2.ui.activity.PersonInfoActivity;
 import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -82,6 +84,13 @@ public class PostListAdapter extends RecyclerView.Adapter {
                 .bitmapTransform(new GlideCircleTransform(mContext))
                 .crossFade(300)
                 .into(viewHolder.mIvAvatar);
+        viewHolder.mIvAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, PersonInfoActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
         viewHolder.mTvName.setText(bean.getUser_nick_name());
         viewHolder.mTvTime.setText(DateUtil.getPassedTime(bean.getLast_reply_date()));
         viewHolder.mTvTitle.setText(bean.getTitle());

@@ -27,6 +27,11 @@
             android:theme="@style/ActivityTheme"/>
         <activity
             android:name=".ui.activity.WebViewActivity"
+            android:label="@string/title_activity_web"
+            android:theme="@style/ActivityTheme"/>
+        <activity
+            android:name=".ui.activity.PersonInfoActivity"
+            android:label="@string/title_activity_person_info"
             android:theme="@style/ActivityTheme"/>
 
         <!-- For AutoLayout lib -->

@@ -10,6 +10,7 @@ import com.cb.qiangqiang2.common.dagger.module.ActivityModule;
 import com.cb.qiangqiang2.common.dagger.scope.PerActivity;
 import com.cb.qiangqiang2.test.activity.Activity2;
 import com.cb.qiangqiang2.test.activity.MainTestActivity;
+import com.cb.qiangqiang2.ui.activity.PersonInfoActivity;
 import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.cb.qiangqiang2.ui.activity.MainActivity;
 import com.cb.qiangqiang2.ui.activity.WebViewActivity;
@@ -32,6 +33,8 @@ public interface ActivityComponent {
     void inject(BoardDragEditActivity boardDragEditActivity);
 
     void inject(WebViewActivity webViewActivity);
+
+    void inject(PersonInfoActivity personInfoActivity);
 
     void inject(BoardFragment boardFragment);
 

@@ -87,6 +87,16 @@ public class MainTestActivity extends BaseAutoLayoutActivity {
     }
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
     }

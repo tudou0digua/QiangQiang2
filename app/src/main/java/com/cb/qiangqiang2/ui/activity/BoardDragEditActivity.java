@@ -49,11 +49,15 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivityComponent().inject(this);
-        initView();
     }
 
-    private void initView() {
+    @Override
+    protected void injectActivity() {
+        getActivityComponent().inject(this);
+    }
+
+    @Override
+    protected void initView() {
         initToolbar();
         //获得板块列表数据
         String boardSelectedStr = PrefUtils.getString(mContext, Constants.BOARD_LIST_SELECTED);
@@ -103,7 +107,7 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
     }
 
     private void initToolbar() {
-        mToolbar.setTitle(R.string.title_board_edit);
+        mToolbar.setTitle(R.string.title_activity_board_edit);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -30,9 +30,29 @@ public abstract class BaseActivity extends AppCompatActivity {
         //for bind butter knife
         setContentView(getLayoutId());
         ButterKnife.bind(this);
+        injectActivity();
+        restoreSavedInstanceState(savedInstanceState);
+        initData();
+        initView();
     }
 
     abstract protected @LayoutRes int getLayoutId();
+
+    protected void restoreSavedInstanceState(Bundle savedInstanceState) {
+
+    }
+
+    protected void injectActivity() {
+
+    }
+
+    protected void initData() {
+
+    }
+
+    protected void initView() {
+
+    }
 
     public ActivityComponent getActivityComponent() {
         if (mActivityComponent == null) {
