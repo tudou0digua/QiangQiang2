@@ -9,6 +9,7 @@ import android.content.Context;
 
 import com.cb.qiangqiang2.common.application.BaseApplication;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
+import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.api.ApiService;
 import com.cb.qiangqiang2.data.api.HttpManager;
 
@@ -52,5 +53,11 @@ public class AppModule {
     @Singleton
     ApiService provideApiService(HttpManager httpManager) {
         return httpManager.getService();
+    }
+
+    @Provides
+    @Singleton
+    UserManager provideUserManager(UserManager userManager) {
+        return userManager;
     }
 }

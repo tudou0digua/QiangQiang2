@@ -42,5 +42,9 @@ public class Constants {
     public static final String TODAY_SAY = "todaysay";
     public static final String FAST_REPLY = "fastreply";
 
+    //登录
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+
 
 }

@@ -43,7 +43,7 @@ public interface ApiService {
 
     //我的收藏
     @POST(URL_BASE + "r=user/topiclist")
-    Observable<Response<PostModel>> getCollectionList2(@QueryMap Map<String, String> options, @Query(UID) int uid);
+    Observable<PostModel> getCollectionList2(@QueryMap Map<String, String> options, @Query(UID) int uid);
 
     //签到网页
     @GET("plugin.php?id=dsu_paulsign:sign")

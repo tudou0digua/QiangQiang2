@@ -31,6 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         injectActivity();
+        attachPresenter();
         restoreSavedInstanceState(savedInstanceState);
         initData();
         initView();
@@ -39,6 +40,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     abstract protected @LayoutRes int getLayoutId();
 
     protected void restoreSavedInstanceState(Bundle savedInstanceState) {
+
+    }
+
+    protected void attachPresenter() {
 
     }
 

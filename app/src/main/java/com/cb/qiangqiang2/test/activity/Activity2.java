@@ -12,6 +12,7 @@ import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseAutoLayoutActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.util.PrefUtils;
+import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.api.ApiService;
 import com.cb.qiangqiang2.data.api.HttpManager;
 import com.cb.qiangqiang2.data.model.LoginModel;
@@ -30,6 +31,9 @@ import rx.Subscriber;
 public class Activity2 extends BaseAutoLayoutActivity {
     @Inject
     ApiService apiService;
+
+    @Inject
+    UserManager mUserManager;
 
     @BindView(R.id.tv_content)
     TextView tv;
@@ -224,9 +228,10 @@ public class Activity2 extends BaseAutoLayoutActivity {
                     tv.setText(gson);
                     Logger.json(gson);
                     LoginModel loginModel = (LoginModel) o;
-                    PrefUtils.putString(mContext, Constants.ACCESS_TOKEN, loginModel.getToken());
-                    PrefUtils.putString(mContext, Constants.ACCESS_SECRET, loginModel.getSecret());
-                    PrefUtils.putInt(mContext, Constants.UID, loginModel.getUid());
+                    mUserManager.setUserInfo(loginModel);
+//                    PrefUtils.putString(mContext, Constants.ACCESS_TOKEN, loginModel.getToken());
+//                    PrefUtils.putString(mContext, Constants.ACCESS_SECRET, loginModel.getSecret());
+//                    PrefUtils.putInt(mContext, Constants.UID, loginModel.getUid());
                 }
             }
         });

@@ -13,6 +13,7 @@ import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.api.cookie.CookiesManager;
 import com.cb.qiangqiang2.data.model.BaseModel;
+import com.cb.qiangqiang2.ui.activity.LoginActivity;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONObject;
@@ -62,25 +63,26 @@ public class HttpManager {
         this.context = context;
         httpManager = this;
         mHttpLoggingInterceptor = new HttpLoggingInterceptor(new okhttp3.logging.HttpLoggingInterceptor.Logger() {
-            @Override public void log(String message) {
-                    try {
-                        JSONObject jsonObject = new JSONObject( message );
-                        //是否需要用Logger格式化打印原生返回的json数据
-                        if (isNeedFormatDataLogger) {
-                            Logger.json(jsonObject.toString());
-                            isNeedFormatDataLogger = false;
-                        } else {
-                            Timber.tag("HttpManager-OkHttp").e(message);
-                        }
-                    } catch (Exception e){
+            @Override
+            public void log(String message) {
+                try {
+                    JSONObject jsonObject = new JSONObject(message);
+                    //是否需要用Logger格式化打印原生返回的json数据
+                    if (isNeedFormatDataLogger) {
+                        Logger.json(jsonObject.toString());
+                        isNeedFormatDataLogger = false;
+                    } else {
                         Timber.tag("HttpManager-OkHttp").e(message);
                     }
+                } catch (Exception e) {
+                    Timber.tag("HttpManager-OkHttp").e(message);
+                }
             }
         });
         mHttpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     }
 
-    public static HttpManager getInstance(){
+    public static HttpManager getInstance() {
         return httpManager;
     }
 
@@ -105,20 +107,20 @@ public class HttpManager {
         return retrofit.create(ApiService.class);
     }
 
-    public static void toSubscribe(Observable o, Subscriber s){
+    public static void toSubscribe(Observable o, Subscriber s) {
         o.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s);
     }
 
-    public static void toSub(Observable o, @NonNull final OnResponse onResponse, final Context context){
+    public static void toSub(Observable o, @NonNull final OnResponse onResponse, final Context context) {
         o.compose(new SchedulerTransformer())
                 .subscribe(new Subscriber() {
                     @Override
                     public void onCompleted() {
                         if (onResponse instanceof OnResponseWithComplete) {
-                            ((OnResponseWithComplete)onResponse).onComplete();
+                            ((OnResponseWithComplete) onResponse).onComplete();
                         }
                     }
 
@@ -129,26 +131,28 @@ public class HttpManager {
 
                     @Override
                     public void onNext(Object o) {
-                        if (o instanceof BaseModel) {
+                        try {
                             BaseModel baseModel = (BaseModel) o;
-                            if (baseModel.getRs() == 1){
+                            if (baseModel.getRs() == 1) {
                                 onResponse.onSuccess(o);
                             } else {
-                                switch (baseModel.getHead().getErrCode()){
-                                    case 00100001:
+                                switch (baseModel.getHead().getErrCode()) {
+                                    case 100001:
                                         //TODO 未登陆 可进行登陆等操作
                                         Toast.makeText(context, baseModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
+                                        LoginActivity.startLoginActivity(context);
                                         break;
                                 }
                             }
-                        } else {
+                        } catch (Exception e) {
+                            e.printStackTrace();
                             onResponse.onSuccess(o);
                         }
                     }
                 });
     }
 
-    public static Map<String, String> getBaseMap(Context context){
+    public static Map<String, String> getBaseMap(Context context) {
         Map<String, String> map = new HashMap<>();
         //Fixed Value
         map.put(Constants.FORUM_KEY, "FuXlu6ShCTYC2q8Ysn");
@@ -159,21 +163,23 @@ public class HttpManager {
         return map;
     }
 
-    public interface OnResponse{
+    public interface OnResponse {
         void onSuccess(Object result);
+
         void onError(Throwable e);
     }
 
-    public interface OnResponseWithComplete extends OnResponse{
+    public interface OnResponseWithComplete extends OnResponse {
         void onComplete();
     }
 
     /**
      * 给webview请求设置cookie
+     *
      * @param url
      */
-    public void syncWebViewCookie(String url){
-        try{
+    public void syncWebViewCookie(String url) {
+        try {
             CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(context);
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.setAcceptCookie(true);
@@ -198,7 +204,7 @@ public class HttpManager {
                 }
             }
             cookieSyncManager.sync();
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("Nat: syncCookie failed", e.toString());
         }
     }
