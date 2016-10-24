@@ -4,9 +4,11 @@ package com.cb.qiangqiang2.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +25,6 @@ import com.cb.qiangqiang2.presenter.PostPresenter;
 import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.cb.qiangqiang2.ui.adapter.PostListAdapter;
 import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
-import com.cb.qiangqiang2.ui.view.waveswiperefreshlayout.WaveSwipeRefreshLayout;
 
 import javax.inject.Inject;
 
@@ -39,7 +40,9 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     private static final String SORT_BY = "sortBy";
 
     @BindView(R.id.swipe_refresh_layout)
-    WaveSwipeRefreshLayout mSwipeRefreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+//    @BindView(R.id.swipe_refresh_layout)
+//    WaveSwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycle_view)
     RecyclerView mRecycleView;
 
@@ -53,6 +56,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     private int mBoardId = 0;
     private String mSortBy = "";
     private int nextPage = 2;
+    private boolean isLoadingMore = false;
 
     public PostFragment() {
         // Required empty public constructor
@@ -88,31 +92,39 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     }
 
     private void initView() {
-        //初始化下拉刷新和上拉加载布局
-        int homepage_refresh_spacing = AppUtils.dip2px(getActivity(), 10);
-        mSwipeRefreshLayout.setProgressViewOffset(false, -homepage_refresh_spacing * 2, homepage_refresh_spacing);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
-        mSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 postPresenter.refreshPostListData(mSortBy, 1, mBoardId);
             }
-
-            @Override
-            public void onLoad() {
-                postPresenter.loadMorePostListData(mSortBy, nextPage, mBoardId);
-            }
-
-            @Override
-            public boolean canLoadMore() {
-                return true;
-            }
-
-            @Override
-            public boolean canRefresh() {
-                return true;
-            }
         });
+
+        //初始化下拉刷新和上拉加载布局
+        int homepage_refresh_spacing = AppUtils.dip2px(getActivity(), 10);
+//        mSwipeRefreshLayout.setProgressViewOffset(false, -homepage_refresh_spacing * 2, homepage_refresh_spacing);
+//        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+//        mSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                postPresenter.refreshPostListData(mSortBy, 1, mBoardId);
+//            }
+//
+//            @Override
+//            public void onLoad() {
+//                postPresenter.loadMorePostListData(mSortBy, nextPage, mBoardId);
+//            }
+//
+//            @Override
+//            public boolean canLoadMore() {
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean canRefresh() {
+//                return true;
+//            }
+//        });
 
         mAdapter.setOnItemClickListener(new OnItemClickListener<PostModel.ListBean>() {
             @Override
@@ -140,8 +152,39 @@ public class PostFragment extends BaseFragment implements PostMvpView {
         mRecycleView.setItemAnimator(new DefaultItemAnimator());
 //        mRecycleView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         mRecycleView.setAdapter(mAdapter);
+        mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (!isLoadingMore && isScrollToBottom(recyclerView)) {
+                    isLoadingMore = true;
+                    postPresenter.loadMorePostListData(mSortBy, nextPage, mBoardId);
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
 
         postPresenter.refreshPostListData(mSortBy, 1, mBoardId);
+    }
+
+    private boolean isScrollToBottom(RecyclerView recyclerView) {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        int count = recyclerView.getAdapter().getItemCount();
+        if (layoutManager instanceof LinearLayoutManager && count > 0) {
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
+            if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == count - 1) {
+                return true;
+            }
+        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+            StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
+            int[] lastItems = new int[2];
+            staggeredGridLayoutManager
+                    .findLastCompletelyVisibleItemPositions(lastItems);
+            int lastItem = Math.max(lastItems[0], lastItems[1]);
+            if (lastItem == count - 1) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @OnClick({})
@@ -179,10 +222,12 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     public void loadMoreData(PostModel postModel) {
         mAdapter.addData(postModel);
         nextPage++;
+        isLoadingMore = false;
     }
 
     @Override
     public void loadMoreError(Throwable e) {
+        isLoadingMore = false;
         e.printStackTrace();
         Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
     }
@@ -194,7 +239,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 
     @Override
     public void loadMoreEmpty() {
-
+        isLoadingMore = false;
     }
 
     @Override
@@ -204,7 +249,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 
     @Override
     public void hideLoadMoreView() {
-        mSwipeRefreshLayout.setLoading(false);
+//        mSwipeRefreshLayout.setLoading(false);
     }
 
     @Override
