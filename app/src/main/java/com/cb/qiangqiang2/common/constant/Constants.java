@@ -35,5 +35,12 @@ public class Constants {
     //user info
     public static final String UID = "uid";
 
+    //签到
+    public static final String FORMHASH = "formhash";
+    public static final String QDXQ = "qdxq";
+    public static final String QD_MODE = "qdmode";
+    public static final String TODAY_SAY = "todaysay";
+    public static final String FAST_REPLY = "fastreply";
+
 
 }

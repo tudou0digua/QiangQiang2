@@ -22,7 +22,9 @@ import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.model.BoardBean;
 import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.mvpview.BoardMvpView;
+import com.cb.qiangqiang2.mvpview.CheckInMvpView;
 import com.cb.qiangqiang2.presenter.BoardPresenter;
+import com.cb.qiangqiang2.presenter.CheckInPresenter;
 import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -44,12 +46,14 @@ import butterknife.OnClick;
 /**
  * 板块列表
  */
-public class BoardFragment extends BaseFragment implements BoardMvpView {
+public class BoardFragment extends BaseFragment implements BoardMvpView, CheckInMvpView {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     @Inject
     BoardPresenter boardPresenter;
+    @Inject
+    CheckInPresenter mCheckInPresenter;
 
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
@@ -91,6 +95,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
         ButterKnife.bind(this, view);
         ((BaseActivity) getActivity()).getActivityComponent().inject(this);
         boardPresenter.attachView(this);
+        mCheckInPresenter.attachView(this);
         initView();
         return view;
     }
@@ -137,11 +142,14 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
         AppUtils.dynamicSetTabLayoutMode(mTabLayout, getActivity());
     }
 
-    @OnClick({R.id.iv_edit_board})
+    @OnClick({R.id.iv_edit_board, R.id.tv_checkIn})
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_edit_board:
                 startActivity(new Intent(getActivity(), BoardDragEditActivity.class));
+                break;
+            case R.id.tv_checkIn:
+                mCheckInPresenter.checkIn();
                 break;
         }
     }
@@ -150,6 +158,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
     public void onDestroyView() {
         super.onDestroyView();
         boardPresenter.detachView();
+        mCheckInPresenter.detachView();
     }
 
     @Override
@@ -205,6 +214,11 @@ public class BoardFragment extends BaseFragment implements BoardMvpView {
     public void loadError(Throwable e) {
         e.printStackTrace();
         Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void checkInResult(String string) {
+
     }
 
     @Override

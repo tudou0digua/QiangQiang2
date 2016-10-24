@@ -12,6 +12,7 @@
     <string name="title_activity_board_edit">板块编辑</string>
     <string name="title_activity_web">网页</string>
     <string name="title_activity_person_info">个人信息</string>
+    <string name="check_in">签到</string>
 
     <string name="exit">再按一次退出程序。</string>
     <string name="board_edit">板块编辑</string>
