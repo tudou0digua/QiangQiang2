@@ -115,6 +115,10 @@ public class MainActivity extends BaseAutoLayoutActivity {
             public void onTabSelected(int position) {
                 viewpager.setCurrentItem(position, false);
                 if (position == fragments.size() - 1) startActivity(new Intent(MainActivity.this, MainTestActivity.class));
+                Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.TITLE, "签到");
+                intent.putExtra(WebViewActivity.URL, "http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign");
+                if (position == fragments.size() - 2) startActivity(intent);
             }
         });
         tabLayout.setOnTabDoubleClickListener(new TabLayout.OnTabDoubleClickListener() {

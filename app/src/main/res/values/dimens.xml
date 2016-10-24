@@ -8,7 +8,7 @@
 
     <dimen name="padding_left">12dp</dimen>
     <dimen name="padding_right">12dp</dimen>
-    <dimen name="floating_action_button_margin">0dp</dimen>
+    <dimen name="floating_action_button_margin">16dp</dimen>
     <dimen name="divider">1px</dimen>
 
     <dimen name="title_text_size1">18sp</dimen>

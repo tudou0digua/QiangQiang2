@@ -23,7 +23,7 @@ import com.cb.qiangqiang2.presenter.PostPresenter;
 import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.cb.qiangqiang2.ui.adapter.PostListAdapter;
 import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
-import com.maimengmami.waveswiperefreshlayout.WaveSwipeRefreshLayout;
+import com.cb.qiangqiang2.ui.view.waveswiperefreshlayout.WaveSwipeRefreshLayout;
 
 import javax.inject.Inject;
 
@@ -179,7 +179,6 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     public void loadMoreData(PostModel postModel) {
         mAdapter.addData(postModel);
         nextPage++;
-        mSwipeRefreshLayout.setLoading(false);
     }
 
     @Override
@@ -205,7 +204,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 
     @Override
     public void hideLoadMoreView() {
-
+        mSwipeRefreshLayout.setLoading(false);
     }
 
     @Override

@@ -10,6 +10,7 @@ public class Constants {
     public static final String BOARD_LIST = "boardList";
     public static final String BOARD_LIST_SELECTED = "boardListSelected";
     public static final String BOARD_LIST_UNSELETED = "boardListUnselected";
+    public static final String PREF_NET_DATA = "qq_net_cache";
 
     //api constant
     public static final String FORUM_KEY = "forumKey";

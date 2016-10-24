@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
+import com.cb.qiangqiang2.data.api.HttpManager;
 
 import butterknife.BindView;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
@@ -82,7 +83,8 @@ public class WebViewActivity extends BaseSwipeBackActivity {
                 super.onProgressChanged(view, newProgress);
             }
         });
-
+        if (HttpManager.getInstance() != null)
+            HttpManager.getInstance().syncWebViewCookie(mUrl);
         mWebView.loadUrl(mUrl);
     }
 

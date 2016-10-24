@@ -1,23 +1,31 @@
 package com.cb.qiangqiang2.data.api;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.Toast;
 
 import com.cb.qiangqiang2.common.constant.Constants;
+import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
 import com.cb.qiangqiang2.common.util.PrefUtils;
+import com.cb.qiangqiang2.data.api.cookie.CookiesManager;
 import com.cb.qiangqiang2.data.model.BaseModel;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import okhttp3.Cookie;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -36,19 +44,23 @@ import timber.log.Timber;
 public class HttpManager {
     public static long READ_TIME_OUT = 10;
     public static long CONNECT_TIME_OUT = 10;
-
     public static boolean isNeedFormatDataLogger = false;
-
-    HttpLoggingInterceptor mHttpLoggingInterceptor;
 
     @Inject
     HttpHeaderInterceptor mHttpHeaderInterceptor;
-
     @Inject
     CacheControlInterceptor mCacheControlInterceptor;
+    @Inject
+    CookiesManager cookiesManager;
+
+    private HttpLoggingInterceptor mHttpLoggingInterceptor;
+    private Context context;
+    private static HttpManager httpManager;
 
     @Inject
-    public HttpManager() {
+    public HttpManager(@ForApplication Context context) {
+        this.context = context;
+        httpManager = this;
         mHttpLoggingInterceptor = new HttpLoggingInterceptor(new okhttp3.logging.HttpLoggingInterceptor.Logger() {
             @Override public void log(String message) {
                     try {
@@ -68,6 +80,10 @@ public class HttpManager {
         mHttpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     }
 
+    public static HttpManager getInstance(){
+        return httpManager;
+    }
+
     public ApiService getService() {
         //httpClient request config
         OkHttpClient client = new OkHttpClient.Builder()
@@ -77,6 +93,7 @@ public class HttpManager {
                 //time out
                 .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
                 .connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS)
+                .cookieJar(cookiesManager)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -149,6 +166,41 @@ public class HttpManager {
 
     public interface OnResponseWithComplete extends OnResponse{
         void onComplete();
+    }
+
+    /**
+     * 给webview请求设置cookie
+     * @param url
+     */
+    public void syncWebViewCookie(String url){
+        try{
+            CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(context);
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.setAcceptCookie(true);
+            cookieManager.removeSessionCookie();// 移除
+            cookieManager.removeAllCookie();
+            Uri uri = Uri.parse(url);
+            if (uri != null) {
+                Logger.e(uri.getHost());
+                List<Cookie> cookies = cookiesManager.getCookieStore().get(uri.getHost());
+                for (int i = 0; i < cookies.size(); i++) {
+                    Cookie cookie = cookies.get(i);
+                    StringBuilder builder = new StringBuilder();
+                    builder.append(cookie.name())
+                            .append("=")
+                            //URLEncoder.encode(auth,"utf-8") auth可能需要转义下
+                            .append(cookie.value())
+                            .append("; ")
+                            //Android 4.2.2 url要是domaim, setCookie才会全部设置，不漏
+                            .append("domian=qiangqiang5.com; path=/");
+                    String cookieValue = builder.toString();
+                    cookieManager.setCookie(url, cookieValue);
+                }
+            }
+            cookieSyncManager.sync();
+        }catch(Exception e){
+            Log.e("Nat: syncCookie failed", e.toString());
+        }
     }
 
 }
