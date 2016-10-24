@@ -25,7 +25,7 @@ public class WaterWave extends LinearLayout {
     private int mWaveToTop;
 
     private Wave mWave;
-    private com.maimengmami.waveswiperefreshlayout.SolidBelowWave mSolidBelowWave;
+    private SolidBelowWave mSolidBelowWave;
 
     private final int DEFAULT_ABOVE_WAVE_COLOR = Color.WHITE;
     private final int DEFAULT_BLOW_WAVE_COLOR = Color.WHITE;
@@ -52,7 +52,7 @@ public class WaterWave extends LinearLayout {
         mWave.setBlowWaveColor(mBlowWaveColor);
         mWave.initializePainters();
 
-        mSolidBelowWave = new com.maimengmami.waveswiperefreshlayout.SolidBelowWave(context, null);
+        mSolidBelowWave = new SolidBelowWave(context, null);
         mSolidBelowWave.setAboveWavePaint(mWave.getAboveWavePaint());
         mSolidBelowWave.setBlowWavePaint(mWave.getBlowWavePaint());
 
