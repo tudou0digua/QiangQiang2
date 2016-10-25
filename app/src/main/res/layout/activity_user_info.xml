@@ -6,7 +6,7 @@
     android:id="@+id/activity_person_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cb.qiangqiang2.ui.activity.PersonInfoActivity">
+    tools:context="com.cb.qiangqiang2.ui.activity.UserInfoActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

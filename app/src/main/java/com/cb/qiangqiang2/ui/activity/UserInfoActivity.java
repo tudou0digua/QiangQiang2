@@ -15,12 +15,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class PersonInfoActivity extends BaseSwipeBackActivity {
+public class UserInfoActivity extends BaseSwipeBackActivity {
 
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.activity_person_info)
-    CoordinatorLayout mActivityPersonInfo;
+    CoordinatorLayout mActivityUserInfo;
     @BindView(R.id.iv_top_bg)
     ImageView mIvTopBg;
     @BindView(R.id.iv_avatar)
@@ -35,7 +35,7 @@ public class PersonInfoActivity extends BaseSwipeBackActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_person_info;
+        return R.layout.activity_user_info;
     }
 
     @Override
