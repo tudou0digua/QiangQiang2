@@ -44,6 +44,8 @@ public class GlideCircleTransform extends BitmapTransformation {
         Paint paint = new Paint();
         paint.setShader(new BitmapShader(squared, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
         paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setFilterBitmap(true);
         float r = size / 2f;
         canvas.drawCircle(r, r, r, paint);
         return result;
