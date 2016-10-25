@@ -3,6 +3,7 @@ package com.cb.qiangqiang2.data.api;
 import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.data.model.PostModel;
+import com.cb.qiangqiang2.data.model.UserInfoModel;
 
 import java.util.Map;
 
@@ -49,6 +50,11 @@ public interface ApiService {
     @GET("plugin.php?id=dsu_paulsign:sign")
     Observable<Response<okhttp3.ResponseBody>> getCheckInPage(@QueryMap Map<String, String> options);
 
+    //签到提交
     @POST("plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes")
     Observable<Response<okhttp3.ResponseBody>> checkIn(@QueryMap Map<String, String> options);
+
+    //用户信息
+    @POST(URL_BASE + "r=user/userinfo")
+    Observable<UserInfoModel> getUserInfo(@QueryMap Map<String, String> options);
 }

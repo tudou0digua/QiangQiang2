@@ -34,7 +34,7 @@
             android:label="@string/title_activity_web"
             android:theme="@style/ActivityTheme"/>
         <activity
-            android:name=".ui.activity.PersonInfoActivity"
+            android:name=".ui.activity.UserInfoActivity"
             android:label="@string/title_activity_person_info"
             android:theme="@style/ActivityTheme"/>
         <activity

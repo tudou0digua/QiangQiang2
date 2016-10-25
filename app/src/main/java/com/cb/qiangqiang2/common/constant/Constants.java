@@ -46,5 +46,8 @@ public class Constants {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
 
+    //用户信息
+    public static final String USER_ID = "userId";
+
 
 }

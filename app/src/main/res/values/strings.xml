@@ -9,6 +9,7 @@
     <string name="tab3">消息</string>
     <string name="tab4">我的</string>
 
+    <string name="request_error">请求出错</string>
     <string name="title_activity_board_edit">板块编辑</string>
     <string name="title_activity_web">网页</string>
     <string name="title_activity_person_info">个人信息</string>
