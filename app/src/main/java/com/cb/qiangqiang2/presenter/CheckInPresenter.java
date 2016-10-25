@@ -10,6 +10,7 @@ import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.data.api.ApiService;
 import com.cb.qiangqiang2.data.api.HttpManager;
 import com.cb.qiangqiang2.mvpview.CheckInMvpView;
+import com.cb.qiangqiang2.ui.activity.LoginActivity;
 import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.orhanobut.logger.Logger;
 
@@ -37,6 +38,9 @@ public class CheckInPresenter extends BasePresenter<CheckInMvpView> {
 
     }
 
+    /**
+     * 加载签到页面，获取其中formhash值
+     */
     public void checkIn() {
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         HttpManager.toSub(mApiService.getCheckInPage(map), new HttpManager.OnResponse() {
@@ -45,7 +49,7 @@ public class CheckInPresenter extends BasePresenter<CheckInMvpView> {
                 try {
                     String jsonString = ((okhttp3.ResponseBody)((retrofit2.Response) result).body()).string();
                     if (jsonString != null && jsonString.contains("先登录")) {
-                        //TODO do login
+                        LoginActivity.startLoginActivity(mContext);
                         return;
                     }
                     String formHash = null;
@@ -71,6 +75,10 @@ public class CheckInPresenter extends BasePresenter<CheckInMvpView> {
         }, mContext);
     }
 
+    /**
+     * 签到
+     * @param formHash
+     */
     public void postCheckIn(String formHash) {
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         map.put(Constants.FORMHASH, formHash);

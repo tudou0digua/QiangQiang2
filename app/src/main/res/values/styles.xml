@@ -36,4 +36,9 @@
         <item name="android:textColor">@color/text_title</item>
     </style>
 
+    <style name="ToolbarTitleText_User_Info_head">
+        <item name="android:textSize">@dimen/text_size1</item>
+        <item name="android:textColor">@color/text_title</item>
+    </style>
+
 </resources>
