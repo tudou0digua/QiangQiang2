@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -20,6 +21,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
 import android.widget.AbsListView;
 import android.widget.ScrollView;
+
+import com.cb.qiangqiang2.common.util.AppUtils;
 
 /**
  * The SwipeRefreshLayout should be used whenever the user can refresh the
@@ -350,6 +353,26 @@ public class WaveSwipeRefreshLayout extends ViewGroup {
         mWaterWave = new WaterWave(context,attrs);
         mWaterWave.setVisibility(GONE);
         addView(mWaterWave);
+        setWaterWaveId();
+    }
+
+    /**
+     * 在WaterWave调用了onSaveInstanceState方法，自定义了SavedState，在Fragment restoreSavedState时（比如旋转屏幕）
+     * 由于mWaterWave没有设置唯一ID会造成错误如下：
+     * java.lang.IllegalArgumentException: Wrong state class, expecting View State
+     *      but received class com.cb.qiangqiang2.ui.view.waveswiperefreshlayout.WaterWave$SavedState instead.
+     *      This usually happens when two views of different type have the same id in the same hierarchy.
+     *      This view's id is id/swipe_refresh_layout.
+     * 所以需要给WaterWaves手动设置唯一ID
+     *
+     * ref: http://stackoverflow.com/questions/1714297/android-view-setidint-id-programmatically-how-to-avoid-id-conflicts
+     */
+    private void setWaterWaveId() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            mWaterWave.setId(View.generateViewId());
+        } else {
+            mWaterWave.setId(AppUtils.generateViewId());
+        }
     }
 
     /**
