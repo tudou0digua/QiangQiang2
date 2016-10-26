@@ -27,3 +27,8 @@ google官方图标库 [Material icons](https://design.google.com/icons/)
 [Bilibili/MagicaSakura](https://github.com/Bilibili/MagicaSakura)  
 [52inc/Scoops](https://github.com/52inc/Scoops)  
 
+####图片模糊  
+[glide-transformations](https://github.com/wasabeef/glide-transformations)  
+[Blurry](https://github.com/wasabeef/Blurry)  
+
+
