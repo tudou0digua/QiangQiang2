@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
 import com.cb.qiangqiang2.common.util.AppUtils;
-import com.cb.qiangqiang2.data.api.ApiService;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.mvpview.PostMvpView;
 import com.cb.qiangqiang2.presenter.PostPresenter;
@@ -32,6 +30,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
+
+import static com.cb.qiangqiang2.common.util.AppUtils.isScrollToBottom;
 
 /**
  * 帖子列表Fragment
@@ -45,15 +46,15 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-//    @BindView(R.id.swipe_refresh_layout)
+    //    @BindView(R.id.swipe_refresh_layout)
 //    WaveSwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycle_view)
     RecyclerView mRecycleView;
+    @BindView(R.id.progress_bar)
+    MaterialProgressBar mProgressBar;
 
     @Inject
     PostListAdapter mAdapter;
-    @Inject
-    ApiService apiService;
     @Inject
     PostPresenter postPresenter;
 
@@ -63,7 +64,8 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     private String mType;
     private boolean isFromUser;
     private int nextPage = 2;
-    private boolean isLoadingMore = false;
+    private boolean canLoadingMore = false;
+    private boolean isLoadAllData = false;
 
     public PostFragment() {
         // Required empty public constructor
@@ -117,6 +119,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
             @Override
             public void onRefresh() {
                 postPresenter.refreshPostListData(isFromUser, mSortBy, 1, mBoardId, mType, mUserId);
+                canLoadingMore = false;
             }
         });
         Resources resources = getActivity().getResources();
@@ -180,8 +183,8 @@ public class PostFragment extends BaseFragment implements PostMvpView {
         mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (!isLoadingMore && isScrollToBottom(recyclerView)) {
-                    isLoadingMore = true;
+                if (!isLoadAllData && canLoadingMore && isScrollToBottom(recyclerView)) {
+                    canLoadingMore = false;
                     postPresenter.loadMorePostListData(isFromUser, mSortBy, nextPage, mBoardId, mType, mUserId);
                 }
                 super.onScrolled(recyclerView, dx, dy);
@@ -189,27 +192,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
         });
 
         postPresenter.refreshPostListData(isFromUser, mSortBy, 1, mBoardId, mType, mUserId);
-    }
-
-    private boolean isScrollToBottom(RecyclerView recyclerView) {
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        int count = recyclerView.getAdapter().getItemCount();
-        if (layoutManager instanceof LinearLayoutManager && count > 0) {
-            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-            if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == count - 1) {
-                return true;
-            }
-        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-            StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
-            int[] lastItems = new int[2];
-            staggeredGridLayoutManager
-                    .findLastCompletelyVisibleItemPositions(lastItems);
-            int lastItem = Math.max(lastItems[0], lastItems[1]);
-            if (lastItem == count - 1) {
-                return true;
-            }
-        }
-        return false;
+        canLoadingMore = false;
     }
 
     @OnClick({})
@@ -240,41 +223,57 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 
     @Override
     public void refreshData(PostModel postModel) {
+        if (postModel.getHas_next() == 0) {
+            isLoadAllData = true;
+            nextPage = 1;
+        } else {
+            nextPage = 2;
+            isLoadAllData = false;
+        }
+        canLoadingMore = true;
         mAdapter.setPostModel(postModel);
     }
 
     @Override
     public void loadMoreData(PostModel postModel) {
+        if (postModel.getHas_next() == 0) {
+            isLoadAllData = true;
+            Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
+        } else {
+            nextPage++;
+        }
         mAdapter.addData(postModel);
-        nextPage++;
-        isLoadingMore = false;
+        canLoadingMore = true;
     }
 
     @Override
     public void loadMoreError(Throwable e) {
-        isLoadingMore = false;
+        canLoadingMore = true;
         e.printStackTrace();
         Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void refreshEmpty() {
-
+        canLoadingMore = true;
     }
 
     @Override
     public void loadMoreEmpty() {
-        isLoadingMore = false;
+        canLoadingMore = true;
     }
 
     @Override
     public void showLoadMoreView() {
-
+        if (mProgressBar.getVisibility() != View.VISIBLE)
+            mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoadMoreView() {
 //        mSwipeRefreshLayout.setLoading(false);
+        if (mProgressBar.getVisibility() == View.VISIBLE)
+            mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -289,7 +288,10 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 
     @Override
     public void loadError(Throwable e) {
-        e.printStackTrace();
-        Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+        canLoadingMore = true;
+        if (e != null) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.data.model.UserInfoModel;
+import com.cb.qiangqiang2.data.model.UserListModel;
 
 import java.util.Map;
 
@@ -42,6 +43,10 @@ public interface ApiService {
     //用户帖子列表（收藏、发表、参与等）
     @POST(URL_BASE + "r=user/topiclist")
     Observable<PostModel> getUserTopicList(@QueryMap Map<String, String> options);
+
+    //用户列表
+    @POST(URL_BASE + "r=user/userlist")
+    Observable<UserListModel> getUserList(@QueryMap Map<String, String> options);
 
     //签到网页
     @GET("plugin.php?id=dsu_paulsign:sign")

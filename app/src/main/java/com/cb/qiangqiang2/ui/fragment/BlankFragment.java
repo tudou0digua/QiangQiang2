@@ -9,6 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cb.qiangqiang2.R;
+import com.cb.qiangqiang2.common.base.BaseActivity;
+import com.cb.qiangqiang2.data.UserManager;
+import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +31,8 @@ public class BlankFragment extends Fragment {
 
     @BindView(R.id.tv_content)
     TextView tv;
+    @Inject
+    UserManager mUserManager;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -67,7 +74,16 @@ public class BlankFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
         ButterKnife.bind(this, view);
+        ((BaseActivity) getActivity()).getActivityComponent().inject(this);
         tv.setText(mParam1 == null ? "mParam1 == null" : mParam1);
+        view.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int userId = mUserManager.getUserId();
+                String name = mUserManager.getUserName();
+                UserInfoActivity.startUserInfoActivity(getActivity(), userId, name);
+            }
+        });
         return view;
     }
 

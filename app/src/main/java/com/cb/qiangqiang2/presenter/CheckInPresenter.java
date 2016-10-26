@@ -1,13 +1,11 @@
 package com.cb.qiangqiang2.presenter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.cb.qiangqiang2.common.base.BasePresenter;
 import com.cb.qiangqiang2.common.constant.Constants;
-import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
-import com.cb.qiangqiang2.data.api.ApiService;
 import com.cb.qiangqiang2.data.api.HttpManager;
 import com.cb.qiangqiang2.mvpview.CheckInMvpView;
 import com.cb.qiangqiang2.ui.activity.LoginActivity;
@@ -25,13 +23,6 @@ import javax.inject.Inject;
  */
 
 public class CheckInPresenter extends BasePresenter<CheckInMvpView> {
-
-    @ForActivity
-    @Inject
-    Context mContext;
-
-    @Inject
-    ApiService mApiService;
 
     @Inject
     public CheckInPresenter() {
@@ -97,6 +88,8 @@ public class CheckInPresenter extends BasePresenter<CheckInMvpView> {
                         intent.putExtra(WebViewActivity.TITLE,"签到");
                         intent.putExtra(WebViewActivity.URL,"http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign");
                         mContext.startActivity(intent);
+                    } else if (jsonString.contains("已经签到")) {
+                        Toast.makeText(mContext, "今天已经签到！", Toast.LENGTH_SHORT).show();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

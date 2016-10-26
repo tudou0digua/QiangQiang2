@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/base_bg"
+    android:paddingLeft="@dimen/padding_left"
+    android:paddingRight="@dimen/padding_right">
+
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/default_icon" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_size2"
+        tools:text="testtest001"
+        android:layout_toRightOf="@+id/iv_avatar"
+        android:layout_alignTop="@+id/iv_avatar"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_name"
+        android:background="@drawable/bg_level"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size4"
+        android:layout_alignBottom="@+id/tv_name"
+        android:layout_marginLeft="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        tools:text="神级抢友" />
+
+    <TextView
+        android:id="@+id/tv_signature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_second_primary"
+        android:textSize="@dimen/text_size6"
+        android:layout_alignLeft="@+id/tv_name"
+        android:layout_alignBottom="@+id/iv_avatar"
+        android:singleLine="true"
+        tools:text="这个人很懒，什么都没有留下。。。 "/>
+
+    <TextView
+        android:id="@+id/tv_follow"
+        android:layout_width="68dp"
+        android:layout_height="28dp"
+        tools:text="关注"
+        android:background="@drawable/bg_follow"
+        android:textSize="@dimen/text_size1"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>

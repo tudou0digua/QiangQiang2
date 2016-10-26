@@ -14,6 +14,7 @@
     <string name="title_activity_web">网页</string>
     <string name="title_activity_person_info">个人信息</string>
     <string name="check_in">签到</string>
+    <string name="no_more_data">亲，到底了...囧rz</string>
 
     <string name="exit">再按一次退出程序。</string>
     <string name="board_edit">板块编辑</string>
@@ -37,6 +38,11 @@
     <string name="user_info_credit">积分：%d</string>
     <string name="user_info_gold">金币：%d</string>
     <string name="user_info_silver">银币：%d</string>
+
+    <!--用户列表页-->
+    <string name="user_list_no_signature">这个人很懒，什么都没有留下~</string>
+    <string name="user_list_followed">取消关注</string>
+    <string name="user_list_not_followed">关注</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">用户名</string>

@@ -56,4 +56,11 @@ public class UserManager {
         }
         return INVALID_USER_ID;
     }
+
+    public String getUserName() {
+        if (getUserInfo() != null) {
+            return mUserInfo.getUserName();
+        }
+        return "";
+    }
 }

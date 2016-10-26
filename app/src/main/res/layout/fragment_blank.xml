@@ -12,6 +12,11 @@
         android:layout_height="wrap_content"
         android:textColor="@color/textBase"
         android:text="@string/hello_blank_fragment" />
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="jump to user info"/>
     <com.cb.qiangqiang2.ui.view.SuperSwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

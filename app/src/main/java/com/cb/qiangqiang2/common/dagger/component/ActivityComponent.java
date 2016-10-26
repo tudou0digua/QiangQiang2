@@ -15,8 +15,10 @@ import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
 import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.cb.qiangqiang2.ui.activity.MainActivity;
 import com.cb.qiangqiang2.ui.activity.WebViewActivity;
+import com.cb.qiangqiang2.ui.fragment.BlankFragment;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;
 import com.cb.qiangqiang2.ui.fragment.PostFragment;
+import com.cb.qiangqiang2.ui.fragment.UserListFragment;
 
 import dagger.Component;
 
@@ -43,9 +45,12 @@ public interface ActivityComponent {
 
     void inject(LoginActivity loginActivity);
 
+    void inject(UserListFragment userListFragment);
 
 
     void inject(MainTestActivity mainTestActivity);
 
     void inject(Activity2 activity2);
+
+    void inject(BlankFragment blankFragment);
 }

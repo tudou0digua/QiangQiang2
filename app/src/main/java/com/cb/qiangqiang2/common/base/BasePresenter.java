@@ -1,9 +1,24 @@
 package com.cb.qiangqiang2.common.base;
 
+import android.content.Context;
+
+import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
+import com.cb.qiangqiang2.data.api.ApiService;
+
+import javax.inject.Inject;
+
 /**
  * Created by cb on 2016/8/29.
  */
 public class BasePresenter<T extends BaseMVPView> implements Presenter<T> {
+
+    @Inject
+    @ForActivity
+    public Context mContext;
+
+    @Inject
+    public ApiService mApiService;
+
     private T mMvpView;
 
     @Override

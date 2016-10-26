@@ -1,11 +1,7 @@
 package com.cb.qiangqiang2.presenter;
 
-import android.content.Context;
-
 import com.cb.qiangqiang2.common.base.BasePresenter;
 import com.cb.qiangqiang2.common.constant.Constants;
-import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
-import com.cb.qiangqiang2.data.api.ApiService;
 import com.cb.qiangqiang2.data.api.HttpManager;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.mvpview.PostMvpView;
@@ -23,13 +19,6 @@ import rx.Observable;
 public class PostPresenter extends BasePresenter<PostMvpView> {
 
     @Inject
-    ApiService apiService;
-
-    @ForActivity
-    @Inject
-    Context mContext;
-
-    @Inject
     public PostPresenter() {
     }
 
@@ -41,13 +30,13 @@ public class PostPresenter extends BasePresenter<PostMvpView> {
             map.put(Constants.PAGE, String.valueOf(page));
             map.put(Constants.UID, String.valueOf(userId));
             map.put(Constants.TYPE, type);
-            observable = apiService.getUserTopicList(map);
+            observable = mApiService.getUserTopicList(map);
         } else {
             map.put(Constants.PAGE_SIZE, Constants.DEFAULT_PAGE_SIZE);
             map.put(Constants.PAGE, String.valueOf(page));
             map.put(Constants.BOARD_ID, String.valueOf(boardId));
             map.put(Constants.SORT_BY, sortBy);
-            observable = apiService.getTopicList(map);
+            observable = mApiService.getTopicList(map);
         }
         HttpManager.isNeedFormatDataLogger = true;
         HttpManager.toSub(observable, new HttpManager.OnResponse() {
@@ -73,19 +62,20 @@ public class PostPresenter extends BasePresenter<PostMvpView> {
     }
 
     public void loadMorePostListData(boolean isFromUser, String sortBy, int page, int boardId, String type, int userId){
+        if (getMvpView() != null) getMvpView().showLoadMoreView();
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         Observable<PostModel> observable;
         if (isFromUser) {
             map.put(Constants.PAGE, String.valueOf(page));
             map.put(Constants.UID, String.valueOf(userId));
             map.put(Constants.TYPE, type);
-            observable = apiService.getUserTopicList(map);
+            observable = mApiService.getUserTopicList(map);
         } else {
             map.put(Constants.PAGE_SIZE, Constants.DEFAULT_PAGE_SIZE);
             map.put(Constants.PAGE, String.valueOf(page));
             map.put(Constants.BOARD_ID, String.valueOf(boardId));
             map.put(Constants.SORT_BY, sortBy);
-            observable = apiService.getTopicList(map);
+            observable = mApiService.getTopicList(map);
         }
         HttpManager.toSub(observable, new HttpManager.OnResponse() {
             @Override

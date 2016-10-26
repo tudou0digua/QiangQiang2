@@ -22,6 +22,8 @@ public class Constants {
     public static final String USER_POST_REPLY = "reply";
     public static final String USER_LIST_FOLLOWED = "followed";
     public static final String USER_LIST_FOLLOW = "follow";
+    public static final String USER_LIST_FRIEND = "friend";
+    public static final String USER_LIST_DATELINE= "dateline";
 
     //api constant
     public static final String FORUM_KEY = "forumKey";
@@ -59,6 +61,7 @@ public class Constants {
 
     //用户信息
     public static final String USER_ID = "userId";
+    public static final String ORDER_BY = "orderBy";
 
 
 }

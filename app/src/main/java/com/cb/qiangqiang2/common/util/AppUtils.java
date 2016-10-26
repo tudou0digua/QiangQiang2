@@ -11,6 +11,9 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -335,5 +338,31 @@ public class AppUtils {
             result = context.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    /**
+     * RecyclerView是否滑动到底部
+     * @param recyclerView
+     * @return
+     */
+    public static boolean isScrollToBottom(RecyclerView recyclerView) {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        int count = recyclerView.getAdapter().getItemCount();
+        if (layoutManager instanceof LinearLayoutManager && count > 0) {
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
+            if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == count - 1) {
+                return true;
+            }
+        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+            StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
+            int[] lastItems = new int[2];
+            staggeredGridLayoutManager
+                    .findLastCompletelyVisibleItemPositions(lastItems);
+            int lastItem = Math.max(lastItems[0], lastItems[1]);
+            if (lastItem == count - 1) {
+                return true;
+            }
+        }
+        return false;
     }
 }
