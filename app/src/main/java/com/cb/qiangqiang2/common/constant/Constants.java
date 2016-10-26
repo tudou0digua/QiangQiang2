@@ -20,6 +20,8 @@ public class Constants {
     public static final String USER_POST_FAVORITE = "favorite";
     public static final String USER_POST_TOPIC = "topic";
     public static final String USER_POST_REPLY = "reply";
+    public static final String USER_LIST_FOLLOWED = "followed";
+    public static final String USER_LIST_FOLLOW = "follow";
 
     //api constant
     public static final String FORUM_KEY = "forumKey";

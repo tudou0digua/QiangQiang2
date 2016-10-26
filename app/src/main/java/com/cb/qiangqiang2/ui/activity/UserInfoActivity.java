@@ -29,6 +29,7 @@ import com.cb.qiangqiang2.data.model.UserInfoModel;
 import com.cb.qiangqiang2.mvpview.UserInfoMvpView;
 import com.cb.qiangqiang2.presenter.UserInfoPresenter;
 import com.cb.qiangqiang2.ui.fragment.PostFragment;
+import com.cb.qiangqiang2.ui.fragment.UserListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,8 @@ import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static com.cb.qiangqiang2.common.constant.Constants.INVALIDE_UID;
+import static com.cb.qiangqiang2.common.constant.Constants.USER_LIST_FOLLOW;
+import static com.cb.qiangqiang2.common.constant.Constants.USER_LIST_FOLLOWED;
 import static com.cb.qiangqiang2.common.constant.Constants.USER_POST_FAVORITE;
 import static com.cb.qiangqiang2.common.constant.Constants.USER_POST_REPLY;
 import static com.cb.qiangqiang2.common.constant.Constants.USER_POST_TOPIC;
@@ -140,13 +143,15 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
             datas.add(getString(R.string.user_info_collection));
             datas.add(getString(R.string.user_info_post));
             datas.add(getString(R.string.user_info_participate));
-            datas.add(getString(R.string.user_info_friend));
+//            datas.add(getString(R.string.user_info_friend));
             datas.add(getString(R.string.user_info_attention));
             datas.add(getString(R.string.user_info_fans));
 
             fragments.add(PostFragment.newInstance(true, userId, USER_POST_FAVORITE));
             fragments.add(PostFragment.newInstance(true, userId, USER_POST_TOPIC));
             fragments.add(PostFragment.newInstance(true, userId, USER_POST_REPLY));
+            fragments.add(UserListFragment.newInstance(userId, USER_LIST_FOLLOW));
+            fragments.add(UserListFragment.newInstance(userId, USER_LIST_FOLLOWED));
         } else {
             //其他用户
             isAccountUser = false;
@@ -157,6 +162,8 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
 
             fragments.add(PostFragment.newInstance(true, userId, USER_POST_TOPIC));
             fragments.add(PostFragment.newInstance(true, userId, USER_POST_REPLY));
+            fragments.add(UserListFragment.newInstance(userId, USER_LIST_FOLLOW));
+            fragments.add(UserListFragment.newInstance(userId, USER_LIST_FOLLOWED));
         }
 
     }
@@ -201,8 +208,18 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
         };
 
         mViewPager.setAdapter(adapter);
-//        mTabLayout.setupWithViewPager(mViewPager);
         AppUtils.dynamicSetTabLayoutMode(mTabLayout, UserInfoActivity.this);
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishActivity();
+            }
+        });
+    }
+
+    private void finishActivity() {
+        finish();
     }
 
     @Override
@@ -233,9 +250,13 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
 
             mTabLayout.getTabAt(1).setText(mTabLayout.getTabAt(1).getText() + "\n" +userInfoModel.getTopic_num());
             mTabLayout.getTabAt(2).setText(mTabLayout.getTabAt(2).getText() + "\n" +userInfoModel.getReply_posts_num());
+            mTabLayout.getTabAt(3).setText(mTabLayout.getTabAt(3).getText() + "\n" +userInfoModel.getFriend_num());
+            mTabLayout.getTabAt(4).setText(mTabLayout.getTabAt(4).getText() + "\n" +userInfoModel.getFollow_num());
         } else {
             mTabLayout.getTabAt(0).setText(mTabLayout.getTabAt(0).getText() + "\n" +userInfoModel.getTopic_num());
             mTabLayout.getTabAt(1).setText(mTabLayout.getTabAt(1).getText() + "\n" +userInfoModel.getReply_posts_num());
+            mTabLayout.getTabAt(2).setText(mTabLayout.getTabAt(2).getText() + "\n" +userInfoModel.getFriend_num());
+            mTabLayout.getTabAt(3).setText(mTabLayout.getTabAt(3).getText() + "\n" +userInfoModel.getFollow_num());
         }
     }
 
