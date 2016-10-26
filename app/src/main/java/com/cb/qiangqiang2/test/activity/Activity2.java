@@ -123,7 +123,6 @@ public class Activity2 extends BaseAutoLayoutActivity {
                 login();
                 break;
             case R.id.btn_collection:
-//                getCollection();
                 getCollection2();
                 break;
         }
@@ -134,8 +133,9 @@ public class Activity2 extends BaseAutoLayoutActivity {
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         map.put(Constants.PAGE_SIZE, String.valueOf(1));
         map.put(Constants.TYPE, "favorite");
+        map.put(Constants.UID, String.valueOf(uid));
         HttpManager.isNeedFormatDataLogger = true;
-        HttpManager.toSub(apiService.getCollectionList2(map, uid), new HttpManager.OnResponse() {
+        HttpManager.toSub(apiService.getUserTopicList(map), new HttpManager.OnResponse() {
             @Override
             public void onSuccess(Object result) {
                 if (result != null) {
@@ -151,33 +151,6 @@ public class Activity2 extends BaseAutoLayoutActivity {
             }
 
         }, mContext);
-    }
-
-    private void getCollection() {
-        int uid = PrefUtils.getInt(mContext, Constants.UID);
-        Map<String, String> map = HttpManager.getBaseMap(mContext);
-        map.put(Constants.PAGE_SIZE, String.valueOf(1));
-        map.put(Constants.TYPE, "favorite");
-        HttpManager.toSubscribe(apiService.getCollectionList(map, uid), new Subscriber() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Toast.makeText(Activity2.this, "error" + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNext(Object o) {
-                if (o != null) {
-                    String gson = new Gson().toJson(o);
-                    tv.setText(gson);
-                    Logger.json(gson);
-                }
-            }
-        });
     }
 
     private void getTopicList() {

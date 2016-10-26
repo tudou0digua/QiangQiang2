@@ -34,4 +34,9 @@
     <dimen name="board_drag_item_height">36dp</dimen>
     <dimen name="board_drag_item_title_padding_top">18dp</dimen>
     <dimen name="board_drag_item_title_height">58dp</dimen>
+
+    <!--用户信息-->
+    <dimen name="user_info_expanded_title_margin_top">72dp</dimen>
+    <dimen name="user_info_avatar_margin_top">50dp</dimen>
+    <dimen name="user_info_top_app_bar_layout_height">224dp</dimen>
 </resources>

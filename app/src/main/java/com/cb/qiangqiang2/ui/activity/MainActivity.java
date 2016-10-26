@@ -31,6 +31,8 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.cb.qiangqiang2.common.constant.Constants.POST_NEW;
+
 public class MainActivity extends BaseAutoLayoutActivity {
     private static final int EXIT_INTERVAL = 2000;
     
@@ -63,7 +65,7 @@ public class MainActivity extends BaseAutoLayoutActivity {
     protected void initData() {
         fragments = new ArrayList<>();
 //        fragments.add(new BlankFragment2());
-        fragments.add(PostFragment.newInstance(0, "new"));
+        fragments.add(PostFragment.newInstance(0, POST_NEW));
         fragments.add(BoardFragment.newInstance("", ""));
 //        fragments.add(BlankFragment.newInstance("fragment 1", null));
         fragments.add(BlankFragment.newInstance("fragment 2", null));

@@ -9,6 +9,8 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.cb.qiangqiang2.R;
+
 
 public class WaterWave extends LinearLayout {
     public static final int LARGE = 1;
@@ -37,13 +39,13 @@ public class WaterWave extends LinearLayout {
         setOrientation(VERTICAL);
 
 
-        final TypedArray attributes = context.obtainStyledAttributes(attrs, com.maimengmami.waveswiperefreshlayout.R.styleable.WaterWave);
-        mAboveWaveColor = attributes.getColor(com.maimengmami.waveswiperefreshlayout.R.styleable.WaterWave_above_wave_color, DEFAULT_ABOVE_WAVE_COLOR);
-        mBlowWaveColor = attributes.getColor(com.maimengmami.waveswiperefreshlayout.R.styleable.WaterWave_blow_wave_color, DEFAULT_BLOW_WAVE_COLOR);
-        mProgress = attributes.getInt(com.maimengmami.waveswiperefreshlayout.R.styleable.WaterWave_progress, DEFAULT_PROGRESS);
-        mWaveHeight = attributes.getInt(com.maimengmami.waveswiperefreshlayout.R.styleable.WaterWave_wave_height, MIDDLE);
-        mWaveMultiple = attributes.getInt(com.maimengmami.waveswiperefreshlayout.R.styleable.WaterWave_wave_length, LARGE);
-        mWaveHz = attributes.getInt(com.maimengmami.waveswiperefreshlayout.R.styleable.WaterWave_wave_hz, LARGE);
+        final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.WaterWave);
+        mAboveWaveColor = attributes.getColor(R.styleable.WaterWave_above_wave_color, DEFAULT_ABOVE_WAVE_COLOR);
+        mBlowWaveColor = attributes.getColor(R.styleable.WaterWave_blow_wave_color, DEFAULT_BLOW_WAVE_COLOR);
+        mProgress = attributes.getInt(R.styleable.WaterWave_progress, DEFAULT_PROGRESS);
+        mWaveHeight = attributes.getInt(R.styleable.WaterWave_wave_height, MIDDLE);
+        mWaveMultiple = attributes.getInt(R.styleable.WaterWave_wave_length, LARGE);
+        mWaveHz = attributes.getInt(R.styleable.WaterWave_wave_hz, LARGE);
         attributes.recycle();
 
         mWave = new Wave(context, null);

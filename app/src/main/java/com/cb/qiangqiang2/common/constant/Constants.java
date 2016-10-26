@@ -11,6 +11,15 @@ public class Constants {
     public static final String BOARD_LIST_SELECTED = "boardListSelected";
     public static final String BOARD_LIST_UNSELETED = "boardListUnselected";
     public static final String PREF_NET_DATA = "qq_net_cache";
+    public static final int INVALIDE_UID = -1;
+
+    //网络请求传参
+    public static final String POST_ALL = "all";
+    public static final String POST_NEW = "new";
+    public static final String POST_MARROW = "marrow";
+    public static final String USER_POST_FAVORITE = "favorite";
+    public static final String USER_POST_TOPIC = "topic";
+    public static final String USER_POST_REPLY = "reply";
 
     //api constant
     public static final String FORUM_KEY = "forumKey";

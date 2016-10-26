@@ -30,6 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         //for bind butter knife
         setContentView(getLayoutId());
         ButterKnife.bind(this);
+        initStatusBar();
         injectActivity();
         attachPresenter();
         restoreSavedInstanceState(savedInstanceState);
@@ -38,6 +39,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     abstract protected @LayoutRes int getLayoutId();
+
+    protected void initStatusBar() {
+
+    }
 
     protected void restoreSavedInstanceState(Bundle savedInstanceState) {
 

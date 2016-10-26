@@ -2,6 +2,7 @@ package com.cb.qiangqiang2.ui.fragment;
 
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,6 +39,9 @@ import butterknife.OnClick;
 public class PostFragment extends BaseFragment implements PostMvpView {
     private static final String BOARD_ID = "mBoardId";
     private static final String SORT_BY = "sortBy";
+    private static final String IS_FROM_USER = "isFromUser";//是否是用户信息页面列表
+    private static final String USER_ID = "userId";
+    private static final String TYPE = "type";
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -53,8 +57,11 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     @Inject
     PostPresenter postPresenter;
 
-    private int mBoardId = 0;
-    private String mSortBy = "";
+    private int mBoardId;
+    private int mUserId;
+    private String mSortBy;
+    private String mType;
+    private boolean isFromUser;
     private int nextPage = 2;
     private boolean isLoadingMore = false;
 
@@ -71,12 +78,25 @@ public class PostFragment extends BaseFragment implements PostMvpView {
         return fragment;
     }
 
+    public static PostFragment newInstance(boolean isFromUser, int userId, String type) {
+        PostFragment fragment = new PostFragment();
+        Bundle args = new Bundle();
+        args.putInt(USER_ID, userId);
+        args.putString(TYPE, type);
+        args.putBoolean(IS_FROM_USER, isFromUser);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mBoardId = getArguments().getInt(BOARD_ID);
             mSortBy = getArguments().getString(SORT_BY);
+            mUserId = getArguments().getInt(USER_ID);
+            mType = getArguments().getString(TYPE);
+            isFromUser = getArguments().getBoolean(IS_FROM_USER);
         }
     }
 
@@ -96,9 +116,14 @@ public class PostFragment extends BaseFragment implements PostMvpView {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                postPresenter.refreshPostListData(mSortBy, 1, mBoardId);
+                postPresenter.refreshPostListData(isFromUser, mSortBy, 1, mBoardId, mType, mUserId);
             }
         });
+        Resources resources = getActivity().getResources();
+        mSwipeRefreshLayout.setColorSchemeColors(resources.getColor(R.color.colorPrimary),
+                resources.getColor(android.R.color.holo_green_light),
+                resources.getColor(android.R.color.holo_orange_light),
+                resources.getColor(android.R.color.holo_red_light));
 
         //初始化下拉刷新和上拉加载布局
         int homepage_refresh_spacing = AppUtils.dip2px(getActivity(), 10);
@@ -157,13 +182,13 @@ public class PostFragment extends BaseFragment implements PostMvpView {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (!isLoadingMore && isScrollToBottom(recyclerView)) {
                     isLoadingMore = true;
-                    postPresenter.loadMorePostListData(mSortBy, nextPage, mBoardId);
+                    postPresenter.loadMorePostListData(isFromUser, mSortBy, nextPage, mBoardId, mType, mUserId);
                 }
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
 
-        postPresenter.refreshPostListData(mSortBy, 1, mBoardId);
+        postPresenter.refreshPostListData(isFromUser, mSortBy, 1, mBoardId, mType, mUserId);
     }
 
     private boolean isScrollToBottom(RecyclerView recyclerView) {

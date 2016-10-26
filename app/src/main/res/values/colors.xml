@@ -8,6 +8,7 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="grey1">#FAFAFA</color>
 
     <color name="text_title">#FFFFFF</color>
     <color name="text_primary">#212121</color>
@@ -16,6 +17,7 @@
     <color name="divider_color">#BDBDBD</color>
 
     <color name="base_bg">#FFFFFF</color>
+    <color name="base_bg_grey">#eeeeee</color>
     <color name="textBase">#000000</color>
 
     <color name="tip">#9c9c9c</color>

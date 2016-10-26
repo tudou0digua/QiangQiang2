@@ -8,4 +8,5 @@ import com.cb.qiangqiang2.data.model.PostModel;
  */
 
 public interface PostMvpView extends BaseMVPViewLoadMore<PostModel> {
+
 }

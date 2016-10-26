@@ -43,6 +43,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.cb.qiangqiang2.common.constant.Constants.POST_ALL;
+
 /**
  * 板块列表
  */
@@ -118,7 +120,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     private void setViewPager() {
         fragments = new ArrayList<>();
         for (BoardBean list : lists) {
-            fragments.add(PostFragment.newInstance(list.getId(), "all"));
+            fragments.add(PostFragment.newInstance(list.getId(), POST_ALL));
         }
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override

@@ -10,7 +10,6 @@ import java.util.Map;
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -24,12 +23,6 @@ public interface ApiService {
 
     String URL_BASE = "mobcent/app/web/index.php?";
 
-    public static final String UID = "uid";
-
-    //登录
-    @POST(URL_BASE + "r=user/login")
-    Observable<LoginModel> login(@QueryMap Map<String, String> options);
-
     //帖子列表
     @POST(URL_BASE + "r=forum/topiclist")
     Observable<PostModel> getTopicList(@QueryMap Map<String, String> options);
@@ -38,13 +31,17 @@ public interface ApiService {
     @POST(URL_BASE + "r=forum/forumlist")
     Observable<BoardModel> getBoardList(@QueryMap Map<String, String> options);
 
-    //我的收藏
-    @POST(URL_BASE + "r=user/topiclist")
-    Observable<PostModel> getCollectionList(@QueryMap Map<String, String> options, @Query(UID) int uid);
+    //登录
+    @POST(URL_BASE + "r=user/login")
+    Observable<LoginModel> login(@QueryMap Map<String, String> options);
 
-    //我的收藏
+    //用户信息
+    @POST(URL_BASE + "r=user/userinfo")
+    Observable<UserInfoModel> getUserInfo(@QueryMap Map<String, String> options);
+
+    //用户帖子列表（收藏、发表、参与等）
     @POST(URL_BASE + "r=user/topiclist")
-    Observable<PostModel> getCollectionList2(@QueryMap Map<String, String> options, @Query(UID) int uid);
+    Observable<PostModel> getUserTopicList(@QueryMap Map<String, String> options);
 
     //签到网页
     @GET("plugin.php?id=dsu_paulsign:sign")
@@ -53,8 +50,4 @@ public interface ApiService {
     //签到提交
     @POST("plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes")
     Observable<Response<okhttp3.ResponseBody>> checkIn(@QueryMap Map<String, String> options);
-
-    //用户信息
-    @POST(URL_BASE + "r=user/userinfo")
-    Observable<UserInfoModel> getUserInfo(@QueryMap Map<String, String> options);
 }
