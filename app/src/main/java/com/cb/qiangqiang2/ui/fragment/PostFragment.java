@@ -22,10 +22,12 @@ import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.event.TotalNumEvent;
 import com.cb.qiangqiang2.mvpview.PostMvpView;
+import com.cb.qiangqiang2.presenter.OtherPresenter;
 import com.cb.qiangqiang2.presenter.PostPresenter;
 import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.cb.qiangqiang2.ui.adapter.PostListAdapter;
 import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
+import com.cb.qiangqiang2.ui.adapter.listener.OnItemLongClickListener;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -61,6 +63,8 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     PostListAdapter mAdapter;
     @Inject
     PostPresenter postPresenter;
+    @Inject
+    OtherPresenter mOtherPresenter;
 
     private int mBoardId;
     private int mUserId;
@@ -177,6 +181,12 @@ public class PostFragment extends BaseFragment implements PostMvpView {
                 intent.putExtra(WebViewActivity.TITLE, listBean.getBoard_name());
                 intent.putExtra(WebViewActivity.URL, url);
                 getActivity().startActivity(intent);
+            }
+        });
+        mAdapter.setOnItemLongClickListener(new OnItemLongClickListener<PostModel.ListBean>() {
+            @Override
+            public void onItemLongClick(int position, View view, PostModel.ListBean listBean) {
+                mOtherPresenter.setCollectionStatus(Constants.POST_ACTION_FAVORITE, Constants.POST_ID_TYPE_TID, listBean.getTopic_id());
             }
         });
 

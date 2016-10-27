@@ -142,6 +142,8 @@ public class HttpManager {
                                         Toast.makeText(context, baseModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
                                         LoginActivity.startLoginActivity(context);
                                         break;
+                                    default:
+                                        onResponse.onSuccess(o);
                                 }
                             }
                         } catch (Exception e) {

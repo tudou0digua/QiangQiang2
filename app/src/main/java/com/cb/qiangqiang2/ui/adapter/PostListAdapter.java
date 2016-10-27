@@ -17,6 +17,7 @@ import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
 import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
+import com.cb.qiangqiang2.ui.adapter.listener.OnItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class PostListAdapter extends RecyclerView.Adapter {
     private PostModel postModel;
     private List<PostModel.ListBean> mLists;
     private OnItemClickListener<PostModel.ListBean> mOnItemClickListener;
+    private OnItemLongClickListener<PostModel.ListBean> mOnItemLongClickListener;
 
     @Inject
     public PostListAdapter() {
@@ -47,6 +49,10 @@ public class PostListAdapter extends RecyclerView.Adapter {
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener<PostModel.ListBean> onItemLongClickListener) {
+        mOnItemLongClickListener = onItemLongClickListener;
     }
 
     public void setPostModel(PostModel postModel) {
@@ -99,6 +105,13 @@ public class PostListAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 if (mOnItemClickListener != null) mOnItemClickListener.onItemClick(position, v, bean);
+            }
+        });
+        viewHolder.mLlPostItemContainer.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (mOnItemLongClickListener != null) mOnItemLongClickListener.onItemLongClick(position, view, bean);
+                return true;
             }
         });
     }

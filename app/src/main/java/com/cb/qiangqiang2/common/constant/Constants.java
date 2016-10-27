@@ -24,6 +24,11 @@ public class Constants {
     public static final String USER_LIST_FOLLOW = "follow";
     public static final String USER_LIST_FRIEND = "friend";
     public static final String USER_LIST_DATELINE= "dateline";
+    public static final String POST_ACTION_FAVORITE = "favorite";
+    public static final String POST_ACTION_DELFAVORITE = "delfavorite";
+    public static final String POST_ID_TYPE_TID = "tid";
+    public static final String POST_TYPE_UNFOLLOW= "unfollow";
+    public static final String POST_TYPE_FOLLOW= "follow";
 
     //api constant
     public static final String FORUM_KEY = "forumKey";
@@ -63,5 +68,9 @@ public class Constants {
     public static final String USER_ID = "userId";
     public static final String ORDER_BY = "orderBy";
 
+    //收藏
+    public static final String ACTION = "action";
+    public static final String ID_TYPE = "idType";
+    public static final String ID = "id";
 
 }

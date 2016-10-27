@@ -12,9 +12,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
+import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.common.glide.GlideCircleTransform;
 import com.cb.qiangqiang2.data.model.UserListModel;
+import com.cb.qiangqiang2.presenter.OtherPresenter;
 import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -33,6 +35,9 @@ public class UserListAdapter extends RecyclerView.Adapter {
     @Inject
     @ForActivity
     Context mContext;
+
+    @Inject
+    OtherPresenter mOtherPresenter;
 
     private UserListModel mUserListModel;
     private List<UserListModel.ListBean> mLists;
@@ -110,6 +115,7 @@ public class UserListAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View view) {
                 //TODO
+                mOtherPresenter.setFollowStatus(bean.getUid(), Constants.POST_TYPE_FOLLOW);
             }
         });
     }

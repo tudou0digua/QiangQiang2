@@ -1,5 +1,6 @@
 package com.cb.qiangqiang2.data.api;
 
+import com.cb.qiangqiang2.data.model.BaseModel;
 import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.data.model.PostModel;
@@ -48,6 +49,14 @@ public interface ApiService {
     @POST(URL_BASE + "r=user/userlist")
     Observable<UserListModel> getUserList(@QueryMap Map<String, String> options);
 
+    //收藏和取消收藏
+    @POST(URL_BASE + "r=user/userfavorite")
+    Observable<BaseModel> setCollectionStatus(@QueryMap Map<String, String> options);
+
+    //关注和取消关注
+    @POST(URL_BASE + "r=user/useradmin")
+    Observable<BaseModel> setFollowStatus(@QueryMap Map<String, String> options);
+
     //签到网页
     @GET("plugin.php?id=dsu_paulsign:sign")
     Observable<Response<okhttp3.ResponseBody>> getCheckInPage(@QueryMap Map<String, String> options);
@@ -55,4 +64,5 @@ public interface ApiService {
     //签到提交
     @POST("plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes")
     Observable<Response<okhttp3.ResponseBody>> checkIn(@QueryMap Map<String, String> options);
+
 }
