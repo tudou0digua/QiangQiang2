@@ -16,7 +16,7 @@ import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
 import com.cb.qiangqiang2.common.constant.Constants;
-import com.cb.qiangqiang2.common.event.BoardChangeEvent;
+import com.cb.qiangqiang2.event.BoardChangeEvent;
 import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.model.BoardBean;

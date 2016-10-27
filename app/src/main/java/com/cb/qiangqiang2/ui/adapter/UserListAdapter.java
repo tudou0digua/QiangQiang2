@@ -81,7 +81,12 @@ public class UserListAdapter extends RecyclerView.Adapter {
                 .crossFade(300)
                 .into(viewHolder.mIvAvatar);
         viewHolder.mTvName.setText(bean.getName());
-        viewHolder.mTvLevel.setText(bean.getUserTitle());
+        if (TextUtils.isEmpty(bean.getUserTitle())) {
+            viewHolder.mTvLevel.setVisibility(View.GONE);
+        } else {
+            viewHolder.mTvLevel.setVisibility(View.VISIBLE);
+            viewHolder.mTvLevel.setText(bean.getUserTitle());
+        }
         String signature = bean.getSignature();
         if (TextUtils.isEmpty(signature)) {
             viewHolder.mTvSignature.setText(R.string.user_list_no_signature);

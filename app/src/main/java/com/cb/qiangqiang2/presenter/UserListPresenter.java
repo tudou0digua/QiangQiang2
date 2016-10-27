@@ -33,6 +33,7 @@ public class UserListPresenter extends BasePresenter<UserListMvpView> {
         map.put(Constants.TYPE, String.valueOf(type));
         map.put(Constants.PAGE, String.valueOf(page));
         map.put(Constants.ORDER_BY, String.valueOf(Constants.USER_LIST_DATELINE));
+        HttpManager.isNeedFormatDataLogger = true;
         HttpManager.toSub(mApiService.getUserList(map), new HttpManager.OnResponse() {
             @Override
             public void onSuccess(Object result) {

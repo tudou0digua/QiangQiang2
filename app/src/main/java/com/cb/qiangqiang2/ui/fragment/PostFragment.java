@@ -17,13 +17,17 @@ import android.widget.Toast;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
+import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.data.model.PostModel;
+import com.cb.qiangqiang2.event.TotalNumEvent;
 import com.cb.qiangqiang2.mvpview.PostMvpView;
 import com.cb.qiangqiang2.presenter.PostPresenter;
 import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.cb.qiangqiang2.ui.adapter.PostListAdapter;
 import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -65,7 +69,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     private boolean isFromUser;
     private int nextPage = 2;
     private boolean canLoadingMore = false;
-    private boolean isLoadAllData = false;
+    private boolean hasLoadAllData = false;
 
     public PostFragment() {
         // Required empty public constructor
@@ -183,7 +187,8 @@ public class PostFragment extends BaseFragment implements PostMvpView {
         mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (!isLoadAllData && canLoadingMore && isScrollToBottom(recyclerView)) {
+                boolean isScrollToBottom = isScrollToBottom(recyclerView);
+                if (!hasLoadAllData && canLoadingMore && isScrollToBottom) {
                     canLoadingMore = false;
                     postPresenter.loadMorePostListData(isFromUser, mSortBy, nextPage, mBoardId, mType, mUserId);
                 }
@@ -223,21 +228,25 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 
     @Override
     public void refreshData(PostModel postModel) {
-        if (postModel.getHas_next() == 0) {
-            isLoadAllData = true;
-            nextPage = 1;
-        } else {
-            nextPage = 2;
-            isLoadAllData = false;
+        //没有下一页并且nextPage为初始值2，代表没有进行过上拉加载且所以页面都已经加载完成
+        if (postModel.getHas_next() == 0 && nextPage == 2) {
+            hasLoadAllData = true;
+        } else if (postModel.getHas_next() != 0 && nextPage > 2) {
+            hasLoadAllData = false;
         }
+        nextPage = 2;
         canLoadingMore = true;
         mAdapter.setPostModel(postModel);
+        if (Constants.USER_POST_FAVORITE.equals(mType)) {
+            EventBus.getDefault().post(new TotalNumEvent(postModel.getTotal_num(), Constants.USER_POST_FAVORITE));
+        }
     }
 
     @Override
     public void loadMoreData(PostModel postModel) {
-        if (postModel.getHas_next() == 0) {
-            isLoadAllData = true;
+        if (postModel.getHas_next() == 0
+                && (postModel.getList() == null || postModel.getList().size() == 0)) {
+            hasLoadAllData = true;
             Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
         } else {
             nextPage++;

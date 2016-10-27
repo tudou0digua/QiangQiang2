@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseAutoLayoutActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
-import com.cb.qiangqiang2.common.event.PostScrollEvent;
+import com.cb.qiangqiang2.event.PostScrollEvent;
 import com.cb.qiangqiang2.test.activity.MainTestActivity;
 import com.cb.qiangqiang2.ui.fragment.BlankFragment;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;

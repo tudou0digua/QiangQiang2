@@ -23,6 +23,7 @@ public class UserInfoPresenter extends BasePresenter<UserInfoMvpView> {
     public void getUserInfo(int userId) {
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         map.put(Constants.USER_ID, String.valueOf(userId));
+        HttpManager.isNeedFormatDataLogger = true;
         HttpManager.toSub(mApiService.getUserInfo(map), new HttpManager.OnResponse() {
             @Override
             public void onSuccess(Object result) {

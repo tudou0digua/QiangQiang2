@@ -17,6 +17,10 @@ public abstract class BaseSwipeBackActivity extends BaseActivity implements Swip
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void initSwipeBack() {
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
     }

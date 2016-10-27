@@ -22,14 +22,20 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
+import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.glide.GlideCircleTransform;
 import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.model.UserInfoModel;
+import com.cb.qiangqiang2.event.TotalNumEvent;
 import com.cb.qiangqiang2.mvpview.UserInfoMvpView;
 import com.cb.qiangqiang2.presenter.UserInfoPresenter;
 import com.cb.qiangqiang2.ui.fragment.PostFragment;
 import com.cb.qiangqiang2.ui.fragment.UserListFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -172,6 +178,7 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
 
     @Override
     protected void initView() {
+        getSwipeBackLayout().setEnableGesture(false);
         //动态设置StatusBar的marginTop等，适配5.0之前和之后的系统
         int toolBarMarginTop;
         int avatarMarginTop;
@@ -243,16 +250,14 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
         mTvCredit.setText(getString(R.string.user_info_credit, userInfoModel.getCredits()));
         mTvSilverCoin.setText(getString(R.string.user_info_silver, userInfoModel.getGold_num()));
         mTvGoldCoin.setText(getString(R.string.user_info_gold, userInfoModel.getScore() - userInfoModel.getGold_num()));
-        if (userInfoModel.getGender() == 0) {
+        if (userInfoModel.getGender() == 1) {
             mIvSexy.setImageDrawable(getResources().getDrawable(R.drawable.user_info_head_icon2));
-        } else {
+        } else if (userInfoModel.getGender() == 2){
             mIvSexy.setImageDrawable(getResources().getDrawable(R.drawable.user_info_head_icon1));
         }
         if (isAccountUser) {
-
             mTabLayout.getTabAt(1).setText(mTabLayout.getTabAt(1).getText() + "\n" +userInfoModel.getTopic_num());
             mTabLayout.getTabAt(2).setText(mTabLayout.getTabAt(2).getText() + "\n" +userInfoModel.getReply_posts_num());
-            mTabLayout.getTabAt(3).setText(mTabLayout.getTabAt(3).getText() + "\n" +userInfoModel.getFriend_num());
             mTabLayout.getTabAt(4).setText(mTabLayout.getTabAt(4).getText() + "\n" +userInfoModel.getFriend_num());
             mTabLayout.getTabAt(5).setText(mTabLayout.getTabAt(5).getText() + "\n" +userInfoModel.getFollow_num());
         } else {
@@ -283,5 +288,26 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
     protected void onDestroy() {
         super.onDestroy();
         mUserInfoPresenter.detachView();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTotalNumEvent(TotalNumEvent event) {
+        if (Constants.USER_POST_FAVORITE.equals(event.getType())) {
+            mTabLayout.getTabAt(0).setText(getString(R.string.user_info_collection) + "\n" + event.getTotalNum());
+        } else if (Constants.USER_LIST_FRIEND.equals(event.getType())) {
+            mTabLayout.getTabAt(3).setText(getString(R.string.user_info_friend) + "\n" + event.getTotalNum());
+        }
     }
 }

@@ -17,12 +17,16 @@ import android.widget.Toast;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
+import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.data.model.UserListModel;
+import com.cb.qiangqiang2.event.TotalNumEvent;
 import com.cb.qiangqiang2.mvpview.UserListMvpView;
 import com.cb.qiangqiang2.presenter.UserListPresenter;
 import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
 import com.cb.qiangqiang2.ui.adapter.UserListAdapter;
 import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -55,7 +59,7 @@ public class UserListFragment extends BaseFragment implements UserListMvpView {
     private String mType;
     private int nextPage = 2;
     private boolean canLoadingMore = true;
-    private boolean isLoadAllData = false;
+    private boolean hasLoadAllData = false;
 
     public UserListFragment() {
         // Required empty public constructor
@@ -119,7 +123,8 @@ public class UserListFragment extends BaseFragment implements UserListMvpView {
         mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (!isLoadAllData && canLoadingMore && isScrollToBottom(recyclerView)) {
+                boolean isScrollToBottom = isScrollToBottom(recyclerView);
+                if (!hasLoadAllData && canLoadingMore && isScrollToBottom) {
                     canLoadingMore = false;
                     mUserListPresenter.getUserList(true, mUserId, mType, nextPage);
                 }
@@ -139,15 +144,17 @@ public class UserListFragment extends BaseFragment implements UserListMvpView {
 
     @Override
     public void refreshData(UserListModel userListModel) {
-        if (userListModel.getHas_next() == 0) {
-            isLoadAllData = true;
-            nextPage = 1;
-        } else {
-            nextPage = 2;
-            isLoadAllData = false;
+        if (userListModel.getHas_next() == 0 && nextPage == 2) {
+            hasLoadAllData = true;
+        } else if (userListModel.getHas_next() != 0 && nextPage > 2) {
+            hasLoadAllData = false;
         }
+        nextPage = 2;
         mAdapter.setUserListModel(userListModel);
         canLoadingMore = true;
+        if (Constants.USER_LIST_FRIEND.equals(mType)) {
+            EventBus.getDefault().post(new TotalNumEvent(userListModel.getTotal_num(), Constants.USER_LIST_FRIEND));
+        }
     }
 
     @Override
@@ -157,8 +164,9 @@ public class UserListFragment extends BaseFragment implements UserListMvpView {
 
     @Override
     public void loadMoreData(UserListModel userListModel) {
-        if (userListModel.getHas_next() == 0) {
-            isLoadAllData = true;
+        if (userListModel.getHas_next() == 0
+                && (userListModel.getList() == null || userListModel.getList().size() == 0)) {
+            hasLoadAllData = true;
             Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
         } else {
             nextPage++;

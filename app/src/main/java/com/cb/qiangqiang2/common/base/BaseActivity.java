@@ -30,6 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         //for bind butter knife
         setContentView(getLayoutId());
         ButterKnife.bind(this);
+        initSwipeBack();
         initStatusBar();
         injectActivity();
         attachPresenter();
@@ -39,6 +40,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     abstract protected @LayoutRes int getLayoutId();
+
+    protected void initSwipeBack() {
+
+    }
 
     protected void initStatusBar() {
 

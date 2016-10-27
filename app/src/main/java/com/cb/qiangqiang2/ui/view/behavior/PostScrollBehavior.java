@@ -7,7 +7,7 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.cb.qiangqiang2.common.event.PostScrollEvent;
+import com.cb.qiangqiang2.event.PostScrollEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
