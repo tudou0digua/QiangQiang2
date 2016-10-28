@@ -3,6 +3,7 @@ package com.cb.qiangqiang2.ui.view;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -124,6 +125,31 @@ public class TabLayout extends LinearLayout {
         } else {
             return null;
         }
+    }
+
+    public static void bindViewPager(final TabLayout tabLayout, ViewPager viewPager, final int totalSize) {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if ((position + 1) == totalSize) {
+                    tabLayout.setSelected(position);
+                    tabLayout.setUnSelected(position - 1);
+                } else {
+                    tabLayout.setTabViewAlpha(position + 1, positionOffset);
+                    tabLayout.setTabViewAlpha(position, 1.0f - positionOffset);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public interface OnTabSelectedListener {
