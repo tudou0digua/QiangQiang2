@@ -64,10 +64,8 @@ public class MainActivity extends BaseAutoLayoutActivity {
     @Override
     protected void initData() {
         fragments = new ArrayList<>();
-//        fragments.add(new BlankFragment2());
         fragments.add(PostFragment.newInstance(0, POST_NEW));
-        fragments.add(BoardFragment.newInstance("", ""));
-//        fragments.add(BlankFragment.newInstance("fragment 1", null));
+        fragments.add(BoardFragment.newInstance());
         fragments.add(BlankFragment.newInstance("fragment 2", null));
         fragments.add(BlankFragment.newInstance("fragment 3", null));
     }

@@ -49,8 +49,6 @@ import static com.cb.qiangqiang2.common.constant.Constants.POST_ALL;
  * 板块列表
  */
 public class BoardFragment extends BaseFragment implements BoardMvpView, CheckInMvpView {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     @Inject
     BoardPresenter boardPresenter;
@@ -62,21 +60,16 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
 
-    private String mParam1;
-    private String mParam2;
     private List<BoardBean> lists;
     private List<Fragment> fragments;
-
 
     public BoardFragment() {
         // Required empty public constructor
     }
 
-    public static BoardFragment newInstance(String param1, String param2) {
+    public static BoardFragment newInstance() {
         BoardFragment fragment = new BoardFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,8 +78,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
