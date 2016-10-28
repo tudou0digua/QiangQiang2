@@ -2,6 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cb.qiangqiang2.ui.fragment.BoardFragment">
@@ -16,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_height"
             android:background="?attr/colorPrimary"
+            app:navigationIcon="@drawable/ic_menu_white_24dp"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -23,7 +25,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tab2"
+                android:text="@string/tab1"
                 android:textColor="@color/text_title"
                 android:textSize="@dimen/text_size3"
                 android:layout_gravity="center"/>

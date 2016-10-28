@@ -1,52 +1,46 @@
 package com.cb.qiangqiang2.ui.activity;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
-import android.view.ViewGroup;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseAutoLayoutActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
-import com.cb.qiangqiang2.event.PostScrollEvent;
-import com.cb.qiangqiang2.test.activity.MainTestActivity;
-import com.cb.qiangqiang2.ui.fragment.BlankFragment;
+import com.cb.qiangqiang2.data.UserManager;
+import com.cb.qiangqiang2.event.OpenDrawLayoutEvent;
+import com.cb.qiangqiang2.event.ShowExitSnackBarEvent;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;
-import com.cb.qiangqiang2.ui.fragment.PostFragment;
-import com.cb.qiangqiang2.ui.view.CustomViewPager;
-import com.cb.qiangqiang2.ui.view.TabLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
 
 import butterknife.BindView;
-
-import static com.cb.qiangqiang2.common.constant.Constants.POST_NEW;
+import cn.carbs.android.avatarimageview.library.AvatarImageView;
 
 public class MainActivity extends BaseAutoLayoutActivity {
     private static final int EXIT_INTERVAL = 2000;
 
-    @BindView(R.id.tl_tab_layout)
-    TabLayout tabLayout;
-    @BindView(R.id.viewpager)
-    CustomViewPager viewpager;
-    @BindView(R.id.toolbar_main)
-    Toolbar mToolbar;
-    @BindView(R.id.drawer_layout)
+    @Inject
+    UserManager mUserManager;
+
+    @BindView(R.id.navigation_left)
+    NavigationView mNavigationViewLeft;
+    @BindView(R.id.activity_main)
     DrawerLayout mDrawerLayout;
 
-    private List<Fragment> fragments;
     private long lastBackClickTime = Constants.DEFAULT_INVALIDE_TIME;
 
     @Override
@@ -68,87 +62,75 @@ public class MainActivity extends BaseAutoLayoutActivity {
 
     @Override
     protected void initData() {
-        fragments = new ArrayList<>();
-        fragments.add(PostFragment.newInstance(0, POST_NEW));
-        fragments.add(BoardFragment.newInstance());
-        fragments.add(BlankFragment.newInstance("fragment 2", null));
-        fragments.add(BlankFragment.newInstance("fragment 3", null));
     }
 
     @Override
-    protected void initView() {
-        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                return fragments.get(position);
-            }
+    protected void initView(Bundle savedInstanceState) {
+        if (findViewById(R.id.fragment_container) != null) {
+            if (savedInstanceState != null) return;
+            BoardFragment boardFragment = new BoardFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, boardFragment).commit();
+        }
 
-            @Override
-            public int getCount() {
-                return fragments.size();
-            }
-        };
-        viewpager.setAdapter(adapter);
-        viewpager.setOffscreenPageLimit(fragments.size());
-        viewpager.setCurrentItem(0);
-        viewpager.setScrollingEnabled(true);
-
-        TabLayout.bindViewPager(tabLayout, viewpager, fragments.size());
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(int position) {
-                viewpager.setCurrentItem(position, false);
-                if (position == fragments.size() - 1)
-                    startActivity(new Intent(MainActivity.this, MainTestActivity.class));
-                Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
-                intent.putExtra(WebViewActivity.TITLE, "签到");
-                intent.putExtra(WebViewActivity.URL, "http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign");
-                if (position == fragments.size() - 2) startActivity(intent);
-            }
-        });
-        tabLayout.setOnTabDoubleClickListener(new TabLayout.OnTabDoubleClickListener() {
-            @Override
-            public void onTabDoubleClick(int position) {
-                if (position == 0 && viewpager.getCurrentItem() == 0) {
-                    ((PostFragment) fragments.get(0)).scrollToTop();
-                }
-            }
-        });
+        initNavigationView();
     }
 
-    /**
-     * 菜单显示隐藏动画
-     *
-     * @param showOrHide true:show
-     */
-    private void startAnimation(boolean showOrHide) {
-        final ViewGroup.LayoutParams layoutParams = tabLayout.getLayoutParams();
-        ValueAnimator valueAnimator;
-        ObjectAnimator alpha;
-        int tabHeight = getResources().getDimensionPixelOffset(R.dimen.tab_height);
-        if (!showOrHide) {
-            valueAnimator = ValueAnimator.ofInt(tabHeight, 0);
-            alpha = ObjectAnimator.ofFloat(tabLayout, "alpha", 1, 0);
-        } else {
-            valueAnimator = ValueAnimator.ofInt(0, tabHeight);
-            alpha = ObjectAnimator.ofFloat(tabLayout, "alpha", 0, 1);
+    private void initNavigationView() {
+        mNavigationViewLeft.setItemIconTintList(null);
+
+        //NavigationView Header
+        View view = mNavigationViewLeft.getHeaderView(0);
+        AvatarImageView avatarImageView = (AvatarImageView) view.findViewById(R.id.iv_avatar);
+        TextView tvName = (TextView) view.findViewById(R.id.tv_name);
+        TextView tvLevel = (TextView) view.findViewById(R.id.tv_level);
+        ImageView ivLogout = (ImageView) view.findViewById(R.id.iv_logout);
+        if (!TextUtils.isEmpty(mUserManager.getAvatarUrl())) {
+            Glide.with(mContext)
+                    .load(mUserManager.getAvatarUrl())
+                    .crossFade()
+                    .centerCrop()
+                    .into(avatarImageView);
         }
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        tvName.setText(mUserManager.getUserName());
+        tvLevel.setText(mUserManager.getLevel());
+        ivLogout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                layoutParams.height = (int) valueAnimator.getAnimatedValue();
-                tabLayout.setLayoutParams(layoutParams);
+            public void onClick(View view) {
+                // 登出
+                mUserManager.logout(mContext);
             }
         });
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.setDuration(500);
-        animatorSet.playTogether(valueAnimator, alpha);
-        animatorSet.start();
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserInfoActivity.startUserInfoActivity(mContext, mUserManager.getUserId(), mUserManager.getUserName());
+            }
+        });
+
+        mNavigationViewLeft.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.item1:
+                        Toast.makeText(mContext, "item1", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+            return;
+        }
+        if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+            mDrawerLayout.closeDrawer(Gravity.RIGHT);
+            return;
+        }
         long currentTime = System.currentTimeMillis();
         if (lastBackClickTime == Constants.DEFAULT_INVALIDE_TIME) {
             lastBackClickTime = currentTime;
@@ -163,7 +145,7 @@ public class MainActivity extends BaseAutoLayoutActivity {
     }
 
     private void showSnackBar() {
-        Snackbar.make(tabLayout, getString(R.string.exit), Snackbar.LENGTH_SHORT).show();
+        EventBus.getDefault().post(new ShowExitSnackBarEvent());
     }
 
     @Override
@@ -179,9 +161,8 @@ public class MainActivity extends BaseAutoLayoutActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(PostScrollEvent event) {
-        startAnimation(event.isShowTabLayout());
+    public void onOpenDrawLayout(OpenDrawLayoutEvent event) {
+        mDrawerLayout.openDrawer(Gravity.LEFT);
     }
-
 
 }

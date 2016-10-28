@@ -3,10 +3,13 @@ package com.cb.qiangqiang2.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +19,13 @@ import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
 import com.cb.qiangqiang2.common.constant.Constants;
-import com.cb.qiangqiang2.event.BoardChangeEvent;
 import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.model.BoardBean;
 import com.cb.qiangqiang2.data.model.BoardModel;
+import com.cb.qiangqiang2.event.BoardChangeEvent;
+import com.cb.qiangqiang2.event.OpenDrawLayoutEvent;
+import com.cb.qiangqiang2.event.ShowExitSnackBarEvent;
 import com.cb.qiangqiang2.mvpview.BoardMvpView;
 import com.cb.qiangqiang2.mvpview.CheckInMvpView;
 import com.cb.qiangqiang2.presenter.BoardPresenter;
@@ -44,6 +49,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.cb.qiangqiang2.common.constant.Constants.POST_ALL;
+import static com.cb.qiangqiang2.common.constant.Constants.POST_NEW;
 
 /**
  * 板块列表
@@ -59,6 +65,10 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     ViewPager mViewPager;
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout mCoordinatorLayout;
 
     private List<BoardBean> lists;
     private List<Fragment> fragments;
@@ -95,6 +105,12 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     }
 
     private void initView() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new OpenDrawLayoutEvent());
+            }
+        });
         lists = new ArrayList<>();
         String boardSelectedStr = PrefUtils.getString(getActivity(), Constants.BOARD_LIST_SELECTED);
         if (boardSelectedStr != null) {
@@ -111,8 +127,18 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
 
     private void setViewPager() {
         fragments = new ArrayList<>();
-        for (BoardBean list : lists) {
-            fragments.add(PostFragment.newInstance(list.getId(), POST_ALL));
+        BoardBean boardBean = new BoardBean();
+        boardBean.setId(0);
+        boardBean.setName("最新");
+        lists.add(0, boardBean);
+        for (int i = 0; i < lists.size(); i++) {
+            String sortBy;
+            if (i == 0) {
+                sortBy = POST_NEW;
+            } else {
+                sortBy = POST_ALL;
+            }
+            fragments.add(PostFragment.newInstance(lists.get(i).getId(), sortBy));
         }
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
@@ -239,5 +265,10 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
         } else {
             boardPresenter.loadBoardData();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onShowExitSnackBar(ShowExitSnackBarEvent event) {
+        Snackbar.make(mCoordinatorLayout, getString(R.string.exit), Snackbar.LENGTH_SHORT).show();
     }
 }

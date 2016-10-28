@@ -13,6 +13,13 @@ public class PrefUtils {
         throw new AssertionError();
     }
 
+    public static boolean cleaAll(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.clear();
+        return editor.commit();
+    }
+
     /**
      * put string preferences
      *

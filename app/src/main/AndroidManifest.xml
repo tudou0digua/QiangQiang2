@@ -39,7 +39,8 @@
             android:theme="@style/ActivityTheme"/>
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:label="@string/title_activity_login"/>
+            android:label="@string/title_activity_login"
+            android:launchMode="singleTop"/>
 
         <!-- For AutoLayout lib -->
         <meta-data

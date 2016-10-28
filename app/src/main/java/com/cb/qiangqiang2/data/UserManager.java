@@ -63,4 +63,23 @@ public class UserManager {
         }
         return "";
     }
+
+    public String getAvatarUrl() {
+        if (getUserInfo() != null) {
+            return mUserInfo.getAvatar();
+        }
+        return "";
+    }
+
+    public String getLevel() {
+        if (getUserInfo() != null) {
+            return mUserInfo.getUserTitle();
+        }
+        return "";
+    }
+
+    public void logout(Context context) {
+        PrefUtils.cleaAll(context);
+    }
+
 }

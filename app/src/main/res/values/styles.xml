@@ -41,4 +41,13 @@
         <item name="android:textColor">@color/text_title</item>
     </style>
 
+    <style name="DrawerLeftText">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_size2</item>
+    </style>
+
+    <style name="NavigationView" >
+        <item name="android:listDivider">@drawable/divider_bg</item>
+    </style>
+
 </resources>

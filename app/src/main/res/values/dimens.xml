@@ -6,8 +6,8 @@
     <dimen name="title_height">48dp</dimen>
     <dimen name="tab_height">48dp</dimen>
 
-    <dimen name="padding_left">12dp</dimen>
-    <dimen name="padding_right">12dp</dimen>
+    <dimen name="padding_left">16dp</dimen>
+    <dimen name="padding_right">16dp</dimen>
     <dimen name="floating_action_button_margin">16dp</dimen>
     <dimen name="divider">1px</dimen>
 

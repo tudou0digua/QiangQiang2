@@ -9,40 +9,29 @@
     android:background="@color/base_bg"
     tools:context="com.cb.qiangqiang2.ui.activity.MainActivity">
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.cb.qiangqiang2.ui.view.CustomViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/line_bottom"/>
-
-        <TextView
-            android:id="@+id/line_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_above="@+id/fl_tab_container"
-            android:background="#E0E0E0"/>
-
-        <FrameLayout
-            android:id="@+id/fl_tab_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
-
-            <include layout="@layout/tab_layout"/>
-
-        </FrameLayout>
-
-    </RelativeLayout>
+    </FrameLayout>
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/navigation"
-        android:layout_width="240dp"
+        android:id="@+id/navigation_left"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/drawer_head_layout"
+        app:menu="@menu/activity_main_drawer"
+        app:itemTextAppearance="@style/DrawerLeftText"
+        app:theme="@style/NavigationView"/>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_right"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
         android:fitsSystemWindows="true"
         app:menu="@menu/activity_main_drawer"/>
 
