@@ -1,4 +1,7 @@
 [开源组件合集-泡在网上的日子](http://www.jcodecraeer.com/plus/list.php?tid=31&TotalResult=1170&PageNo=1)
+#### 开源特效  
+[Android开源特效常用链接大集合](http://blog.csdn.net/Jiang_Rong_Tao/article/details/51436991)  
+
 ####图标 资源  
 google官方图标库 [Material icons](https://design.google.com/icons/)  
 [material design 配色](https://www.materialpalette.com/cyan/teal)  
