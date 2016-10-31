@@ -4,8 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.cb.qiangqiang2.common.constant.Constants;
-import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
 import com.cb.qiangqiang2.common.util.PrefUtils;
+import com.cb.qiangqiang2.data.api.HttpManager;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.google.gson.Gson;
 
@@ -19,12 +19,14 @@ public class UserManager {
     public static final int INVALID_USER_ID = -1;
     public static final String USER_INFO_DATA = "user_info_data";
 
+    @Inject
+    HttpManager mHttpManager;
+
     private Context mContext;
 
     private LoginModel mUserInfo;
 
-    @Inject
-    public UserManager(@ForApplication Context context) {
+    public UserManager(Context context) {
         mContext = context;
     }
 
@@ -80,6 +82,7 @@ public class UserManager {
 
     public void logout(Context context) {
         PrefUtils.cleaAll(context);
+        mHttpManager.clearCookie();
     }
 
 }

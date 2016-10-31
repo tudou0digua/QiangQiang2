@@ -41,4 +41,8 @@ public class CookiesManager implements CookieJar {
 //        Logger.json(new Gson().toJson(cookies));
         return cookies;
     }
+
+    public void clearCookie() {
+        cookieStore.removeAll();
+    }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.cb.qiangqiang2.common.dagger.module.AppModule;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
+import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.api.ApiService;
 
 import javax.inject.Singleton;
@@ -24,4 +25,6 @@ public interface AppComponent {
     Application application();
 
     ApiService apiService();
+
+    UserManager userManger();
 }

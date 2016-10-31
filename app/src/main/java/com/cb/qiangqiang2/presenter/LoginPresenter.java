@@ -24,6 +24,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         map.put(Constants.USERNAME, username);
         map.put(Constants.PASSWORD, password);
+        HttpManager.isNeedFormatDataLogger = true;
         HttpManager.toSub(mApiService.login(map), new HttpManager.OnResponse() {
             @Override
             public void onSuccess(Object result) {

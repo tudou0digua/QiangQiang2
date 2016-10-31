@@ -321,8 +321,18 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
     @Override
     public void loginResult(LoginModel loginModel) {
-        mUserManager.setUserInfo(loginModel);
-        finish();
+        switch (loginModel.getHead().getErrCode()) {
+            case "11100001":
+                Toast.makeText(mContext, loginModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
+                break;
+            case "00000000":
+                mUserManager.setUserInfo(loginModel);
+                finish();
+                break;
+            default:
+                Toast.makeText(mContext, loginModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     @Override

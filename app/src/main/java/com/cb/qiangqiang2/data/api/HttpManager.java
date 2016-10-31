@@ -211,4 +211,8 @@ public class HttpManager {
         }
     }
 
+    public void clearCookie() {
+        cookiesManager.clearCookie();
+    }
+
 }

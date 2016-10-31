@@ -22,6 +22,12 @@ android {
     }
 }
 
+greendao {
+    schemaVersion 1    //<--数据库的版本，用于升级时候进行更改
+    daoPackage 'com.cb.qiangqiang2.data.db.greendao.gen'     //存放自动生成代码的包
+    targetGenDir 'src/main/java'                  //...
+}
+
 dependencies {
     final SUPPORT_LIBRARY_VERSION = '24.2.1'
     final SUPPORT_LIBRARY_VERSION_NEW = '25.0.0'

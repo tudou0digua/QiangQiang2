@@ -12,6 +12,7 @@ import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
 import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.api.ApiService;
 import com.cb.qiangqiang2.data.api.HttpManager;
+import com.cb.qiangqiang2.data.db.DbManager;
 
 import javax.inject.Singleton;
 
@@ -42,13 +43,6 @@ public class AppModule {
         return mApplication;
     }
 
-
-//    @Provides
-//    @Singleton
-//    RibotsService provideRibotsService() {
-//        return RibotsService.Creator.newRibotsService();
-//    }
-
     @Provides
     @Singleton
     ApiService provideApiService(HttpManager httpManager) {
@@ -57,7 +51,13 @@ public class AppModule {
 
     @Provides
     @Singleton
-    UserManager provideUserManager(UserManager userManager) {
-        return userManager;
+    UserManager provideUserManager() {
+        return new UserManager(mApplication);
+    }
+
+    @Provides
+    @Singleton
+    DbManager providerDbManager() {
+        return new DbManager(mApplication);
     }
 }
