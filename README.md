@@ -39,6 +39,9 @@ https://github.com/CarlLu/MVPframe  (待看)
 [RxJava 与 Retrofit 结合的最佳实践](http://gank.io/post/56e80c2c677659311bed9841?from=timeline&isappinstalled=0&nsukey=g1D1Y6PMp3BW%2B0%2F%2Butx4StSJxcUCTm4%2BN8T7LnPNCCeQEY1lzm6oKvXdbrlAD4E9T%2FB1quV75jJB7H9zjcRxTQ%3D%3D)  
 [Retrofit + RxAndroid 实践总结](http://blog.csdn.net/feelang/article/details/51840022)  
 
+####数据库  
+[greenDAO](https://github.com/greenrobot/greenDAO)  
+
 ###可参考应用
 [AndroidFire](https://github.com/jaydenxiao2016/AndroidFire)  
 AndroidFire，一款新闻阅读 App框架，基于 Material Design + MVP + RxJava + Retrofit + Glide，基本涵盖了当前 Android 端开发最常用的主流框架，基于此框架可以快速开发一个app。  
