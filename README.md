@@ -31,7 +31,7 @@ https://github.com/CarlLu/MVPframe  (待看)
 [Google官方MVP+Dagger2架构详解【从零开始搭建android框架系列（6）】](http://www.jianshu.com/p/01d3c014b0b1 )  
 [Dagger2使用](http://www.jianshu.com/p/c2feb21064bb)  
 [Tasting Dagger 2 on Android](http://fernandocejas.com/2015/04/11/tasting-dagger-2-on-android/)  
-[Tasting Dagger 2 on Android](https://github.com/android10/Android-CleanArchitecture/blob/master/data/src/test/java/com/fernandocejas/android10/sample/data/ApplicationTestCase.java)  
+[Android-CleanArchitecture](https://github.com/android10/Android-CleanArchitecture/blob/master/data/src/test/java/com/fernandocejas/android10/sample/data/ApplicationTestCase.java)  
 
 ####RxJava  
 [给 Android 开发者的 RxJava 详解](http://gank.io/post/560e15be2dca930e00da1083#toc_26)  
