@@ -8,6 +8,7 @@ import android.content.Context;
 public class DbManager {
     private Context mContext;
 
+
     public DbManager(Context context) {
         mContext = context;
     }
