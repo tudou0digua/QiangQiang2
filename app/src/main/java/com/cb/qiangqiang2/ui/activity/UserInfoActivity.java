@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -43,6 +44,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static com.cb.qiangqiang2.common.constant.Constants.INVALIDE_UID;
@@ -95,6 +97,7 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
     private List<Fragment> fragments;
     private List<String> datas;
     private boolean isAccountUser;//是否是用户本人
+    private String avatarUrl;
 
     public static void startUserInfoActivity(Context context, int userId, String userName) {
         Intent intent = new Intent(context, UserInfoActivity.class);
@@ -126,6 +129,17 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
     @Override
     protected void attachPresenter() {
         mUserInfoPresenter.attachView(this);
+    }
+
+    @OnClick({R.id.iv_avatar})
+    public void onClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_avatar:
+                if (!TextUtils.isEmpty(avatarUrl)) {
+                    BigImageActivity.startBigImageActivity(avatarUrl, mContext);
+                }
+                break;
+        }
     }
 
     @Override
@@ -233,6 +247,7 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
 
     @Override
     public void showUserInfoData(UserInfoModel userInfoModel) {
+        avatarUrl = userInfoModel.getIcon();
         Glide.with(this).load(userInfoModel.getIcon())
                 .bitmapTransform(new BlurTransformation(mContext))
 //                .error(R.drawable.default_icon)

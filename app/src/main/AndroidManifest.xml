@@ -65,6 +65,8 @@
 
         <activity android:name=".ui.activity.SearchActivity">
         </activity>
+        <activity android:name=".ui.activity.BigImageActivity">
+        </activity>
     </application>
 
 </manifest>
