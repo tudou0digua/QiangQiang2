@@ -4,6 +4,7 @@ import com.cb.qiangqiang2.data.model.BaseModel;
 import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.data.model.PostModel;
+import com.cb.qiangqiang2.data.model.SearchPostResultModel;
 import com.cb.qiangqiang2.data.model.UserInfoModel;
 import com.cb.qiangqiang2.data.model.UserListModel;
 
@@ -65,4 +66,15 @@ public interface ApiService {
     @POST("plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0&mobile=yes")
     Observable<Response<okhttp3.ResponseBody>> checkIn(@QueryMap Map<String, String> options);
 
+    //搜索帖子
+    @POST(URL_BASE + "r=forum/search")
+    Observable<SearchPostResultModel> searchPost(@QueryMap Map<String, String> options);
+
+    //搜索文章
+    @POST(URL_BASE + "r=portal/search")
+    Observable<SearchPostResultModel> searchArticle(@QueryMap Map<String, String> options);
+
+    //搜索用户
+    @POST(URL_BASE + "r=user/searchuser")
+    Observable<SearchPostResultModel> searchUser(@QueryMap Map<String, String> options);
 }

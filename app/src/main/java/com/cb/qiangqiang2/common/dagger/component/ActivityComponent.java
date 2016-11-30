@@ -11,6 +11,7 @@ import com.cb.qiangqiang2.common.dagger.scope.PerActivity;
 import com.cb.qiangqiang2.test.activity.Activity2;
 import com.cb.qiangqiang2.test.activity.MainTestActivity;
 import com.cb.qiangqiang2.ui.activity.LoginActivity;
+import com.cb.qiangqiang2.ui.activity.SearchActivity;
 import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
 import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.cb.qiangqiang2.ui.activity.MainActivity;
@@ -46,6 +47,8 @@ public interface ActivityComponent {
     void inject(LoginActivity loginActivity);
 
     void inject(UserListFragment userListFragment);
+
+    void inject(SearchActivity searchActivity);
 
 
     void inject(MainTestActivity mainTestActivity);

@@ -17,6 +17,8 @@
     <string name="title_activity_web">网页</string>
     <string name="title_activity_person_info">个人信息</string>
     <string name="check_in">签到</string>
+    <string name="search">搜索</string>
+    <string name="search_hint">搜索</string>
     <string name="no_more_data">亲，到底了...囧rz</string>
 
     <string name="exit">再按一次退出程序。</string>

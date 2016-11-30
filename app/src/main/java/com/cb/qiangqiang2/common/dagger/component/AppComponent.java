@@ -7,6 +7,7 @@ import com.cb.qiangqiang2.common.dagger.module.AppModule;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
 import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.api.ApiService;
+import com.cb.qiangqiang2.data.db.DbManager;
 
 import javax.inject.Singleton;
 
@@ -27,4 +28,6 @@ public interface AppComponent {
     ApiService apiService();
 
     UserManager userManger();
+
+    DbManager dbManager();
 }

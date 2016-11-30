@@ -63,6 +63,8 @@
             android:theme="@style/ActivityTheme"/>
         <!-- test activity end -->
 
+        <activity android:name=".ui.activity.SearchActivity">
+        </activity>
     </application>
 
 </manifest>

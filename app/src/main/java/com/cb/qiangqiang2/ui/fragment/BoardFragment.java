@@ -31,6 +31,7 @@ import com.cb.qiangqiang2.mvpview.CheckInMvpView;
 import com.cb.qiangqiang2.presenter.BoardPresenter;
 import com.cb.qiangqiang2.presenter.CheckInPresenter;
 import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
+import com.cb.qiangqiang2.ui.activity.SearchActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
@@ -162,7 +163,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
         AppUtils.dynamicSetTabLayoutMode(mTabLayout, getActivity());
     }
 
-    @OnClick({R.id.iv_edit_board, R.id.tv_checkIn})
+    @OnClick({R.id.iv_edit_board, R.id.tv_checkIn, R.id.tv_search})
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_edit_board:
@@ -170,6 +171,9 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
                 break;
             case R.id.tv_checkIn:
                 mCheckInPresenter.checkIn();
+                break;
+            case R.id.tv_search:
+                getActivity().startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
         }
     }

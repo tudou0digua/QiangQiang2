@@ -72,5 +72,7 @@ public class Constants {
     public static final String ACTION = "action";
     public static final String ID_TYPE = "idType";
     public static final String ID = "id";
-
+    
+    //搜索
+    public static final String KEYWORD = "keyword";
 }
