@@ -136,7 +136,7 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
         switch (view.getId()) {
             case R.id.iv_avatar:
                 if (!TextUtils.isEmpty(avatarUrl)) {
-                    BigImageActivity.startBigImageActivity(avatarUrl, mContext);
+                    BigImageActivity.startBigImageActivity(avatarUrl, UserInfoActivity.this, mIvAvatar);
                 }
                 break;
         }

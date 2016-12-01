@@ -1,11 +1,11 @@
 package com.cb.qiangqiang2.ui.activity;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
-import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
@@ -18,14 +18,23 @@ public class BigImageActivity extends BaseActivity {
     public static final String IMAGE_URL = "image_url";
 
     @BindView(R.id.photo_view)
-    PhotoView photoView;
+    ImageView photoView;
 
     private String imageUrl;
 
-    public static void startBigImageActivity(String imageUrl, Context context) {
+    public static void startBigImageActivity(String imageUrl, Activity context, View view) {
         Intent intent = new Intent(context, BigImageActivity.class);
         intent.putExtra(IMAGE_URL, imageUrl);
         context.startActivity(intent);
+        context.overridePendingTransition(R.anim.scale_in, 0);
+//        ActivityOptionsCompat compat =
+//                ActivityOptionsCompat.makeCustomAnimation(context, R.anim.scale_in, 0);
+
+//        ActivityOptionsCompat compat =
+//                ActivityOptionsCompat.makeScaleUpAnimation(view, view.getTop(), view.getLeft(), view.getWidth(), view.getHeight());
+//        ActivityOptionsCompat.makeSceneTransitionAnimation(context,
+//                        view, context.getString(R.string.big_image_transition));
+//        ActivityCompat.startActivity(context, intent, compat.toBundle());
     }
 
     @Override
@@ -52,7 +61,6 @@ public class BigImageActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        photoView.enable();
         if (imageUrl != null) {
             Glide.with(mContext)
                     .load(imageUrl)
@@ -71,5 +79,6 @@ public class BigImageActivity extends BaseActivity {
 
     private void finishActivity() {
         finish();
+//        ActivityCompat.finishAfterTransition(BigImageActivity.this);
     }
 }

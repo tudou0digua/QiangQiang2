@@ -50,7 +50,8 @@
                     android:layout_width="66dp"
                     android:layout_height="66dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/user_info_avatar_margin_top"/>
+                    android:layout_marginTop="@dimen/user_info_avatar_margin_top"
+                    android:transitionName="@string/big_image_transition"/>
 
                 <ImageView
                     android:id="@+id/iv_sexy"

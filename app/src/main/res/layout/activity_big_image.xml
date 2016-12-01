@@ -5,13 +5,15 @@
     android:id="@+id/activity_big_image"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/transparent"
     tools:context="com.cb.qiangqiang2.ui.activity.BigImageActivity">
 
-    <com.bm.library.PhotoView
+    <ImageView
         android:id="@+id/photo_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
-        android:layout_centerInParent="true"/>
+        android:transitionName="@string/big_image_transition"
+        tools:src="@drawable/default_icon"/>
 
 </RelativeLayout>

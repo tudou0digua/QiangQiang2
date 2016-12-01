@@ -65,7 +65,8 @@
 
         <activity android:name=".ui.activity.SearchActivity">
         </activity>
-        <activity android:name=".ui.activity.BigImageActivity">
+        <activity android:name=".ui.activity.BigImageActivity"
+            android:theme="@style/BigImageTheme">
         </activity>
     </application>
 

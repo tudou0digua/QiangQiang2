@@ -9,6 +9,8 @@
     <string name="tab3">消息</string>
     <string name="tab4">我的</string>
 
+    <string name="big_image_transition">bigImageTransition</string>
+
     <!--侧边栏-->
     <string name="action_settings">设置</string>
 
