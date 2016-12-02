@@ -73,7 +73,7 @@ public class SearchActivity extends BaseSwipeBackActivity {
 
             @Override
             public void onSearchConfirmed(CharSequence charSequence) {
-
+                searchPostPresenter.searchPost(false, String.valueOf(charSequence), 1, 10);
             }
 
             @Override
