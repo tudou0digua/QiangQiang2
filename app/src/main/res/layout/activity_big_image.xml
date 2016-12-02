@@ -15,7 +15,7 @@
         android:background="@color/black"/>
 
     <ImageView
-        android:id="@+id/photo_view"
+        android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxHeight="10000dp"

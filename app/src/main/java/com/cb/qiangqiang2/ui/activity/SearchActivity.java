@@ -90,13 +90,13 @@ public class SearchActivity extends BaseSwipeBackActivity {
         List<SearchResult> searchResults;
         searchResultDao.deleteAll();
         for (int i = list.size() - 1; i >= 0; i--) {
-//            searchResults = searchResultDao.queryBuilder().where(SearchResultDao.Properties.Content.eq(list.get(i))).build().list();
+//            searchResults = searchResultDao.queryBuilder().where(SearchResultDao.Properties.Content.eq(list.get(imageView))).build().list();
 //            if (searchResults != null && searchResults.size() > 0) {
 //                SearchResult result = searchResults.get(0);
 //                result.setTime(new Date());
 //                searchResultDao.update(result);
 //            } else {
-//                SearchResult result = new SearchResult(null, list.get(i), new Date());
+//                SearchResult result = new SearchResult(null, list.get(imageView), new Date());
 //                searchResultDao.insert(result);
 //            }
             SearchResult result = new SearchResult(null, list.get(i), new Date());
