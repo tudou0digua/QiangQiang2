@@ -20,7 +20,9 @@
     </style>
 
     <style name="BigImageTheme" parent="AppTheme">
-
+        <item name="android:windowIsTranslucent">true</item><!--半透明-->
+        <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->
+        <item name="android:windowFullscreen">true</item><!-- 隐藏状态栏 -->
     </style>
 
     <style name="Animation.Translucent" parent="@android:style/Animation.Translucent">

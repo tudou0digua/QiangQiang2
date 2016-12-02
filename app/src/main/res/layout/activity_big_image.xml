@@ -8,11 +8,19 @@
     android:background="@android:color/transparent"
     tools:context="com.cb.qiangqiang2.ui.activity.BigImageActivity">
 
+    <TextView
+        android:id="@+id/tv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"/>
+
     <ImageView
         android:id="@+id/photo_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter"
+        android:layout_height="wrap_content"
+        android:maxHeight="10000dp"
+        android:adjustViewBounds="true"
+        android:layout_centerVertical="true"
         android:transitionName="@string/big_image_transition"
         tools:src="@drawable/default_icon"/>
 
