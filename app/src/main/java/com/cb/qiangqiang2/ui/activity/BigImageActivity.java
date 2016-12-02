@@ -11,9 +11,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
@@ -30,12 +30,14 @@ public class BigImageActivity extends BaseActivity {
     private static final int ANIMATOR_DURATION = 500;
 
     @BindView(R.id.image_view)
-    ImageView imageView;
+    PhotoView imageView;
     @BindView(R.id.tv_bg)
     TextView tvBg;
 
     private String imageUrl;
     private ImageParamBean imageParamBean;
+    private AnimatorSet enterAnimatorSet;
+    private AnimatorSet exitAnimatorSet;
 
     public static void startBigImageActivity(String imageUrl, Activity context, ImageView view) {
         Intent intent = new Intent(context, BigImageActivity.class);
@@ -95,12 +97,12 @@ public class BigImageActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        if (imageParamBean != null) {
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-            int screenWidth = AppUtils.getWidth(BigImageActivity.this);
-            layoutParams.width = screenWidth;
-            layoutParams.height = (int) (screenWidth * (imageParamBean.getImageHeight() * 1.0f / imageParamBean.getImageWidth()));
-        }
+//        if (imageParamBean != null) {
+//            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+//            int screenWidth = AppUtils.getWidth(BigImageActivity.this);
+//            layoutParams.width = screenWidth;
+//            layoutParams.height = (int) (screenWidth * (imageParamBean.getImageHeight() * 1.0f / imageParamBean.getImageWidth()));
+//        }
 
         if (imageUrl != null) {
             //TODO 加载Gif有时候不显示
@@ -119,14 +121,14 @@ public class BigImageActivity extends BaseActivity {
             int originHeight = imageParamBean.getViewHeight();
             int deltaY = imageParamBean.getViewTop() - (screenHeight - originHeight) / 2;
             float startScale = originWidth * 1.0f / screenWidth;
-            AnimatorSet animatorSet = new AnimatorSet();
+            enterAnimatorSet = new AnimatorSet();
             ObjectAnimator moveY = ObjectAnimator.ofFloat(imageView, "translationY", deltaY, 0);
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView, "scaleX", startScale, 1f);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(imageView, "scaleY", startScale, 1f);
-            animatorSet.setDuration(500);
-            animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
-            animatorSet.play(scaleX).with(moveY).with(scaleY);
-            animatorSet.start();
+            enterAnimatorSet.setDuration(500);
+            enterAnimatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+            enterAnimatorSet.play(scaleX).with(moveY).with(scaleY);
+            enterAnimatorSet.start();
 
         }
         ObjectAnimator bgAlpha = ObjectAnimator.ofFloat(tvBg, "alpha", 0f, 1f);
@@ -158,7 +160,7 @@ public class BigImageActivity extends BaseActivity {
     }
 
     private void exitAnimator() {
-        if (imageParamBean != null) {
+        if (imageParamBean != null && !enterAnimatorSet.isRunning()) {
             int screenWidth = AppUtils.getWidth(BigImageActivity.this);
             int screenHeight = AppUtils.getHeight(BigImageActivity.this);
             int originWidth = imageParamBean.getViewWidth();
@@ -169,19 +171,20 @@ public class BigImageActivity extends BaseActivity {
                 deltaY -= AppUtils.getStatusBarHeight(mContext);
             }
             float startScale = originWidth * 1.0f / screenWidth;
-            AnimatorSet animatorSet = new AnimatorSet();
+            enterAnimatorSet = new AnimatorSet();
             ObjectAnimator moveY = ObjectAnimator.ofFloat(imageView, "translationY", 0, deltaY);
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView, "scaleX", 1.0f, startScale);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(imageView, "scaleY", 1.0f, startScale);
-            animatorSet.setDuration(500);
-            animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
-            animatorSet.play(scaleX).with(moveY).with(scaleY);
-            animatorSet.start();
+            enterAnimatorSet.setDuration(500);
+            enterAnimatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+            enterAnimatorSet.play(scaleX).with(moveY).with(scaleY);
+            enterAnimatorSet.start();
+
+            ObjectAnimator bgAlpha = ObjectAnimator.ofFloat(tvBg, "alpha", 1.0f, 0f);
+            bgAlpha.setInterpolator(new AccelerateDecelerateInterpolator());
+            bgAlpha.setDuration(ANIMATOR_DURATION);
+            bgAlpha.start();
         }
-        ObjectAnimator bgAlpha = ObjectAnimator.ofFloat(tvBg, "alpha", 1.0f, 0f);
-        bgAlpha.setInterpolator(new AccelerateDecelerateInterpolator());
-        bgAlpha.setDuration(ANIMATOR_DURATION);
-        bgAlpha.start();
         imageView.postDelayed(new Runnable() {
             @Override
             public void run() {
