@@ -133,7 +133,7 @@ public class SearchPostResultModel extends BaseModel{
         private String title;
         private String subject;
         private int user_id;
-        private String last_reply_date;
+        private long last_reply_date;
         private String user_nick_name;
         private int hits;
         private int replies;
@@ -207,11 +207,11 @@ public class SearchPostResultModel extends BaseModel{
             this.user_id = user_id;
         }
 
-        public String getLast_reply_date() {
+        public long getLast_reply_date() {
             return last_reply_date;
         }
 
-        public void setLast_reply_date(String last_reply_date) {
+        public void setLast_reply_date(long last_reply_date) {
             this.last_reply_date = last_reply_date;
         }
 

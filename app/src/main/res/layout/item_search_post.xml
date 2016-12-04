@@ -19,47 +19,6 @@
         android:paddingRight="@dimen/padding_right"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <ImageView
-                android:id="@+id/iv_avatar"
-                android:layout_width="@dimen/post_avatar_width"
-                android:layout_height="@dimen/post_avatar_width"
-                android:src="@drawable/default_icon"/>
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/tv_time"
-                android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/tv_time"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_size1"
-                tools:text="23333"/>
-
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_name"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/iv_avatar"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/text_second_primary"
-                android:textSize="@dimen/text_size6"
-                tools:text="1分钟前"
-                />
-
-        </RelativeLayout>
-
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
@@ -87,6 +46,24 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_second_primary"
+                android:textSize="@dimen/text_size6"
+                tools:text="haha"/>
+
+            <TextView
+                android:id="@+id/tv_last_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_second_primary"
+                android:textSize="@dimen/text_size6"
+                android:layout_toRightOf="@+id/tv_author"
+                android:layout_marginLeft="10dp"
+                tools:text="刚刚"/>
 
             <TextView
                 android:id="@+id/tv_comment"

@@ -20,13 +20,9 @@ public class SearchPostPresenter extends BasePresenter<SearchPostMvpView> {
     public SearchPostPresenter() {
     }
 
-    public void searchPost(final boolean isLoadMore, String keyword, int page, int pageSize) {
+    public void searchPost(String keyword, int page, int pageSize) {
         if (getMvpView() != null) {
-            if (isLoadMore) {
-                getMvpView().showLoadMoreView();
-            } else {
-                getMvpView().showLoading();
-            }
+            getMvpView().showLoading();
         }
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         map.put(Constants.PAGE, String.valueOf(page));
@@ -38,34 +34,19 @@ public class SearchPostPresenter extends BasePresenter<SearchPostMvpView> {
             public void onSuccess(Object result) {
                 if (getMvpView() == null) return;
                 if (result == null) {
-                    if (isLoadMore) {
-                        getMvpView().hideLoadMoreView();
-                        getMvpView().loadMoreEmpty();
-                    } else {
-                        getMvpView().hideLoading();
-                        getMvpView().refreshEmpty();
-                    }
+                    getMvpView().hideLoading();
+                    getMvpView().loadError(null);
                     return;
                 }
-                if (isLoadMore) {
-                    getMvpView().hideLoadMoreView();
-                    getMvpView().loadMoreData((SearchPostResultModel) result);
-                } else {
-                    getMvpView().hideLoading();
-                    getMvpView().refreshData((SearchPostResultModel) result);
-                }
+                getMvpView().hideLoading();
+                getMvpView().searchPostResult((SearchPostResultModel) result);
             }
 
             @Override
             public void onError(Throwable e) {
                 if (getMvpView() == null) return;
-                if (isLoadMore) {
-                    getMvpView().hideLoadMoreView();
-                    getMvpView().loadMoreError(e);
-                } else {
-                    getMvpView().hideLoading();
-                    getMvpView().loadError(e);
-                }
+                getMvpView().hideLoading();
+                getMvpView().loadError(e);
             }
         }, mContext);
     }
