@@ -39,4 +39,7 @@
     <dimen name="user_info_expanded_title_margin_top">72dp</dimen>
     <dimen name="user_info_avatar_margin_top">50dp</dimen>
     <dimen name="user_info_top_app_bar_layout_height">224dp</dimen>
+
+    <!--搜索-->
+    <dimen name="search_bar_height">48dp</dimen>
 </resources>

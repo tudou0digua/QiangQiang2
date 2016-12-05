@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QiangQiang2</string>
+    <string name="app_name">抢抢网</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -11,6 +11,10 @@
 
     <string name="big_image_transition">bigImageTransition</string>
 
+    <!--主页menu-->
+    <string name="main_menu_search">搜索</string>
+    <string name="main_menu_check_in">签到</string>
+
     <!--侧边栏-->
     <string name="action_settings">设置</string>
 
@@ -20,7 +24,6 @@
     <string name="title_activity_person_info">个人信息</string>
     <string name="check_in">签到</string>
     <string name="search">搜索</string>
-    <string name="search_hint">搜索</string>
     <string name="no_more_data">亲，到底了...囧rz</string>
 
     <string name="exit">再按一次退出程序。</string>
@@ -64,4 +67,7 @@
         completions."
     </string>
     <string name="login_error">登录出错</string>
+
+    <!--搜索-->
+    <string name="search_hint">搜索帖子或用户</string>
 </resources>

@@ -1,57 +1,61 @@
 package com.cb.qiangqiang2.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Toast;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
-import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.data.db.DbManager;
 import com.cb.qiangqiang2.data.db.greendao.bean.SearchResult;
 import com.cb.qiangqiang2.data.db.greendao.gen.SearchResultDao;
-import com.cb.qiangqiang2.data.model.SearchPostResultModel;
-import com.cb.qiangqiang2.mvpview.SearchPostMvpView;
-import com.cb.qiangqiang2.presenter.SearchPostPresenter;
-import com.cb.qiangqiang2.ui.adapter.SearchPostListAdapter;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
-import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.cb.qiangqiang2.event.SearchEvent;
+import com.cb.qiangqiang2.ui.fragment.SearchPostFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
+import butterknife.OnClick;
 
-public class SearchActivity extends BaseSwipeBackActivity implements SearchPostMvpView {
+public class SearchActivity extends BaseSwipeBackActivity {
 
-    @Inject
-    SearchPostPresenter searchPostPresenter;
     @Inject
     DbManager dbManager;
-    @Inject
-    SearchPostListAdapter mAdapter;
 
-    @BindView(R.id.search_bar)
-    MaterialSearchBar searchBar;
-    @BindView(R.id.recycle_view)
-    RecyclerView recycleView;
-    @BindView(R.id.progress_bar)
-    MaterialProgressBar mProgressBar;
-    @BindView(R.id.progress_bar_search)
-    MaterialProgressBar mProgressBarSearch;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.iv_back)
+    ImageView ivBack;
+    @BindView(R.id.edit_text)
+    EditText editText;
+    @BindView(R.id.iv_clear)
+    ImageView ivClear;
+    @BindView(R.id.rv_history)
+    RecyclerView rvHistory;
 
     private List<String> lastSearches;
     private SearchResultDao searchResultDao;
-    private boolean canLoadingMore = false;
-    private int currentPage = 1;
+    private List<String> titles;
+    private List<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +73,6 @@ public class SearchActivity extends BaseSwipeBackActivity implements SearchPostM
     }
 
     @Override
-    protected void attachPresenter() {
-        searchPostPresenter.attachView(this);
-    }
-
-    @Override
     protected void initData() {
         searchResultDao = dbManager.getSearhResultDao();
         lastSearches = new ArrayList<>();
@@ -83,78 +82,109 @@ public class SearchActivity extends BaseSwipeBackActivity implements SearchPostM
                 lastSearches.add(searchResult.getContent());
             }
         }
-        mAdapter.setOnItemClickListener(new OnItemClickListener<SearchPostResultModel.ListBean>() {
-            @Override
-            public void onItemClick(int position, View view, SearchPostResultModel.ListBean listBean) {
-                String url =
-                        "http://www.qiangqiang5.com/api/mobile/index.php?module=%s&page=%s&charset=%s&image=%s&ppp=%s&debug=%s&tid=%s&mobile=%s&version=%s";
-                url = String.format(url,
-                        "viewthread",
-                        "1",
-                        "utf-8",
-                        "1",
-                        "10",
-                        "1",
-                        String.valueOf(listBean.getTopic_id()),
-                        "no",
-                        "3");
-                Intent intent = new Intent(mContext, WebViewActivity.class);
-                intent.putExtra(WebViewActivity.TITLE, String.valueOf(listBean.getBoard_id()));
-                intent.putExtra(WebViewActivity.URL, url);
-                mContext.startActivity(intent);
-            }
-        });
+        titles = new ArrayList<>();
+        titles.add("帖子");
+        titles.add("用户");
+        fragments = new ArrayList<>();
+        fragments.add(new SearchPostFragment());
+        fragments.add(new SearchPostFragment());
     }
 
     @Override
     protected void initView() {
-        searchBar.setLastSuggestions(lastSearches);
-        searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onSearchStateChanged(boolean b) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             @Override
-            public void onSearchConfirmed(CharSequence charSequence) {
-                currentPage = 1;
-                searchPostPresenter.searchPost(String.valueOf(charSequence), currentPage, 10);
-                mProgressBarSearch.setVisibility(View.VISIBLE);
-                canLoadingMore = false;
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
-            public void onButtonClicked(int i) {
-                Toast.makeText(mContext, i + " clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        recycleView.setLayoutManager(new LinearLayoutManager(mContext));
-        recycleView.setItemAnimator(new DefaultItemAnimator());
-        recycleView.setAdapter(mAdapter);
-        recycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                boolean isScrollToBottom = AppUtils.isScrollToBottom(recyclerView);
-                if (canLoadingMore && isScrollToBottom) {
-                    currentPage++;
-                    canLoadingMore = false;
-                    searchPostPresenter.searchPost(searchBar.getText(), currentPage, 10);
-                    mProgressBar.setVisibility(View.VISIBLE);
+            public void afterTextChanged(Editable editable) {
+                String str = editable.toString();
+                if (TextUtils.isEmpty(str)) {
+                    ivClear.setVisibility(View.GONE);
+                } else {
+                    ivClear.setVisibility(View.VISIBLE);
                 }
-                super.onScrolled(recyclerView, dx, dy);
             }
         });
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH){
+                    EventBus.getDefault().post(new SearchEvent(editText.getText().toString().trim()));
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fragments.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return fragments.size();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return titles.get(position);
+            }
+        };
+
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
+
+    @OnClick({R.id.iv_clear, R.id.iv_back})
+    public void onClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_clear:
+                editText.setText("");
+                break;
+            case R.id.iv_back:
+                finishActivity();
+                break;
+        }
+    }
+
+    private void finishActivity() {
+        finish();
+    }
+
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onMessageEvent(SearchEvent event) {
+//    }
+//
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        EventBus.getDefault().register(this);
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        EventBus.getDefault().unregister(this);
+//    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        searchPostPresenter.detachView();
-        List<String> list = searchBar.getLastSuggestions();
-        List<SearchResult> searchResults;
-        searchResultDao.deleteAll();
-        for (int i = list.size() - 1; i >= 0; i--) {
+//        List<String> list = searchBar.getLastSuggestions();
+//        List<SearchResult> searchResults;
+//        searchResultDao.deleteAll();
+//        for (int i = list.size() - 1; i >= 0; i--) {
 //            searchResults = searchResultDao.queryBuilder().where(SearchResultDao.Properties.Content.eq(list.get(imageView))).build().list();
 //            if (searchResults != null && searchResults.size() > 0) {
 //                SearchResult result = searchResults.get(0);
@@ -164,44 +194,10 @@ public class SearchActivity extends BaseSwipeBackActivity implements SearchPostM
 //                SearchResult result = new SearchResult(null, list.get(imageView), new Date());
 //                searchResultDao.insert(result);
 //            }
-            SearchResult result = new SearchResult(null, list.get(i), new Date());
-            searchResultDao.insert(result);
-        }
+//            SearchResult result = new SearchResult(null, list.get(i), new Date());
+//            searchResultDao.insert(result);
+//        }
     }
 
-    @Override
-    public void searchPostResult(SearchPostResultModel model) {
-        if (currentPage == 1) {
-            mProgressBarSearch.setVisibility(View.GONE);
-            canLoadingMore = true;
-        } else {
-            mProgressBar.setVisibility(View.GONE);
-            if (model.getHas_next() == 1) {
-                canLoadingMore = true;
-            } else {
-                canLoadingMore = false;
-                Toast.makeText(mContext, "到底了。。。", Toast.LENGTH_SHORT).show();
-            }
-        }
-        if (currentPage == 1) {
-            mAdapter.setData(model);
-        } else {
-            mAdapter.addData(model);
-        }
-    }
 
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void loadError(Throwable e) {
-
-    }
 }

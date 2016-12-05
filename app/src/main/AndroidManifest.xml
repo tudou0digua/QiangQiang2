@@ -63,7 +63,8 @@
             android:theme="@style/ActivityTheme"/>
         <!-- test activity end -->
 
-        <activity android:name=".ui.activity.SearchActivity">
+        <activity android:name=".ui.activity.SearchActivity"
+                  android:theme="@style/ActivityTheme">
         </activity>
         <activity android:name=".ui.activity.BigImageActivity"
             android:theme="@style/BigImageTheme">

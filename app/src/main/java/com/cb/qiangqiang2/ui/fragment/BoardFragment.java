@@ -11,6 +11,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -78,19 +81,10 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
         // Required empty public constructor
     }
 
-    public static BoardFragment newInstance() {
-        BoardFragment fragment = new BoardFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -105,13 +99,39 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main_menu, menu);
+    }
+
     private void initView() {
+        mToolbar.setTitle("");
+        ((BaseActivity) getActivity()).setSupportActionBar(mToolbar);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    //签到
+                    case R.id.menu_check_in:
+                        mCheckInPresenter.checkIn();
+                        return true;
+                    //搜索
+                    case R.id.menu_search:
+                        getActivity().startActivity(new Intent(getActivity(), SearchActivity.class));
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EventBus.getDefault().post(new OpenDrawLayoutEvent());
             }
         });
+
         lists = new ArrayList<>();
         String boardSelectedStr = PrefUtils.getString(getActivity(), Constants.BOARD_LIST_SELECTED);
         if (boardSelectedStr != null) {
@@ -163,17 +183,11 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
         AppUtils.dynamicSetTabLayoutMode(mTabLayout, getActivity());
     }
 
-    @OnClick({R.id.iv_edit_board, R.id.tv_checkIn, R.id.tv_search})
+    @OnClick({R.id.iv_edit_board})
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_edit_board:
                 startActivity(new Intent(getActivity(), BoardDragEditActivity.class));
-                break;
-            case R.id.tv_checkIn:
-                mCheckInPresenter.checkIn();
-                break;
-            case R.id.tv_search:
-                getActivity().startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
         }
     }

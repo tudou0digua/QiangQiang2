@@ -20,6 +20,8 @@ import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.cb.qiangqiang2.ui.fragment.BlankFragment;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;
 import com.cb.qiangqiang2.ui.fragment.PostFragment;
+import com.cb.qiangqiang2.ui.fragment.SearchPostFragment;
+import com.cb.qiangqiang2.ui.fragment.SearchUserFragment;
 import com.cb.qiangqiang2.ui.fragment.UserListFragment;
 
 import dagger.Component;
@@ -52,6 +54,10 @@ public interface ActivityComponent {
     void inject(SearchActivity searchActivity);
 
     void inject(BigImageActivity bigImageActivity);
+
+    void inject(SearchPostFragment searchPostFragment);
+
+    void inject(SearchUserFragment searchUserFragment);
 
 
     void inject(MainTestActivity mainTestActivity);
