@@ -16,7 +16,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -159,6 +159,12 @@ public class SearchActivity extends BaseSwipeBackActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b) {
+                    String str = editText.getText().toString().trim();
+                    if (TextUtils.isEmpty(str)) {
+                        ivClear.setVisibility(View.GONE);
+                    } else {
+                        ivClear.setVisibility(View.VISIBLE);
+                    }
                     showHistoryRecycleView();
                 }
             }
@@ -208,6 +214,7 @@ public class SearchActivity extends BaseSwipeBackActivity {
     }
 
     private void dismissHistoryRecycleView() {
+        ivClear.setVisibility(View.GONE);
         int from = rvHistory.getHeight();
         int to = 0;
         rvHistoryAnimator(from, to);
@@ -230,7 +237,7 @@ public class SearchActivity extends BaseSwipeBackActivity {
     private void rvHistoryAnimator(int from, int to) {
         ValueAnimator valueAnimator = ValueAnimator.ofInt(new int[]{from, to});
         valueAnimator.setDuration(300);
-        valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
         final ViewGroup.LayoutParams layoutParams = rvHistory.getLayoutParams();
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
