@@ -20,6 +20,8 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -364,5 +366,27 @@ public class AppUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 显示系统软键盘
+     * @param view
+     * @param mContext
+     */
+    public static void showSoftKeyboard(View view, Context mContext) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
+
+    /**
+     * 隐藏系统软键盘
+     * @param mEditText
+     * @param mContext
+     */
+    public static void closeSoftKeybord(EditText mEditText, Context mContext) {
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
     }
 }

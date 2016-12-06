@@ -16,11 +16,13 @@
         android:tint="@color/material_grey_600"/>
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/tv_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         tools:text="Last request"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"/>
 

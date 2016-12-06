@@ -10,19 +10,19 @@ import java.util.Date;
  * Created by cb on 2016/10/31.
  */
 @Entity
-public class SearchResult {
+public class SearchHistory {
     @Id(autoincrement = true)
     private Long id;
     private String content;
     private Date time;
-    @Generated(hash = 369620139)
-    public SearchResult(Long id, String content, Date time) {
+    @Generated(hash = 635393117)
+    public SearchHistory(Long id, String content, Date time) {
         this.id = id;
         this.content = content;
         this.time = time;
     }
-    @Generated(hash = 1876050774)
-    public SearchResult() {
+    @Generated(hash = 1905904755)
+    public SearchHistory() {
     }
     public Long getId() {
         return this.id;

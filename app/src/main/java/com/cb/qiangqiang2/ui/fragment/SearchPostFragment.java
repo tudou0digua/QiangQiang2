@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.data.model.SearchPostResultModel;
+import com.cb.qiangqiang2.event.HideSearchHistoryEvent;
 import com.cb.qiangqiang2.event.SearchEvent;
 import com.cb.qiangqiang2.mvpview.SearchPostMvpView;
 import com.cb.qiangqiang2.presenter.SearchPostPresenter;
@@ -109,6 +111,13 @@ public class SearchPostFragment extends Fragment implements SearchPostMvpView {
                     searchPostPresenter.searchPost(searchContent, currentPage, 10);
                 }
                 super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+        recycleView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                EventBus.getDefault().post(new HideSearchHistoryEvent());
+                return false;
             }
         });
     }

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
 import com.cb.qiangqiang2.data.db.greendao.gen.DaoMaster;
 import com.cb.qiangqiang2.data.db.greendao.gen.DaoSession;
-import com.cb.qiangqiang2.data.db.greendao.gen.SearchResultDao;
+import com.cb.qiangqiang2.data.db.greendao.gen.SearchHistoryDao;
 
 /**
  * Created by cb on 2016/8/29.
@@ -32,7 +32,7 @@ public class DbManager {
         return daoSession;
     }
 
-    public SearchResultDao getSearhResultDao() {
-        return daoSession.getSearchResultDao();
+    public SearchHistoryDao getSearchHistoryDao() {
+        return daoSession.getSearchHistoryDao();
     }
 }
