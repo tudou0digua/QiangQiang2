@@ -38,5 +38,5 @@ google官方图标库 [Material icons](https://design.google.com/icons/)
 ####NavigationView  
 [NavigationView 的使用](http://jaeger.itscoder.com/android/2016/02/16/use-navigation-view-detail.html)  
 [Android5.0之NavigationView的使用](http://blog.csdn.net/u012702547/article/details/51253222)  
-
-
+####杂  
+[Log最佳实践--自己实现Logger](https://www.zybuluo.com/shark0017/note/163330)   
