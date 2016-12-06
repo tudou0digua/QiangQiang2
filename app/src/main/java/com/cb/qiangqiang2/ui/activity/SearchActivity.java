@@ -32,6 +32,7 @@ import com.cb.qiangqiang2.event.SearchEvent;
 import com.cb.qiangqiang2.ui.adapter.SearchHistoryAdapter;
 import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
 import com.cb.qiangqiang2.ui.fragment.SearchPostFragment;
+import com.cb.qiangqiang2.ui.fragment.SearchUserFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -92,7 +93,7 @@ public class SearchActivity extends BaseSwipeBackActivity {
         titles.add("用户");
         fragments = new ArrayList<>();
         fragments.add(new SearchPostFragment());
-        fragments.add(new SearchPostFragment());
+        fragments.add(new SearchUserFragment());
     }
 
     @Override

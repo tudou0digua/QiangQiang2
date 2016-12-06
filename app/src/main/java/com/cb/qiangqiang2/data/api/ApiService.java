@@ -5,6 +5,7 @@ import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.data.model.SearchPostResultModel;
+import com.cb.qiangqiang2.data.model.SearchUserResultModel;
 import com.cb.qiangqiang2.data.model.UserInfoModel;
 import com.cb.qiangqiang2.data.model.UserListModel;
 
@@ -76,5 +77,5 @@ public interface ApiService {
 
     //搜索用户
     @POST(URL_BASE + "r=user/searchuser")
-    Observable<SearchPostResultModel> searchUser(@QueryMap Map<String, String> options);
+    Observable<SearchUserResultModel> searchUser(@QueryMap Map<String, String> options);
 }

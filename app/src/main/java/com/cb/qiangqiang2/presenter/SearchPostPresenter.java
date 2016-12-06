@@ -28,7 +28,6 @@ public class SearchPostPresenter extends BasePresenter<SearchPostMvpView> {
         map.put(Constants.PAGE, String.valueOf(page));
         map.put(Constants.PAGE_SIZE, String.valueOf(pageSize));
         map.put(Constants.KEYWORD, keyword);
-        HttpManager.isNeedFormatDataLogger = true;
         HttpManager.toSub(mApiService.searchPost(map), new HttpManager.OnResponse() {
             @Override
             public void onSuccess(Object result) {

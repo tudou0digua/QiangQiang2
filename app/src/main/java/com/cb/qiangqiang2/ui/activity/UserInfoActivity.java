@@ -264,7 +264,8 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
         mTvLevel.setText(userInfoModel.getUserTitle());
         mTvCredit.setText(getString(R.string.user_info_credit, userInfoModel.getCredits()));
         mTvSilverCoin.setText(getString(R.string.user_info_silver, userInfoModel.getGold_num()));
-        mTvGoldCoin.setText(getString(R.string.user_info_gold, userInfoModel.getScore() - userInfoModel.getGold_num()));
+        int goldNum = userInfoModel.getScore() - userInfoModel.getGold_num();
+        mTvGoldCoin.setText(getString(R.string.user_info_gold, goldNum < 0 ? 0 : goldNum));
         if (userInfoModel.getGender() == 1) {
             mIvSexy.setImageDrawable(getResources().getDrawable(R.drawable.user_info_head_icon2));
         } else if (userInfoModel.getGender() == 2){

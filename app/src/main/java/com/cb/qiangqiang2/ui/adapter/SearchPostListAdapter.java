@@ -43,10 +43,11 @@ public class SearchPostListAdapter extends RecyclerView.Adapter {
     }
 
     public void setData(@NonNull SearchPostResultModel model) {
-        List<SearchPostResultModel.ListBean> lists = model.getList();
-        if (lists == null || lists.size() <= 0) return;
         mLists.clear();
-        mLists.addAll(lists);
+        List<SearchPostResultModel.ListBean> lists = model.getList();
+        if (lists != null) {
+            mLists.addAll(lists);
+        }
         notifyDataSetChanged();
     }
 
