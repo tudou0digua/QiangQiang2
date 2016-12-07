@@ -86,6 +86,7 @@ public class MainActivity extends BaseAutoLayoutActivity {
         TextView tvLevel = (TextView) view.findViewById(R.id.tv_level);
         ImageView ivLogout = (ImageView) view.findViewById(R.id.iv_logout);
         if (!TextUtils.isEmpty(mUserManager.getAvatarUrl())) {
+
             Glide.with(mContext)
                     .load(mUserManager.getAvatarUrl())
                     .crossFade()
@@ -99,6 +100,7 @@ public class MainActivity extends BaseAutoLayoutActivity {
             public void onClick(View view) {
                 // 登出
                 mUserManager.logout(mContext);
+                LoginActivity.startLoginActivity(mContext);
             }
         });
         view.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +148,10 @@ public class MainActivity extends BaseAutoLayoutActivity {
 
     private void showSnackBar() {
         EventBus.getDefault().post(new ShowExitSnackBarEvent());
+    }
+
+    private void finishActivity() {
+        finish();
     }
 
     @Override

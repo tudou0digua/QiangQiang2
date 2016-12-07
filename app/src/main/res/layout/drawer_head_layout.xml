@@ -5,18 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
-    android:paddingLeft="@dimen/padding_left"
-    android:paddingRight="@dimen/padding_right">
+    android:background="@color/colorPrimary">
 
     <cn.carbs.android.avatarimageview.library.AvatarImageView
         android:id="@+id/iv_avatar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         app:aiv_BoarderWidth="1dp"
-        app:aiv_ShowBoarder="true"
+        app:aiv_ShowBoarder="false"
         app:aiv_TextSizeRatio="0.4"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/padding_left"
         android:src="@drawable/default_icon"/>
 
     <TextView
@@ -27,6 +26,8 @@
         android:textColor="@color/white"
         android:layout_below="@+id/iv_avatar"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/padding_left"
+        android:paddingLeft="10dp"
         tools:text="哈哈"/>
 
     <TextView
@@ -38,6 +39,8 @@
         android:layout_below="@+id/tv_name"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/padding_left"
+        android:paddingLeft="10dp"
         tools:text="神级抢友"/>
 
     <ImageView

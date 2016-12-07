@@ -9,8 +9,6 @@ import com.cb.qiangqiang2.data.api.HttpManager;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.google.gson.Gson;
 
-import javax.inject.Inject;
-
 /**
  * Created by cb on 2016/10/24.
  */
@@ -18,9 +16,6 @@ import javax.inject.Inject;
 public class UserManager {
     public static final int INVALID_USER_ID = -1;
     public static final String USER_INFO_DATA = "user_info_data";
-
-    @Inject
-    HttpManager mHttpManager;
 
     private Context mContext;
 
@@ -82,7 +77,7 @@ public class UserManager {
 
     public void logout(Context context) {
         PrefUtils.cleaAll(context);
-        mHttpManager.clearCookie();
+        HttpManager.getInstance().clearCookie();
     }
 
 }
