@@ -1,5 +1,6 @@
 package com.cb.qiangqiang2.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -10,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
@@ -114,8 +114,8 @@ public class MainActivity extends BaseAutoLayoutActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.item1:
-                        Toast.makeText(mContext, "item1", Toast.LENGTH_SHORT).show();
+                    case R.id.nav_feedback:
+                        startActivity(new Intent(mContext, PostDetailActivity.class));
                         break;
                 }
                 return true;

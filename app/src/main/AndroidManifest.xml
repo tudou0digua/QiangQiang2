@@ -40,8 +40,8 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/ActivityTheme"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance"
+            android:theme="@style/ActivityTheme"/>
 
         <!-- For AutoLayout lib -->
         <meta-data
@@ -64,11 +64,15 @@
             android:theme="@style/ActivityTheme"/>
         <!-- test activity end -->
 
-        <activity android:name=".ui.activity.SearchActivity"
-                  android:theme="@style/ActivityTheme">
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:theme="@style/ActivityTheme">
         </activity>
-        <activity android:name=".ui.activity.BigImageActivity"
+        <activity
+            android:name=".ui.activity.BigImageActivity"
             android:theme="@style/BigImageTheme">
+        </activity>
+        <activity android:name=".ui.activity.PostDetailActivity">
         </activity>
     </application>
 
