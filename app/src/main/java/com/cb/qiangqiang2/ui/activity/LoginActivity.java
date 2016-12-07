@@ -3,6 +3,7 @@ package com.cb.qiangqiang2.ui.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -83,6 +84,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     public static void startLoginActivity(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
+        ((Activity)context).overridePendingTransition(R.anim.slide_in_from_bottom, 0);
     }
 
     @Override
@@ -416,6 +418,12 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         protected void onCancelled() {
             showProgress(false);
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.slide_out_to_bottom);
     }
 }
 

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
-import android.widget.Toast;
 
 import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForApplication;
@@ -139,7 +138,7 @@ public class HttpManager {
                                 switch (baseModel.getHead().getErrCode()) {
                                     case 100001:
                                         //TODO 未登陆 可进行登陆等操作
-                                        Toast.makeText(context, baseModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(context, baseModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
                                         LoginActivity.startLoginActivity(context);
                                         break;
                                     default:
