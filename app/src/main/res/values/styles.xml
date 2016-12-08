@@ -19,6 +19,9 @@
         <item name="android:windowAnimationStyle">@style/Animation.SlidingBack</item>
     </style>
 
+    <style name="MainActivityTheme" parent="AppTheme">
+    </style>
+
     <style name="BigImageTheme" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item><!--半透明-->
         <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->

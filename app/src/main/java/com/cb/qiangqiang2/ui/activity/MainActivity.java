@@ -85,11 +85,15 @@ public class MainActivity extends BaseAutoLayoutActivity {
         TextView tvName = (TextView) view.findViewById(R.id.tv_name);
         TextView tvLevel = (TextView) view.findViewById(R.id.tv_level);
         ImageView ivLogout = (ImageView) view.findViewById(R.id.iv_logout);
+        ImageView ivBg = (ImageView) view.findViewById(R.id.iv_bg);
         if (!TextUtils.isEmpty(mUserManager.getAvatarUrl())) {
+            Glide.with(mContext)
+                    .load("https://api.i-meto.com/bing")
+                    .centerCrop()
+                    .into(ivBg);
 
             Glide.with(mContext)
                     .load(mUserManager.getAvatarUrl())
-                    .crossFade()
                     .centerCrop()
                     .into(avatarImageView);
         }
