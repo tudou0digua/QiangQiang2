@@ -31,9 +31,9 @@ public class FloatingMenuScrollBehavior extends CoordinatorLayout.Behavior<Float
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
         Logger.e("child.getVisibility(): " + child.getVisibility());
         if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
-            child.hideMenu(true);
+            child.hideMenu(false);
         } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
-            child.showMenu(true);
+            child.showMenu(false);
         }
     }
 }
