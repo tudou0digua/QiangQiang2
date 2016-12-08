@@ -10,7 +10,8 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -27,7 +28,9 @@
                 android:layout_height="wrap_content"
                 tools:text="@string/app_name"
                 android:textColor="@color/text_title"
-                android:textSize="@dimen/text_size3"
+                android:textSize="@dimen/text_size2"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:layout_gravity="center"/>
 
         </android.support.v7.widget.Toolbar>
@@ -38,6 +41,7 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/grey_100"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
@@ -66,7 +70,43 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/post_detail_floating_action_menu"
-             app:layout_behavior="@string/post_scroll_behavior"/>
+    <!--<include layout="@layout/post_detail_floating_action_menu"-->
+             <!--app:layout_behavior="@string/floating_menu_scroll_behavior"/>-->
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/floating_action_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/floating_action_button_margin"
+        android:layout_gravity="bottom|end"
+        app:menu_colorNormal="@color/colorPrimary"
+        app:menu_colorPressed="@color/colorPrimaryDarkReal"
+        app:menu_colorRipple="@color/colorPrimaryDarkReal"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true"
+        app:menu_backgroundColor="@android:color/transparent"
+        app:layout_behavior="@string/floating_menu_scroll_behavior">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/btn_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/collection"
+            app:fab_colorNormal="#818aa7"
+            app:backgroundTint="#818aa7"
+            app:fab_size="normal"
+            app:fab_label="收藏"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/btn_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/reply"
+            app:fab_colorNormal="@android:color/holo_red_dark"
+            app:backgroundTint="@android:color/holo_red_dark"
+            app:fab_size="normal"
+            app:fab_label="回复"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
 
 </android.support.design.widget.CoordinatorLayout>

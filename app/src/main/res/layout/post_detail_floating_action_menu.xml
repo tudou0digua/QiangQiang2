@@ -5,38 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/floating_action_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/floating_action_button_margin"
-        app:menu_colorNormal="@color/colorPrimary"
-        app:menu_colorPressed="@color/colorPrimaryDarkReal"
-        app:menu_colorRipple="@color/colorPrimaryDarkReal"
-        app:menu_labels_ellipsize="end"
-        app:menu_labels_singleLine="true"
-        app:menu_backgroundColor="@android:color/transparent">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/btn_collection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/collection"
-            app:fab_colorNormal="#818aa7"
-            app:backgroundTint="#818aa7"
-            app:fab_size="normal"
-            app:fab_label="收藏"/>
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/btn_reply"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/reply"
-            app:fab_colorNormal="@android:color/holo_red_dark"
-            app:backgroundTint="@android:color/holo_red_dark"
-            app:fab_size="normal"
-            app:fab_label="回复"/>
-
-    </com.github.clans.fab.FloatingActionMenu>
 
 </merge>

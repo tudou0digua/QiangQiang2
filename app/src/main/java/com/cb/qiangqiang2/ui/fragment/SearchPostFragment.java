@@ -1,7 +1,6 @@
 package com.cb.qiangqiang2.ui.fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,7 +20,7 @@ import com.cb.qiangqiang2.event.HideSearchHistoryEvent;
 import com.cb.qiangqiang2.event.SearchEvent;
 import com.cb.qiangqiang2.mvpview.SearchPostMvpView;
 import com.cb.qiangqiang2.presenter.SearchPostPresenter;
-import com.cb.qiangqiang2.ui.activity.WebViewActivity;
+import com.cb.qiangqiang2.ui.activity.PostDetailActivity;
 import com.cb.qiangqiang2.ui.adapter.SearchPostListAdapter;
 import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
 
@@ -77,22 +76,23 @@ public class SearchPostFragment extends Fragment implements SearchPostMvpView {
         adapter.setOnItemClickListener(new OnItemClickListener<SearchPostResultModel.ListBean>() {
             @Override
             public void onItemClick(int position, View view, SearchPostResultModel.ListBean listBean) {
-                String url =
-                        "http://www.qiangqiang5.com/api/mobile/index.php?module=%s&page=%s&charset=%s&image=%s&ppp=%s&debug=%s&tid=%s&mobile=%s&version=%s";
-                url = String.format(url,
-                        "viewthread",
-                        "1",
-                        "utf-8",
-                        "1",
-                        "10",
-                        "1",
-                        String.valueOf(listBean.getTopic_id()),
-                        "no",
-                        "3");
-                Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra(WebViewActivity.TITLE, String.valueOf(listBean.getBoard_id()));
-                intent.putExtra(WebViewActivity.URL, url);
-                getActivity().startActivity(intent);
+//                String url =
+//                        "http://www.qiangqiang5.com/api/mobile/index.php?module=%s&page=%s&charset=%s&image=%s&ppp=%s&debug=%s&tid=%s&mobile=%s&version=%s";
+//                url = String.format(url,
+//                        "viewthread",
+//                        "1",
+//                        "utf-8",
+//                        "1",
+//                        "10",
+//                        "1",
+//                        String.valueOf(listBean.getTopic_id()),
+//                        "no",
+//                        "3");
+//                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+//                intent.putExtra(WebViewActivity.TITLE, String.valueOf(listBean.getBoard_id()));
+//                intent.putExtra(WebViewActivity.URL, url);
+//                getActivity().startActivity(intent);
+                PostDetailActivity.startPostDetailActivity(getActivity(), listBean.getBoard_id(), listBean.getTopic_id(), "", listBean.getTitle());
             }
         });
     }

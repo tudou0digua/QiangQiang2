@@ -5,31 +5,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    >
+    app:cardCornerRadius="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/padding_left"
         android:paddingRight="@dimen/padding_right"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="12dp">
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
             android:lineSpacingExtra="6dp"
             android:textColor="@color/text_primary"
-            android:textSize="@dimen/text_size3"
+            android:textSize="@dimen/text_size9"
             tools:text="2111\n211"/>
 
         <TextView
             android:id="@+id/tv_read_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size1"
+            android:textSize="@dimen/text_size6"
             android:textColor="@color/text_second_primary"
             tools:text="666"
             android:drawableLeft="@drawable/read_num_icon"
@@ -40,7 +40,7 @@
             android:id="@+id/tv_reply_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size1"
+            android:textSize="@dimen/text_size6"
             android:textColor="@color/text_second_primary"
             tools:text="666"
             android:drawableLeft="@drawable/reply_num_icon"
@@ -48,6 +48,27 @@
             android:layout_below="@+id/tv_title"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/tv_read_num"/>
+
+        <TextView
+            android:id="@+id/tv_board_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_board_name"
+            tools:text="抢友交流"
+            android:textColor="@color/red_500"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:maxLines="1"
+            android:textSize="@dimen/text_size6"
+            android:layout_alignBottom="@+id/tv_reply_num"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey_200"/>
 
     </RelativeLayout>
 

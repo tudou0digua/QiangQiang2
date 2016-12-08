@@ -24,6 +24,7 @@
     <dimen name="text_size6">12sp</dimen>
     <dimen name="text_size7">13sp</dimen>
     <dimen name="text_size8">15sp</dimen>
+    <dimen name="text_size9">20sp</dimen>
 
     <!--帖子列表-->
     <dimen name="post_avatar_width">40dp</dimen>
@@ -43,4 +44,7 @@
     <!--搜索-->
     <dimen name="search_bar_height">48dp</dimen>
     <dimen name="search_history_item_height">48dp</dimen>
+
+    <!--帖子详情-->
+    <dimen name="post_detail_item_top_margin_top">10dp</dimen>
 </resources>

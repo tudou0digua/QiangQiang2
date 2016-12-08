@@ -9,6 +9,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +35,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     public static final String BOARD_ID = "board_id";
     public static final String BOARD_NAME = "board_name";
     public static final String TOPIC_ID = "topic_id";
+    public static final String TITLE = "title";
 
     @Inject
     PostDetailPresenter mPostDetailPresenter;
@@ -62,12 +65,14 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     private int boardId;
     private int topicId;
     private String boardName;
+    private String title;
 
-    public static void startPostDetailActivity(Context context, int boardId, int topicId, String boardName) {
+    public static void startPostDetailActivity(Context context, int boardId, int topicId, String boardName, String title) {
         Intent intent = new Intent(context, PostDetailActivity.class);
         intent.putExtra(BOARD_ID, boardId);
         intent.putExtra(BOARD_NAME, boardName);
         intent.putExtra(TOPIC_ID, topicId);
+        intent.putExtra(TITLE, title);
         context.startActivity(intent);
     }
 
@@ -96,12 +101,28 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         boardId = getIntent().getIntExtra(BOARD_ID, -1);
         boardName = getIntent().getStringExtra(BOARD_NAME);
         topicId = getIntent().getIntExtra(TOPIC_ID, -1);
+        title = getIntent().getStringExtra(TITLE);
     }
 
     @Override
     protected void initView() {
-        tvTitle.setText(boardName);
-
+        tvTitle.setText(title);
+        mAdapter.setBoardName(boardName);
+        //设置 toolbar
+        toolbar.setTitle("");
+        toolbar.setLogo(null);
+        setSupportActionBar(toolbar);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_open_with_browser:
+                        Toast.makeText(mContext, getString(R.string.post_detail_open_with_browser), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,6 +130,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
             }
         });
 
+        //设置 SwipeRefreshLayout
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -121,7 +143,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
                 resources.getColor(android.R.color.holo_green_light),
                 resources.getColor(android.R.color.holo_orange_light),
                 resources.getColor(android.R.color.holo_red_light));
-
+        //设置 mRecycleView
         mRecycleView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecycleView.setItemAnimator(new DefaultItemAnimator());
         mRecycleView.setAdapter(mAdapter);
@@ -136,8 +158,16 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+        //设置 FloatingActionMenu
+
         mPostDetailPresenter.getPostDetail(false, topicId, boardId, 1, 10);
         canLoadingMore = false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_post__detail, menu);
+        return true;
     }
 
     private void finishActivity() {
@@ -146,6 +176,11 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
 
     @Override
     public void refreshData(PostDetailModel postDetailModel) {
+        if (postDetailModel.getRs() != 1) {
+            Toast.makeText(PostDetailActivity.this, postDetailModel.getErrcode(), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (postDetailModel.getHas_next() == 0 && nextPage == 2) {
             hasLoadAllData = true;
         } else if (postDetailModel.getHas_next() != 0 && nextPage > 2) {

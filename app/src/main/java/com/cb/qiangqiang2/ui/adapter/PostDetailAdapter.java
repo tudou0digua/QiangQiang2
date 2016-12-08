@@ -2,6 +2,7 @@ package com.cb.qiangqiang2.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
     @ForActivity
     Context context;
 
+    private String boardName;
     private List<PostDetailBean> lists;
     private OnItemClickListener<PostDetailBean> onItemClickListener;
     private OnItemLongClickListener<PostDetailBean> onItemLongClickListener;
@@ -51,6 +53,10 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
     @Inject
     public PostDetailAdapter() {
         lists = new ArrayList<>();
+    }
+
+    public void setBoardName(String boardName) {
+        this.boardName = boardName;
     }
 
     public void setOnItemClickListener(OnItemClickListener<PostDetailBean> onItemClickListener) {
@@ -66,21 +72,26 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         PostDetailModel.TopicBean topicBean = postDetailModel.getTopic();
         //帖子信息
         if (topicBean != null) {
-            PostDetailBean bean = new PostDetailBean();
-            //标题
-            bean.setType(TYPE_TITLE);
-            bean.setTopicBean(topicBean);
-            lists.add(bean);
             //楼主信息
-            bean = new PostDetailBean();
+            PostDetailBean bean = new PostDetailBean();
             bean.setTopicBean(topicBean);
             bean.setType(TYPE_TOP);
+            lists.add(bean);
+            //标题
+            bean = new PostDetailBean();
+            bean.setType(TYPE_TITLE);
+            bean.setTopicBean(topicBean);
             lists.add(bean);
             //楼主发布内容
             List<PostDetailModel.TopicBean.ContentBean> contentBeanList = topicBean.getContent();
             if (contentBeanList != null && contentBeanList.size() > 0) {
                 setContentList(contentBeanList, lists);
             }
+            //楼主发布内容底部
+            bean = new PostDetailBean();
+            bean.setType(TYPE_BOTTOM);
+            bean.setTopicBean(topicBean);
+            lists.add(bean);
         }
         //回复列表信息
         setReplyList(postDetailModel);
@@ -203,10 +214,25 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
             holder.tvTitle.setText(topicBean.getTitle());
             holder.tvReadNum.setText(String.valueOf(topicBean.getHits()));
             holder.tvReplyNum.setText(String.valueOf(topicBean.getReplies()));
+            if (!TextUtils.isEmpty(boardName)) {
+                holder.tvBoardName.setVisibility(View.VISIBLE);
+                holder.tvBoardName.setText(boardName);
+            } else {
+                holder.tvBoardName.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
     private void onBindTopViewHolder(final PostDetailBean bean, TopViewHolder holder, final int position) {
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
+        int marginTop;
+        if (position == 0) {
+            marginTop = 0;
+        } else {
+            marginTop = context.getResources().getDimensionPixelOffset(R.dimen.post_detail_item_top_margin_top);
+        }
+        layoutParams.setMargins(layoutParams.leftMargin, marginTop, layoutParams.rightMargin, layoutParams.bottomMargin);
+
         PostDetailModel.TopicBean topicBean = bean.getTopicBean();
         PostDetailModel.ListBean listBean = bean.getListBean();
         if (listBean != null) {
@@ -217,8 +243,6 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
             holder.tvName.setText(listBean.getReply_name());
             holder.tvLevel.setText(listBean.getUserTitle());
             holder.tvTime.setText(DateUtil.getPassedTime(listBean.getPosts_date()));
-            holder.tvFloor.setVisibility(View.VISIBLE);
-            holder.tvFollow.setVisibility(View.GONE);
             holder.tvFloor.setText(context.getString(R.string.post_detail_floor, listBean.getPosition()));
         } else if (topicBean != null) {
             Glide.with(context)
@@ -228,27 +252,14 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
             holder.tvName.setText(topicBean.getUser_nick_name());
             holder.tvLevel.setText(topicBean.getUserTitle());
             holder.tvTime.setText(DateUtil.getPassedTime(topicBean.getCreate_date()));
-            holder.tvFloor.setVisibility(View.GONE);
-            holder.tvFollow.setVisibility(View.VISIBLE);
-            if (topicBean.getIsFollow() == 0) {
-                holder.tvFollow.setText(context.getString(R.string.post_detail_follow));
-            } else {
-                holder.tvFollow.setText(context.getString(R.string.post_detail_followed));
-            }
-            holder.tvFollow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(position, view, bean);
-                    }
-                }
-            });
+            holder.tvFloor.setText(context.getString(R.string.post_detail_publisher));
         }
     }
 
     private void onBindTextViewHolder(PostDetailBean bean, TextViewHolder holder, int position) {
         PostDetailModel.TopicBean.ContentBean contentBean = bean.getContentBean();
         if (contentBean != null) {
+            holder.tvContent.setTextIsSelectable(true);
             holder.tvContent.setText(contentBean.getInfor());
         }
     }
@@ -280,6 +291,8 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         TextView tvReadNum;
         @BindView(R.id.tv_reply_num)
         TextView tvReplyNum;
+        @BindView(R.id.tv_board_name)
+        TextView tvBoardName;
 
         public TitleViewHolder(View itemView) {
             super(itemView);
@@ -296,8 +309,6 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         TextView tvLevel;
         @BindView(R.id.tv_time)
         TextView tvTime;
-        @BindView(R.id.tv_follow)
-        TextView tvFollow;
         @BindView(R.id.tv_floor)
         TextView tvFloor;
 

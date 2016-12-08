@@ -180,7 +180,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 //                intent.putExtra(WebViewActivity.TITLE, listBean.getBoard_name());
 //                intent.putExtra(WebViewActivity.URL, url);
 //                getActivity().startActivity(intent);
-                PostDetailActivity.startPostDetailActivity(getActivity(), listBean.getBoard_id(), listBean.getTopic_id(), listBean.getBoard_name());
+                PostDetailActivity.startPostDetailActivity(getActivity(), listBean.getBoard_id(), listBean.getTopic_id(), listBean.getBoard_name(), listBean.getTitle());
             }
         });
         mAdapter.setOnItemLongClickListener(new OnItemLongClickListener<PostModel.ListBean>() {

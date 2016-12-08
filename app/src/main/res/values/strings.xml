@@ -15,6 +15,10 @@
     <string name="main_menu_search">搜索</string>
     <string name="main_menu_check_in">签到</string>
 
+    <!--Behavior-->
+    <string name="post_scroll_behavior">com.cb.qiangqiang2.ui.view.behavior.PostScrollBehavior</string>
+    <string name="floating_menu_scroll_behavior">com.cb.qiangqiang2.ui.view.behavior.FloatingMenuScrollBehavior</string>
+
     <!--侧边栏-->
     <string name="action_msg">消息</string>
     <string name="action_settings">设置</string>
@@ -39,7 +43,6 @@
     <string name="edit">编辑</string>
     <string name="finish">完成</string>
 
-    <string name="post_scroll_behavior">com.cb.qiangqiang2.ui.view.behavior.PostScrollBehavior</string>
     <string name="title_activity_login">登录</string>
 
     <!--用户信息页面-->
@@ -77,6 +80,7 @@
 
     <!--帖子详情-->
     <string name="post_detail_floor">%d楼</string>
-    <string name="post_detail_follow">关注</string>
-    <string name="post_detail_followed">取消关注</string>
+    <string name="post_detail_publisher">楼主</string>
+    <string name="post_detail_open_with_browser">浏览器打开</string>
+
 </resources>
