@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:drawableLeft="@drawable/post_num_icon"
+                android:drawableLeft="@drawable/reply_num_icon"
                 android:drawablePadding="6dp"
                 android:textColor="@color/text_second_primary"
                 android:textSize="@dimen/text_size6"

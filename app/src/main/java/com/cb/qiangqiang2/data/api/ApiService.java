@@ -3,6 +3,7 @@ package com.cb.qiangqiang2.data.api;
 import com.cb.qiangqiang2.data.model.BaseModel;
 import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.data.model.LoginModel;
+import com.cb.qiangqiang2.data.model.PostDetailModel;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.data.model.SearchPostResultModel;
 import com.cb.qiangqiang2.data.model.SearchUserResultModel;
@@ -78,4 +79,8 @@ public interface ApiService {
     //搜索用户
     @POST(URL_BASE + "r=user/searchuser")
     Observable<SearchUserResultModel> searchUser(@QueryMap Map<String, String> options);
+
+    //帖子详情
+    @POST(URL_BASE + "r=forum/postlist")
+    Observable<PostDetailModel> getPostDetail(@QueryMap Map<String, String> options);
 }

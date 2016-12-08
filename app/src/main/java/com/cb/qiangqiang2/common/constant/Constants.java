@@ -47,7 +47,6 @@ public class Constants {
     public static final String PAGE_SIZE = "pageSize";
     public static final String TYPE = "type";
     public static final String PAGE = "page";
-    public static final String BOARD_ID = "boardId";
     public static final String SORT_BY = "sortby";
 
     //user info
@@ -75,4 +74,9 @@ public class Constants {
     
     //搜索
     public static final String KEYWORD = "keyword";
+
+    //帖子详情
+    public static final String TOPIC_ID = "topicId";
+    public static final String AUTHOR_ID = "authorId";
+    public static final String BOARD_ID = "boardId";
 }

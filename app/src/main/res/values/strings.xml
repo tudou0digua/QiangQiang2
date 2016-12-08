@@ -74,4 +74,9 @@
 
     <!--搜索-->
     <string name="search_hint">搜索帖子或用户</string>
+
+    <!--帖子详情-->
+    <string name="post_detail_floor">%d楼</string>
+    <string name="post_detail_follow">关注</string>
+    <string name="post_detail_followed">取消关注</string>
 </resources>

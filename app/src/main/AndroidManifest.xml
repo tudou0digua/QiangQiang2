@@ -72,7 +72,8 @@
             android:name=".ui.activity.BigImageActivity"
             android:theme="@style/BigImageTheme">
         </activity>
-        <activity android:name=".ui.activity.PostDetailActivity">
+        <activity android:name=".ui.activity.PostDetailActivity"
+                  android:theme="@style/ActivityTheme">
         </activity>
     </application>
 

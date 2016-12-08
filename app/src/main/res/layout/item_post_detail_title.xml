@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/padding_left"
+        android:paddingRight="@dimen/padding_right"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:lineSpacingExtra="6dp"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_size3"
+            tools:text="2111\n211"/>
+
+        <TextView
+            android:id="@+id/tv_read_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size1"
+            android:textColor="@color/text_second_primary"
+            tools:text="666"
+            android:drawableLeft="@drawable/read_num_icon"
+            android:drawablePadding="6dp"
+            android:layout_below="@+id/tv_title"/>
+
+        <TextView
+            android:id="@+id/tv_reply_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size1"
+            android:textColor="@color/text_second_primary"
+            tools:text="666"
+            android:drawableLeft="@drawable/reply_num_icon"
+            android:drawablePadding="6dp"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_read_num"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
