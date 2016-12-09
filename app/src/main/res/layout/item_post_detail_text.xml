@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size2"
             android:textColor="@color/text_primary"
+            android:autoLink="web"
             tools:text="1111\n111"
             android:lineSpacingExtra="6dp"
             android:textIsSelectable="true"/>

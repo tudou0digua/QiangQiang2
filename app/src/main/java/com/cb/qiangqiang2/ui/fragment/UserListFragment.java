@@ -23,8 +23,8 @@ import com.cb.qiangqiang2.event.TotalNumEvent;
 import com.cb.qiangqiang2.mvpview.UserListMvpView;
 import com.cb.qiangqiang2.presenter.UserListPresenter;
 import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
-import com.cb.qiangqiang2.ui.adapter.UserListAdapter;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
+import com.cb.qiangqiang2.adapter.UserListAdapter;
+import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
 
 import org.greenrobot.eventbus.EventBus;
 

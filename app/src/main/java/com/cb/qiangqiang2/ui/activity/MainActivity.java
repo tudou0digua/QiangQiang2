@@ -1,6 +1,5 @@
 package com.cb.qiangqiang2.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
@@ -77,7 +77,7 @@ public class MainActivity extends BaseAutoLayoutActivity {
     }
 
     private void initNavigationView() {
-        mNavigationViewLeft.setItemIconTintList(null);
+//        mNavigationViewLeft.setItemIconTintList(null);
 
         //NavigationView Header
         View view = mNavigationViewLeft.getHeaderView(0);
@@ -110,6 +110,7 @@ public class MainActivity extends BaseAutoLayoutActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
                 UserInfoActivity.startUserInfoActivity(mContext, mUserManager.getUserId(), mUserManager.getUserName());
             }
         });
@@ -119,9 +120,14 @@ public class MainActivity extends BaseAutoLayoutActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_feedback:
-                        startActivity(new Intent(mContext, PostDetailActivity.class));
+
+                        break;
+                    case R.id.nav_publish:
+
                         break;
                 }
+                item.setChecked(true);
+                Toast.makeText(mContext, item.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

@@ -12,6 +12,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +24,7 @@ import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
 import com.cb.qiangqiang2.data.model.PostDetailModel;
 import com.cb.qiangqiang2.mvpview.PostDetailMvpView;
 import com.cb.qiangqiang2.presenter.PostDetailPresenter;
-import com.cb.qiangqiang2.ui.adapter.PostDetailAdapter;
+import com.cb.qiangqiang2.adapter.PostDetailAdapter;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -159,6 +163,14 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
             }
         });
         //设置 FloatingActionMenu
+        Animation hideAnimation = new AlphaAnimation(1.0f, 0f);
+        hideAnimation.setDuration(200);
+        hideAnimation.setInterpolator(new AccelerateInterpolator());
+        Animation showAnimation = new AlphaAnimation(0f, 1.0f);
+        hideAnimation.setDuration(200);
+        hideAnimation.setInterpolator(new DecelerateInterpolator());
+        floatingActionMenu.setMenuButtonHideAnimation(hideAnimation);
+        floatingActionMenu.setMenuButtonShowAnimation(showAnimation);
 
         mPostDetailPresenter.getPostDetail(false, topicId, boardId, 1, 10);
         canLoadingMore = false;

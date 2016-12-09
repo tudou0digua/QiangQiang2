@@ -20,6 +20,7 @@
     <string name="floating_menu_scroll_behavior">com.cb.qiangqiang2.ui.view.behavior.FloatingMenuScrollBehavior</string>
 
     <!--侧边栏-->
+    <string name="action_publish">发表</string>
     <string name="action_msg">消息</string>
     <string name="action_settings">设置</string>
     <string name="action_about">关于</string>

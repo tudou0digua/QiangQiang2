@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.github.clans.fab.FloatingActionMenu;
-import com.orhanobut.logger.Logger;
 
 /**
  * Created by cb on 2016/12/8.
@@ -29,11 +28,10 @@ public class FloatingMenuScrollBehavior extends CoordinatorLayout.Behavior<Float
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionMenu child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-        Logger.e("child.getVisibility(): " + child.getVisibility());
         if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
-            child.hideMenu(false);
+            child.hideMenu(true);
         } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
-            child.showMenu(false);
+            child.showMenu(true);
         }
     }
 }

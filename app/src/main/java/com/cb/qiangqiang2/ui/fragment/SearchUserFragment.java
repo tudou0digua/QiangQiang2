@@ -24,8 +24,8 @@ import com.cb.qiangqiang2.event.SearchEvent;
 import com.cb.qiangqiang2.mvpview.SearchUserMvpView;
 import com.cb.qiangqiang2.presenter.SearchUserPresenter;
 import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
-import com.cb.qiangqiang2.ui.adapter.SearchUserAdapter;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
+import com.cb.qiangqiang2.adapter.SearchUserAdapter;
+import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

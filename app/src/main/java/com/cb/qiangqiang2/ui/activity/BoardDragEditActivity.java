@@ -16,7 +16,7 @@ import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.event.BoardChangeEvent;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.model.BoardBean;
-import com.cb.qiangqiang2.ui.adapter.BoardEditAdapter;
+import com.cb.qiangqiang2.adapter.BoardEditAdapter;
 import com.cb.qiangqiang2.ui.view.dragview.ItemDragHelperCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

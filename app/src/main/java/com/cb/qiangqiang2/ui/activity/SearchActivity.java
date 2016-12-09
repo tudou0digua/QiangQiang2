@@ -29,8 +29,8 @@ import com.cb.qiangqiang2.data.db.greendao.bean.SearchHistory;
 import com.cb.qiangqiang2.data.db.greendao.daohelper.SearchHistoryDaoHelper;
 import com.cb.qiangqiang2.event.HideSearchHistoryEvent;
 import com.cb.qiangqiang2.event.SearchEvent;
-import com.cb.qiangqiang2.ui.adapter.SearchHistoryAdapter;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
+import com.cb.qiangqiang2.adapter.SearchHistoryAdapter;
+import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
 import com.cb.qiangqiang2.ui.fragment.SearchPostFragment;
 import com.cb.qiangqiang2.ui.fragment.SearchUserFragment;
 

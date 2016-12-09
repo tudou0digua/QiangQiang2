@@ -21,8 +21,8 @@ import com.cb.qiangqiang2.event.SearchEvent;
 import com.cb.qiangqiang2.mvpview.SearchPostMvpView;
 import com.cb.qiangqiang2.presenter.SearchPostPresenter;
 import com.cb.qiangqiang2.ui.activity.PostDetailActivity;
-import com.cb.qiangqiang2.ui.adapter.SearchPostListAdapter;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
+import com.cb.qiangqiang2.adapter.SearchPostListAdapter;
+import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -147,9 +147,9 @@ public class SearchPostFragment extends Fragment implements SearchPostMvpView {
             }
         }
         if (currentPage == 1) {
-            adapter.setData(model);
+            adapter.setData(model, searchContent);
         } else {
-            adapter.addData(model);
+            adapter.addData(model, searchContent);
         }
     }
 

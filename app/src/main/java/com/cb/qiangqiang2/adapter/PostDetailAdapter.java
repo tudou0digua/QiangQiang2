@@ -1,22 +1,27 @@
-package com.cb.qiangqiang2.ui.adapter;
+package com.cb.qiangqiang2.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
+import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
+import com.cb.qiangqiang2.adapter.listener.OnItemLongClickListener;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.data.model.PostDetailBean;
 import com.cb.qiangqiang2.data.model.PostDetailModel;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemLongClickListener;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
@@ -261,6 +266,10 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         if (contentBean != null) {
             holder.tvContent.setTextIsSelectable(true);
             holder.tvContent.setText(contentBean.getInfor());
+            String info = contentBean.getInfor();
+            if (!TextUtils.isEmpty(info)) {
+
+            }
         }
     }
 
@@ -276,12 +285,37 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
     private void onBindHyperlinkViewHolder(PostDetailBean bean, HyperlinkViewHolder holder, int position) {
         PostDetailModel.TopicBean.ContentBean contentBean = bean.getContentBean();
         if (contentBean != null) {
-            holder.tvContent.setText(contentBean.getInfor());
+            String info = contentBean.getInfor();
+            if (!TextUtils.isEmpty(info)) {
+                SpannableStringBuilder builder = new SpannableStringBuilder(info);
+                builder.setSpan(new NoLineClickableSpan(contentBean), 0, info.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                holder.tvContent.setText(builder);
+            }
         }
     }
 
     private void onBindBottomViewHolder(PostDetailBean bean, BottomViewHolder holder, int position) {
 
+    }
+
+    private class NoLineClickableSpan extends ClickableSpan {
+        private PostDetailModel.TopicBean.ContentBean contentBean;
+
+        public NoLineClickableSpan(PostDetailModel.TopicBean.ContentBean contentBean) {
+            this.contentBean = contentBean;
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setColor(ds.linkColor);
+            ds.setUnderlineText(false);
+        }
+
+        @Override
+        public void onClick(View view) {
+            //
+            Toast.makeText(context, contentBean.getUrl(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public class TitleViewHolder extends RecyclerView.ViewHolder {

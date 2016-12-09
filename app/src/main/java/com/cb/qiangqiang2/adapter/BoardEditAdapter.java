@@ -1,4 +1,4 @@
-package com.cb.qiangqiang2.ui.adapter;
+package com.cb.qiangqiang2.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -24,9 +24,9 @@ import com.cb.qiangqiang2.mvpview.PostMvpView;
 import com.cb.qiangqiang2.presenter.OtherPresenter;
 import com.cb.qiangqiang2.presenter.PostPresenter;
 import com.cb.qiangqiang2.ui.activity.PostDetailActivity;
-import com.cb.qiangqiang2.ui.adapter.PostListAdapter;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemLongClickListener;
+import com.cb.qiangqiang2.adapter.PostListAdapter;
+import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
+import com.cb.qiangqiang2.adapter.listener.OnItemLongClickListener;
 
 import org.greenrobot.eventbus.EventBus;
 

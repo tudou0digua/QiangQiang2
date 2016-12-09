@@ -1,8 +1,12 @@
-package com.cb.qiangqiang2.ui.adapter;
+package com.cb.qiangqiang2.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +17,8 @@ import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.data.model.SearchPostResultModel;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemLongClickListener;
+import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
+import com.cb.qiangqiang2.adapter.listener.OnItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,7 @@ public class SearchPostListAdapter extends RecyclerView.Adapter {
     @ForActivity
     Context mContext;
 
+    private String keyword;
     private List<SearchPostResultModel.ListBean> mLists;
     private OnItemClickListener<SearchPostResultModel.ListBean> mOnItemClickListener;
     private OnItemLongClickListener<SearchPostResultModel.ListBean> mOnItemLongClickListener;
@@ -42,7 +47,8 @@ public class SearchPostListAdapter extends RecyclerView.Adapter {
         mLists = new ArrayList<>();
     }
 
-    public void setData(@NonNull SearchPostResultModel model) {
+    public void setData(@NonNull SearchPostResultModel model, String keyword) {
+        this.keyword = keyword;
         mLists.clear();
         List<SearchPostResultModel.ListBean> lists = model.getList();
         if (lists != null) {
@@ -51,11 +57,16 @@ public class SearchPostListAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public void addData(@NonNull SearchPostResultModel model) {
+    public void addData(@NonNull SearchPostResultModel model, String keyword) {
+        this.keyword = keyword;
         List<SearchPostResultModel.ListBean> lists = model.getList();
         if (lists == null || lists.size() <= 0) return;
         mLists.addAll(lists);
         notifyItemRangeChanged(mLists.size(), lists.size());
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public void setOnItemClickListener(OnItemClickListener<SearchPostResultModel.ListBean> onItemClickListener) {
@@ -76,7 +87,17 @@ public class SearchPostListAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final SearchPostViewHolder viewHolder = (SearchPostViewHolder) holder;
         final SearchPostResultModel.ListBean bean = mLists.get(position);
-        viewHolder.mTvTitle.setText(bean.getTitle());
+        String title = bean.getTitle();
+        if (!TextUtils.isEmpty(title) && keyword != null) {
+            int start = title.indexOf(keyword);
+            if (start >= 0) {
+                SpannableStringBuilder builder = new SpannableStringBuilder(title);
+                builder.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.red_500)), start, start + keyword.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                viewHolder.mTvTitle.setText(builder);
+            }
+        } else {
+            viewHolder.mTvTitle.setText(bean.getTitle());
+        }
         viewHolder.mTvTitleDetail.setText(bean.getSubject());
         viewHolder.mTvLastReply.setText(DateUtil.getPassedTime(bean.getLast_reply_date()));
         viewHolder.mTvRead.setText(String.valueOf(bean.getHits()));

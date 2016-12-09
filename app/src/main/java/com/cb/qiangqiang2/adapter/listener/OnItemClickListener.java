@@ -1,4 +1,4 @@
-package com.cb.qiangqiang2.ui.adapter.listener;
+package com.cb.qiangqiang2.adapter.listener;
 
 import android.view.View;
 

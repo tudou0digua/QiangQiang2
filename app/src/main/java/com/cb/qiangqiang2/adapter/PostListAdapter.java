@@ -1,4 +1,4 @@
-package com.cb.qiangqiang2.ui.adapter;
+package com.cb.qiangqiang2.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +16,8 @@ import com.cb.qiangqiang2.common.glide.GlideCircleTransform;
 import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemClickListener;
-import com.cb.qiangqiang2.ui.adapter.listener.OnItemLongClickListener;
+import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
+import com.cb.qiangqiang2.adapter.listener.OnItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
