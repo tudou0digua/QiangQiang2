@@ -20,6 +20,7 @@ import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
 import com.cb.qiangqiang2.adapter.listener.OnItemLongClickListener;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.common.util.DateUtil;
+import com.cb.qiangqiang2.common.util.EmojiUtils;
 import com.cb.qiangqiang2.data.model.PostDetailBean;
 import com.cb.qiangqiang2.data.model.PostDetailModel;
 
@@ -265,10 +266,12 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         PostDetailModel.TopicBean.ContentBean contentBean = bean.getContentBean();
         if (contentBean != null) {
             holder.tvContent.setTextIsSelectable(true);
-            holder.tvContent.setText(contentBean.getInfor());
+//            holder.tvContent.setText(contentBean.getInfor());
             String info = contentBean.getInfor();
             if (!TextUtils.isEmpty(info)) {
-
+                holder.tvContent.setText(EmojiUtils.getInstance(context).parseText(info, holder.tvContent, context));
+            } else {
+                holder.tvContent.setText("");
             }
         }
     }

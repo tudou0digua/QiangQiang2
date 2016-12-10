@@ -2,6 +2,7 @@ package com.cb.qiangqiang2.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.common.glide.GlideCircleTransform;
 import com.cb.qiangqiang2.common.util.DateUtil;
+import com.cb.qiangqiang2.common.util.EmojiUtils;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
 import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
@@ -97,8 +99,16 @@ public class PostListAdapter extends RecyclerView.Adapter {
         });
         viewHolder.mTvName.setText(bean.getUser_nick_name());
         viewHolder.mTvTime.setText(DateUtil.getPassedTime(bean.getLast_reply_date()));
-        viewHolder.mTvTitle.setText(bean.getTitle());
-        viewHolder.mTvTitleDetail.setText(bean.getSubject());
+        if (!TextUtils.isEmpty(bean.getTitle())) {
+            viewHolder.mTvTitle.setText(EmojiUtils.getInstance(mContext).parseText(bean.getTitle(), viewHolder.mTvTitle, mContext));
+        } else {
+            viewHolder.mTvTitle.setText("");
+        }
+        if (!TextUtils.isEmpty(bean.getSubject())) {
+            viewHolder.mTvTitleDetail.setText(EmojiUtils.getInstance(mContext).parseText(bean.getSubject(), viewHolder.mTvTitleDetail, mContext));
+        } else {
+            viewHolder.mTvTitleDetail.setText("");
+        }
         viewHolder.mTvRead.setText(String.valueOf(bean.getHits()));
         viewHolder.mTvComment.setText(String.valueOf(bean.getReplies()));
         viewHolder.mLlPostItemContainer.setOnClickListener(new View.OnClickListener() {
