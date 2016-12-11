@@ -162,7 +162,7 @@ public class HttpManager {
         if (accessToken != null) {
             map.put(Constants.ACCESS_TOKEN, accessToken);
         } else {
-            //论坛关闭游客模式之后，需要传历史ACCESS_TOKEN和ACCESS_SECRET
+            //论坛关闭游客模式之后，无法登录，需要传历史ACCESS_TOKEN和ACCESS_SECRET
             //d0b81b5b42c9543193cfa22673f10
             map.put(Constants.ACCESS_TOKEN, "b459663e3080de87270c849fbdb74");
         }
