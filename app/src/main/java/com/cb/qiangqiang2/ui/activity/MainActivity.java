@@ -120,7 +120,7 @@ public class MainActivity extends BaseAutoLayoutActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_feedback:
-
+                        LoginActivity.startLoginActivity(mContext);
                         break;
                     case R.id.nav_publish:
 

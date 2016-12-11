@@ -159,8 +159,19 @@ public class HttpManager {
         map.put(Constants.FORUM_KEY, "FuXlu6ShCTYC2q8Ysn");
         String accessToken = PrefUtils.getString(context, Constants.ACCESS_TOKEN);
         String accessSecret = PrefUtils.getString(context, Constants.ACCESS_SECRET);
-        if (accessToken != null) map.put(Constants.ACCESS_TOKEN, accessToken);
-        if (accessSecret != null) map.put(Constants.ACCESS_SECRET, accessSecret);
+        if (accessToken != null) {
+            map.put(Constants.ACCESS_TOKEN, accessToken);
+        } else {
+            //论坛关闭游客模式之后，需要传历史ACCESS_TOKEN和ACCESS_SECRET
+            //d0b81b5b42c9543193cfa22673f10
+            map.put(Constants.ACCESS_TOKEN, "b459663e3080de87270c849fbdb74");
+        }
+        if (accessSecret != null) {
+            map.put(Constants.ACCESS_SECRET, accessSecret);
+        } else {
+            //fd238ec1c3a674c38f3aef139b91c
+            map.put(Constants.ACCESS_SECRET, "99c732f3e3887983103a6ceb1a07a");
+        }
         return map;
     }
 
