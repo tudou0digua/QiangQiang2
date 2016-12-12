@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,21 +17,26 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cb.qiangqiang2.R;
+import com.cb.qiangqiang2.adapter.PostDetailAdapter;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
 import com.cb.qiangqiang2.data.model.PostDetailModel;
+import com.cb.qiangqiang2.data.model.ReplyPostModel;
 import com.cb.qiangqiang2.mvpview.PostDetailMvpView;
+import com.cb.qiangqiang2.mvpview.ReplyPostMvpView;
 import com.cb.qiangqiang2.presenter.PostDetailPresenter;
-import com.cb.qiangqiang2.adapter.PostDetailAdapter;
+import com.cb.qiangqiang2.presenter.ReplyPostPresenter;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 import static com.cb.qiangqiang2.common.util.AppUtils.isScrollToBottom;
@@ -43,6 +49,8 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
 
     @Inject
     PostDetailPresenter mPostDetailPresenter;
+    @Inject
+    ReplyPostPresenter mReplyPostPresenter;
     @Inject
     PostDetailAdapter mAdapter;
 
@@ -62,6 +70,12 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     FloatingActionMenu floatingActionMenu;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.et_reply)
+    EditText etReply;
+    @BindView(R.id.tv_send)
+    TextView tvSend;
+    @BindView(R.id.activity_post_detail)
+    CoordinatorLayout activityPostDetail;
 
     private int nextPage = 2;
     private boolean canLoadingMore = true;
@@ -70,6 +84,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     private int topicId;
     private String boardName;
     private String title;
+    private PostDetailModel postDetailModel;
 
     public static void startPostDetailActivity(Context context, int boardId, int topicId, String boardName, String title) {
         Intent intent = new Intent(context, PostDetailActivity.class);
@@ -93,6 +108,27 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     @Override
     protected void attachPresenter() {
         mPostDetailPresenter.attachView(this);
+        mReplyPostPresenter.attachView(new ReplyPostMvpView() {
+            @Override
+            public void replyResult(ReplyPostModel replyPostModel) {
+                Toast.makeText(mContext, replyPostModel.getErrcode(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void showLoading() {
+
+            }
+
+            @Override
+            public void hideLoading() {
+
+            }
+
+            @Override
+            public void loadError(Throwable e) {
+                if (e != null) e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -176,6 +212,18 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         canLoadingMore = false;
     }
 
+    @OnClick({R.id.tv_send})
+    public void onClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_send:
+                if (postDetailModel != null) {
+                    mReplyPostPresenter.replyPost(etReply.getText().toString().trim(),
+                            postDetailModel.getTopic().getTopic_id(), postDetailModel.getTopic().getUser_id());
+                }
+                break;
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_post__detail, menu);
@@ -199,6 +247,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
             hasLoadAllData = false;
         }
         nextPage = 2;
+        this.postDetailModel = postDetailModel;
         mAdapter.setData(postDetailModel);
         canLoadingMore = true;
     }
@@ -266,5 +315,6 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     protected void onDestroy() {
         super.onDestroy();
         mPostDetailPresenter.detachView();
+        mReplyPostPresenter.detachView();
     }
 }

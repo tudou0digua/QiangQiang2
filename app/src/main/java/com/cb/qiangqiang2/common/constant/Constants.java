@@ -79,4 +79,8 @@ public class Constants {
     public static final String TOPIC_ID = "topicId";
     public static final String AUTHOR_ID = "authorId";
     public static final String BOARD_ID = "boardId";
+
+    //回复帖子
+    public static final String JSON = "json";
+    public static final String ACT = "act";
 }

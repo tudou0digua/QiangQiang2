@@ -50,7 +50,7 @@ public class URLImageParser {
             textView = params[0];
             try {
                 Logger.d(TAG, "Downloading the image from: " + source);
-                return Glide.with(context).load(source).asBitmap().fitCenter().into(mImageSize, mImageSize).get();
+                return Glide.with(context).load(source).asBitmap().fitCenter().into(mImageSize * 2, mImageSize * 2).get();
             } catch (Exception e) {
                 return null;
             }
@@ -59,12 +59,14 @@ public class URLImageParser {
         @Override
         protected void onPostExecute(final Bitmap bitmap) {
             try {
+                //获取图片宽高比
+                float ratio = bitmap.getWidth() * 1.0f / bitmap.getHeight();
                 Drawable bitmapDrawable = new BitmapDrawable(context.getResources(), bitmap);
-                bitmapDrawable.setBounds(0, 0, mImageSize, mImageSize);
-                urlDrawable.setBounds(0, 0, mImageSize, mImageSize);
+                bitmapDrawable.setBounds(0, 0, (int) (mImageSize * ratio), mImageSize);
+                urlDrawable.setBounds(0, 0, (int) (mImageSize * ratio), mImageSize);
                 urlDrawable.drawable = bitmapDrawable;
                 urlDrawable.invalidateSelf();
-//                textView.invalidate();
+                textView.invalidate();
             } catch (Exception e) {
                 /* Like a null bitmap, etc. */
             }

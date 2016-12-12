@@ -5,6 +5,7 @@ import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.data.model.PostDetailModel;
 import com.cb.qiangqiang2.data.model.PostModel;
+import com.cb.qiangqiang2.data.model.ReplyPostModel;
 import com.cb.qiangqiang2.data.model.SearchPostResultModel;
 import com.cb.qiangqiang2.data.model.SearchUserResultModel;
 import com.cb.qiangqiang2.data.model.UserInfoModel;
@@ -83,4 +84,8 @@ public interface ApiService {
     //帖子详情
     @POST(URL_BASE + "r=forum/postlist")
     Observable<PostDetailModel> getPostDetail(@QueryMap Map<String, String> options);
+
+    //回复帖子
+    @POST(URL_BASE + "r=forum/topicadmin")
+    Observable<ReplyPostModel> replyPost(@QueryMap Map<String, String> options);
 }

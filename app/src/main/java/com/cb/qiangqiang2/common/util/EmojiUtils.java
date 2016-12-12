@@ -161,7 +161,9 @@ public class EmojiUtils {
                 //匹配本地emoji图片
                 if (map.get(group) != null) {
                     Drawable drawable = context.getResources().getDrawable(map.get(group));
-                    drawable.setBounds(0, imageSpanTop, (int) emojiSize, (int)(emojiSize + imageSpanTop));
+                    //获取图片宽高比
+                    float ratio = drawable.getIntrinsicWidth() * 1.0f / drawable.getIntrinsicHeight();
+                    drawable.setBounds(0, imageSpanTop, (int) (emojiSize * ratio), (int)(emojiSize + imageSpanTop));
                     imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
                     spannableString.setSpan(imageSpan, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
