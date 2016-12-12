@@ -13,9 +13,12 @@ import com.cb.qiangqiang2.data.model.UserListModel;
 
 import java.util.Map;
 
+import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -86,6 +89,7 @@ public interface ApiService {
     Observable<PostDetailModel> getPostDetail(@QueryMap Map<String, String> options);
 
     //回复帖子
+    @Multipart
     @POST(URL_BASE + "r=forum/topicadmin")
-    Observable<ReplyPostModel> replyPost(@QueryMap Map<String, String> options);
+    Observable<ReplyPostModel> replyPost(@QueryMap Map<String, String> options, @Part("json") RequestBody json);
 }

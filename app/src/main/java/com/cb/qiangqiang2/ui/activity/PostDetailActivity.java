@@ -218,7 +218,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
             case R.id.tv_send:
                 if (postDetailModel != null) {
                     mReplyPostPresenter.replyPost(etReply.getText().toString().trim(),
-                            postDetailModel.getTopic().getTopic_id(), postDetailModel.getTopic().getUser_id());
+                            postDetailModel.getBoardId(), postDetailModel.getTopic().getTopic_id());
                 }
                 break;
         }

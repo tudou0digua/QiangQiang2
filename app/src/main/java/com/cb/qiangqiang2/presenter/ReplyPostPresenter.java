@@ -15,6 +15,9 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+
 /**
  * Created by cb on 2016/12/12.
  */
@@ -47,15 +50,10 @@ public class ReplyPostPresenter extends BasePresenter<ReplyPostMvpView> {
         String json = new Gson().toJson(replyPostBody);
         Logger.json(json);
         Map<String, String> map = HttpManager.getBaseMap(mContext);
-//        try {
-//            map.put(Constants.JSON, URLEncoder.encode(json, "UTF-8"));
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-        map.put(Constants.JSON, json);
         map.put(Constants.ACT, "reply");
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
         HttpManager.isNeedFormatDataLogger = true;
-        HttpManager.toSub(mApiService.replyPost(map), new HttpManager.OnResponse() {
+        HttpManager.toSub(mApiService.replyPost(map, requestBody), new HttpManager.OnResponse() {
             @Override
             public void onSuccess(Object result) {
                 if (getMvpView() == null) return;
@@ -76,4 +74,5 @@ public class ReplyPostPresenter extends BasePresenter<ReplyPostMvpView> {
         }, mContext);
 
     }
+
 }
