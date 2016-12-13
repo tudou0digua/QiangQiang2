@@ -14,6 +14,7 @@ import com.cb.qiangqiang2.ui.activity.BigImageActivity;
 import com.cb.qiangqiang2.ui.activity.LoginActivity;
 import com.cb.qiangqiang2.ui.activity.PostDetailActivity;
 import com.cb.qiangqiang2.ui.activity.SearchActivity;
+import com.cb.qiangqiang2.ui.activity.SettingActivity;
 import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
 import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.cb.qiangqiang2.ui.activity.MainActivity;
@@ -61,6 +62,8 @@ public interface ActivityComponent {
     void inject(SearchUserFragment searchUserFragment);
 
     void inject(PostDetailActivity postDetailActivity);
+
+    void inject(SettingActivity settingActivity);
 
 
     void inject(MainTestActivity mainTestActivity);

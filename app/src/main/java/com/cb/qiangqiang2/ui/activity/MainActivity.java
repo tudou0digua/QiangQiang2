@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -14,9 +15,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
-import com.cb.qiangqiang2.common.base.BaseAutoLayoutActivity;
+import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.data.UserManager;
+import com.cb.qiangqiang2.event.NightThemeEvent;
 import com.cb.qiangqiang2.event.OpenDrawLayoutEvent;
 import com.cb.qiangqiang2.event.ShowExitSnackBarEvent;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;
@@ -30,7 +32,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import cn.carbs.android.avatarimageview.library.AvatarImageView;
 
-public class MainActivity extends BaseAutoLayoutActivity {
+public class MainActivity extends BaseSwipeBackActivity {
     private static final int EXIT_INTERVAL = 2000;
 
     @Inject
@@ -125,6 +127,9 @@ public class MainActivity extends BaseAutoLayoutActivity {
                     case R.id.nav_publish:
 
                         break;
+                    case R.id.nav_setting:
+                        SettingActivity.startSettingActivity(mContext);
+                        break;
                 }
                 item.setChecked(true);
                 Toast.makeText(mContext, item.getTitle(), Toast.LENGTH_SHORT).show();
@@ -179,6 +184,12 @@ public class MainActivity extends BaseAutoLayoutActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onOpenDrawLayout(OpenDrawLayoutEvent event) {
         mDrawerLayout.openDrawer(Gravity.LEFT);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void changeTheme(NightThemeEvent event) {
+        AppCompatDelegate.setDefaultNightMode(event.isNightTheme() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        recreate();
     }
 
 }

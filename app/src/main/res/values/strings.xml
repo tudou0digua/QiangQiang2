@@ -85,6 +85,10 @@
     <string name="post_detail_open_with_browser">浏览器打开</string>
     <string name="post_detail_reply">回复</string>
 
+    <!--设置-->
+    <string name="setting_title">设置</string>
+    <string name="setting_night_theme">夜间模式</string>
+
     <!--emoji start-->
     <string name="mc_forum_face_haha">[哈哈]</string>
     <string name="mc_forum_face_tear">[泪]</string>
