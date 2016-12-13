@@ -1,5 +1,8 @@
 package com.cb.qiangqiang2.ui.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -18,14 +21,19 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.adapter.PostDetailAdapter;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
+import com.cb.qiangqiang2.common.util.AppUtils;
+import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.model.PostDetailModel;
 import com.cb.qiangqiang2.data.model.ReplyPostModel;
+import com.cb.qiangqiang2.event.SendViewEvent;
 import com.cb.qiangqiang2.mvpview.PostDetailMvpView;
 import com.cb.qiangqiang2.mvpview.ReplyPostMvpView;
 import com.cb.qiangqiang2.presenter.PostDetailPresenter;
@@ -33,10 +41,16 @@ import com.cb.qiangqiang2.presenter.ReplyPostPresenter;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
+import cn.carbs.android.avatarimageview.library.AvatarImageView;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 import static com.cb.qiangqiang2.common.util.AppUtils.isScrollToBottom;
@@ -53,6 +67,8 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     ReplyPostPresenter mReplyPostPresenter;
     @Inject
     PostDetailAdapter mAdapter;
+    @Inject
+    UserManager userManager;
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -76,6 +92,10 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     TextView tvSend;
     @BindView(R.id.activity_post_detail)
     CoordinatorLayout activityPostDetail;
+    @BindView(R.id.send_container)
+    RelativeLayout sendContainer;
+    @BindView(R.id.iv_avatar)
+    AvatarImageView avatarImageView;
 
     private int nextPage = 2;
     private boolean canLoadingMore = true;
@@ -85,6 +105,8 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     private String boardName;
     private String title;
     private PostDetailModel postDetailModel;
+    private ObjectAnimator showSendViewAnimator;
+    private ObjectAnimator hideSendViewAnimator;
 
     public static void startPostDetailActivity(Context context, int boardId, int topicId, String boardName, String title) {
         Intent intent = new Intent(context, PostDetailActivity.class);
@@ -202,17 +224,21 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         Animation hideAnimation = new AlphaAnimation(1.0f, 0f);
         hideAnimation.setDuration(200);
         hideAnimation.setInterpolator(new AccelerateInterpolator());
-        Animation showAnimation = new AlphaAnimation(0f, 1.0f);
-        hideAnimation.setDuration(200);
-        hideAnimation.setInterpolator(new DecelerateInterpolator());
         floatingActionMenu.setMenuButtonHideAnimation(hideAnimation);
+
+        Animation showAnimation = new AlphaAnimation(0f, 1.0f);
+        showAnimation.setDuration(200);
+        showAnimation.setInterpolator(new DecelerateInterpolator());
         floatingActionMenu.setMenuButtonShowAnimation(showAnimation);
+
+        //设置回复栏
+        Glide.with(mContext).load(userManager.getAvatarUrl()).into(avatarImageView);
 
         mPostDetailPresenter.getPostDetail(false, topicId, boardId, 1, 10);
         canLoadingMore = false;
     }
 
-    @OnClick({R.id.tv_send})
+    @OnClick({R.id.tv_send, R.id.btn_reply})
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_send:
@@ -221,7 +247,50 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
                             postDetailModel.getBoardId(), postDetailModel.getTopic().getTopic_id());
                 }
                 break;
+            case R.id.btn_reply:
+                floatingActionMenu.hideMenu(true);
+                showSendView();
+                break;
         }
+    }
+
+    @OnLongClick({R.id.btn_reply})
+    public boolean onLongClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_reply:
+                Toast.makeText(mContext, "butter knife long clicked", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
+    }
+
+    private void hideSendView() {
+        if (hideSendViewAnimator != null && hideSendViewAnimator.isRunning()) return;
+        AppUtils.closeSoftKeybord(etReply, mContext);
+        int start = sendContainer.getTop();
+        int end = sendContainer.getTop() + sendContainer.getHeight();
+        hideSendViewAnimator = ObjectAnimator.ofFloat(sendContainer, "translationY", start, end);
+        hideSendViewAnimator.setDuration(500);
+        hideSendViewAnimator.setInterpolator(new DecelerateInterpolator());
+        hideSendViewAnimator.start();
+        hideSendViewAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                sendContainer.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void showSendView() {
+        if (showSendViewAnimator != null && showSendViewAnimator.isRunning()) return;
+        int start = sendContainer.getBottom();
+        int end = sendContainer.getBottom() - sendContainer.getHeight();
+        showSendViewAnimator = ObjectAnimator.ofFloat(sendContainer, "translationY", start, end);
+        showSendViewAnimator.setDuration(500);
+        showSendViewAnimator.setInterpolator(new DecelerateInterpolator());
+        sendContainer.setVisibility(View.VISIBLE);
+        showSendViewAnimator.start();
     }
 
     @Override
@@ -316,5 +385,24 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         super.onDestroy();
         mPostDetailPresenter.detachView();
         mReplyPostPresenter.detachView();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setSendViewVisibility(SendViewEvent event) {
+        if (!event.isShowSendView()) {
+            hideSendView();
+        }
     }
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/send_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/post_detail_send_min_height"
+    android:background="@color/white"
+    android:visibility="invisible">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/divider_color"/>
+
+    <cn.carbs.android.avatarimageview.library.AvatarImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        tools:src="@drawable/default_icon"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/padding_left"
+        android:layout_marginRight="10dp"/>
+
+    <EditText
+        android:id="@+id/et_reply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:textSize="@dimen/text_size1"
+        android:minHeight="@dimen/post_detail_send_min_height"
+        android:textColor="@color/text_primary"
+        android:layout_centerVertical="true"
+        android:maxLines="4"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_toLeftOf="@+id/tv_send"
+        android:layout_toRightOf="@+id/iv_avatar"/>
+
+    <TextView
+        android:id="@+id/tv_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="@dimen/post_detail_send_min_height"
+        android:background="?attr/selectableItemBackground"
+        android:textSize="@dimen/text_size1"
+        android:textColor="@color/text_primary"
+        android:paddingRight="@dimen/padding_right"
+        android:paddingLeft="10dp"
+        android:text="@string/post_detail_reply"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

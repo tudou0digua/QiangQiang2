@@ -83,6 +83,7 @@
     <string name="post_detail_floor">%d楼</string>
     <string name="post_detail_publisher">楼主</string>
     <string name="post_detail_open_with_browser">浏览器打开</string>
+    <string name="post_detail_reply">回复</string>
 
     <!--emoji start-->
     <string name="mc_forum_face_haha">[哈哈]</string>
