@@ -2,4 +2,10 @@
 <resources>
     <color name="base_bg">#000000</color>
     <color name="textBase">#FFFFFF</color>
+
+    <color name="white">#9c9c9c</color>
+
+    <color name="colorPrimary">#ff243447</color>
+    <color name="colorPrimaryDark">#ff1b2836</color>
+    <color name="colorAccent">#FF5252</color>
 </resources>

@@ -11,9 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
@@ -91,6 +91,8 @@ public class MainActivity extends BaseSwipeBackActivity {
         if (!TextUtils.isEmpty(mUserManager.getAvatarUrl())) {
             Glide.with(mContext)
                     .load("https://api.i-meto.com/bing")
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .centerCrop()
                     .into(ivBg);
 
@@ -131,11 +133,19 @@ public class MainActivity extends BaseSwipeBackActivity {
                         SettingActivity.startSettingActivity(mContext);
                         break;
                 }
-                item.setChecked(true);
-                Toast.makeText(mContext, item.getTitle(), Toast.LENGTH_SHORT).show();
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
+//                item.setChecked(true);
+//                Toast.makeText(mContext, item.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //避免切换主题recreate之后，NavigationView各类初始化失效（recreate只重新inflate布局，没有走initNavigationView）
+        initNavigationView();
     }
 
     @Override
@@ -189,6 +199,7 @@ public class MainActivity extends BaseSwipeBackActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void changeTheme(NightThemeEvent event) {
         AppCompatDelegate.setDefaultNightMode(event.isNightTheme() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
         recreate();
     }
 

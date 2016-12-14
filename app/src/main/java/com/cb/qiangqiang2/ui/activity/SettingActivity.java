@@ -59,6 +59,7 @@ public class SettingActivity extends BaseSwipeBackActivity {
                 PrefUtils.putBoolean(mContext, Constants.IS_NIGHT_THEME, b);
                 EventBus.getDefault().post(new NightThemeEvent(b));
                 AppCompatDelegate.setDefaultNightMode(b ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+                getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
                 recreate();
             }
         });
