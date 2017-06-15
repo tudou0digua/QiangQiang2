@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -178,8 +179,12 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
+                    //用浏览器打开
                     case R.id.menu_open_with_browser:
-                        Toast.makeText(mContext, getString(R.string.post_detail_open_with_browser), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        String url = String.format("http://www.qiangqiang5.com/forum.php?mod=viewthread&tid=%d&mobile=2", topicId);
+                        intent.setData(Uri.parse(url));
+                        startActivity(intent);
                         break;
                 }
                 return true;

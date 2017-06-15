@@ -4,6 +4,7 @@ package com.cb.qiangqiang2.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -73,9 +74,11 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     Toolbar mToolbar;
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.floating_action_button)
+    FloatingActionButton floatingActionButton;
 
     private List<BoardBean> lists;
-    private List<Fragment> fragments;
+    private List<PostFragment> fragments;
 
     public BoardFragment() {
         // Required empty public constructor
@@ -129,6 +132,13 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
             @Override
             public void onClick(View view) {
                 EventBus.getDefault().post(new OpenDrawLayoutEvent());
+            }
+        });
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //回到帖子列表顶部
+                fragments.get(mViewPager.getCurrentItem()).scrollToTop();
             }
         });
 

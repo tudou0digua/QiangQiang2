@@ -104,6 +104,8 @@ public class BigImageActivity extends BaseActivity {
 //            layoutParams.height = (int) (screenWidth * (imageParamBean.getImageHeight() * 1.0f / imageParamBean.getImageWidth()));
 //        }
 
+//        imageView.enable();
+
         if (imageUrl != null) {
             //TODO 加载Gif有时候不显示
             Glide.with(mContext)

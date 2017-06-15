@@ -1,6 +1,9 @@
 package com.cb.qiangqiang2.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -12,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
@@ -23,6 +25,7 @@ import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.common.util.EmojiUtils;
 import com.cb.qiangqiang2.data.model.PostDetailBean;
 import com.cb.qiangqiang2.data.model.PostDetailModel;
+import com.cb.qiangqiang2.ui.activity.BigImageActivity;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
@@ -276,13 +279,19 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private void onBindImageViewHolder(PostDetailBean bean, ImageViewHolder holder, int position) {
-        PostDetailModel.TopicBean.ContentBean contentBean = bean.getContentBean();
+    private void onBindImageViewHolder(final PostDetailBean bean, final ImageViewHolder holder, int position) {
+        final PostDetailModel.TopicBean.ContentBean contentBean = bean.getContentBean();
         if (contentBean != null) {
             Glide.with(context)
                     .load(contentBean.getOriginalInfo())
                     .into(holder.ivImage);
         }
+        holder.ivImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BigImageActivity.startBigImageActivity(contentBean.getOriginalInfo(), (Activity) context, holder.ivImage);
+            }
+        });
     }
 
     private void onBindHyperlinkViewHolder(PostDetailBean bean, HyperlinkViewHolder holder, int position) {
@@ -316,8 +325,10 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View view) {
-            //
-            Toast.makeText(context, contentBean.getUrl(), Toast.LENGTH_SHORT).show();
+            //链接处理(浏览器打开)
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(contentBean.getUrl()));
+            context.startActivity(intent);
         }
     }
 
