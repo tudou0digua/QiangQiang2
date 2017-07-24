@@ -15,6 +15,7 @@ import com.cb.qiangqiang2.ui.activity.LoginActivity;
 import com.cb.qiangqiang2.ui.activity.PostDetailActivity;
 import com.cb.qiangqiang2.ui.activity.SearchActivity;
 import com.cb.qiangqiang2.ui.activity.SettingActivity;
+import com.cb.qiangqiang2.ui.activity.SplashActivity;
 import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
 import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.cb.qiangqiang2.ui.activity.MainActivity;
@@ -36,6 +37,8 @@ import dagger.Component;
 public interface ActivityComponent {
 
     Activity activity();
+
+    void inject(SplashActivity splashActivity);
 
     void inject(MainActivity mainActivity);
 

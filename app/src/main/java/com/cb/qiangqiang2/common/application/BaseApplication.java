@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.blankj.utilcode.util.Utils;
 import com.cb.qiangqiang2.BuildConfig;
 import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.dagger.component.AppComponent;
@@ -27,6 +28,7 @@ public class BaseApplication extends Application {
         //设置主题，夜间模式用到
         boolean isNightTheme = PrefUtils.getBoolean(this, Constants.IS_NIGHT_THEME, false);
         AppCompatDelegate.setDefaultNightMode(isNightTheme ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        Utils.init(this);
         initLog();
         initAppComponent();
     }

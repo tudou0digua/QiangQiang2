@@ -20,6 +20,13 @@ public class PrefUtils {
         return editor.commit();
     }
 
+    public static boolean delete(Context context, String key) {
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove(key);
+        return editor.commit();
+    }
+
     /**
      * put string preferences
      *

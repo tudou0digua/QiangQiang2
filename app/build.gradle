@@ -119,4 +119,6 @@ dependencies {
 
     compile 'com.squareup.picasso:picasso:2.5.2'
 
+    compile 'com.blankj:utilcode:1.7.1'
+
 }

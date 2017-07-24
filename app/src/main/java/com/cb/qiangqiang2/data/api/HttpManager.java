@@ -131,19 +131,23 @@ public class HttpManager {
                     @Override
                     public void onNext(Object o) {
                         try {
-                            BaseModel baseModel = (BaseModel) o;
-                            if (baseModel.getRs() == 1) {
-                                onResponse.onSuccess(o);
-                            } else {
-                                switch (baseModel.getHead().getErrCode()) {
-                                    case 100001:
-                                        //TODO 未登陆 可进行登陆等操作
+                            if (o instanceof BaseModel) {
+                                BaseModel baseModel = (BaseModel) o;
+                                if (baseModel.getRs() == 1) {
+                                    onResponse.onSuccess(o);
+                                } else {
+                                    switch (baseModel.getHead().getErrCode()) {
+                                        case 100001:
+                                            //TODO 未登陆 可进行登陆等操作
 //                                        Toast.makeText(context, baseModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
-                                        LoginActivity.startLoginActivity(context);
-                                        break;
-                                    default:
-                                        onResponse.onSuccess(o);
+                                            LoginActivity.startLoginActivity(context);
+                                            break;
+                                        default:
+                                            onResponse.onSuccess(o);
+                                    }
                                 }
+                            } else {
+                                onResponse.onSuccess(o);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

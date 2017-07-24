@@ -1,5 +1,7 @@
 package com.cb.qiangqiang2.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -44,6 +46,11 @@ public class MainActivity extends BaseSwipeBackActivity {
     DrawerLayout mDrawerLayout;
 
     private long lastBackClickTime = Constants.DEFAULT_INVALIDE_TIME;
+
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +115,8 @@ public class MainActivity extends BaseSwipeBackActivity {
             public void onClick(View view) {
                 // 登出
                 mUserManager.logout(mContext);
-                LoginActivity.startLoginActivity(mContext);
+                LoginActivity.startLoginActivity(mContext, true);
+                finishActivity();
             }
         });
         view.setOnClickListener(new View.OnClickListener() {
