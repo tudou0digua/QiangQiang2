@@ -132,7 +132,7 @@ public class MainActivity extends BaseSwipeBackActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_feedback:
-                        LoginActivity.startLoginActivity(mContext);
+//                        LoginActivity.startLoginActivity(mContext);
                         break;
                     case R.id.nav_publish:
 
