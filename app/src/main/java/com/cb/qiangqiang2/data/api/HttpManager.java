@@ -114,7 +114,7 @@ public class HttpManager {
     }
 
     public static void toSub(Observable o, @NonNull final OnResponse onResponse, final Context context) {
-        o.compose(new SchedulerTransformer())
+        o.compose(SchedulerTransformer.create())
                 .subscribe(new Subscriber() {
                     @Override
                     public void onCompleted() {
