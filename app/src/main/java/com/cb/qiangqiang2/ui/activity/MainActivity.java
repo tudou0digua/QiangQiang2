@@ -23,6 +23,7 @@ import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.event.NightThemeEvent;
 import com.cb.qiangqiang2.event.OpenDrawLayoutEvent;
 import com.cb.qiangqiang2.event.ShowExitSnackBarEvent;
+import com.cb.qiangqiang2.test.activity.TestRxJavaActivity;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -135,7 +136,7 @@ public class MainActivity extends BaseSwipeBackActivity {
 //                        LoginActivity.startLoginActivity(mContext);
                         break;
                     case R.id.nav_publish:
-
+                        TestRxJavaActivity.startActivity(mContext);
                         break;
                     case R.id.nav_setting:
                         SettingActivity.startSettingActivity(mContext);

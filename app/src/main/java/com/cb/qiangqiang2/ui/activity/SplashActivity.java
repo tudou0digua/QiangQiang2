@@ -1,11 +1,8 @@
 package com.cb.qiangqiang2.ui.activity;
 
-import android.text.TextUtils;
-
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.data.UserManager;
-import com.cb.qiangqiang2.data.model.AccountInfoBean;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.mvpview.LoginMvpView;
 import com.cb.qiangqiang2.presenter.LoginPresenter;
@@ -36,13 +33,14 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
 
     @Override
     protected void initData() {
-        AccountInfoBean accountInfoBean = mUserManager.getAccountInfo();
-        if (accountInfoBean != null && !TextUtils.isEmpty(accountInfoBean.getAccount())
-                && !TextUtils.isEmpty(accountInfoBean.getPassword())) {
-            mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
-        } else {
-            goToLoginActivity();
-        }
+//        AccountInfoBean accountInfoBean = mUserManager.getAccountInfo();
+//        if (accountInfoBean != null && !TextUtils.isEmpty(accountInfoBean.getAccount())
+//                && !TextUtils.isEmpty(accountInfoBean.getPassword())) {
+//            mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
+//        } else {
+//            goToLoginActivity();
+//        }
+        goToMainActivity();
     }
 
     @Override
