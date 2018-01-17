@@ -180,7 +180,8 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
         if (TextUtils.isEmpty(password)) {
             return false;
         }
-        String pattern = "^.{7,}$";
+        //包含数字，且长度大于7
+        String pattern = "^(?!\\d+$)(?!\\D+$)\\S{7,}$";
         return Pattern.matches(pattern, password);
     }
 
