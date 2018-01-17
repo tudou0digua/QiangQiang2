@@ -25,13 +25,15 @@ import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.mvpview.LoginMvpView;
 import com.cb.qiangqiang2.presenter.LoginPresenter;
 
+import java.util.regex.Pattern;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * A login screen that offers login via email/password.
+ * 登录页面
  */
 public class LoginActivity extends BaseActivity implements LoginMvpView {
 
@@ -42,15 +44,12 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
     @Inject
     UserManager mUserManager;
 
-    // UI references.
     @BindView(R.id.username)
     AutoCompleteTextView mUserNameView;
     @BindView(R.id.password)
     EditText mPasswordView;
-    @BindView(R.id.login_progress)
+    @BindView(R.id.rl_loading)
     View mProgressView;
-    @BindView(R.id.login_form)
-    View mLoginFormView;
     @BindView(R.id.btn_sign_in)
     Button mEmailSignInButton;
 
@@ -109,7 +108,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
         isNeedGoToMain = getIntent().getBooleanExtra(IS_NEED_GO_TO_MAIN, false);
     }
 
-    @OnClick({R.id.btn_sign_in})
+    @OnClick({R.id.btn_sign_in, R.id.rl_loading})
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_sign_in:
@@ -125,9 +124,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
     }
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
+     * 登录
      */
     private void attemptLogin() {
         // Reset errors.
@@ -150,11 +147,11 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(username)) {
-            mUserNameView.setError(getString(R.string.error_field_required));
+            mUserNameView.setError(getString(R.string.username_empty));
             focusView = mUserNameView;
             cancel = true;
-        } else if (!isEmailValid(username)) {
-            mUserNameView.setError(getString(R.string.error_invalid_email));
+        } else if (!isUsernameValid(username)) {
+            mUserNameView.setError(getString(R.string.error_invalid_username));
             focusView = mUserNameView;
             cancel = true;
         }
@@ -171,14 +168,20 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
         }
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return true;
+    private boolean isUsernameValid(String username) {
+        if (TextUtils.isEmpty(username)) {
+            return false;
+        }
+        String pattern = "^.{3,15}$";
+        return Pattern.matches(pattern, username);
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        if (TextUtils.isEmpty(password)) {
+            return false;
+        }
+        String pattern = "^.{7,}$";
+        return Pattern.matches(pattern, password);
     }
 
     /**
@@ -192,15 +195,6 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
@@ -213,7 +207,6 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
