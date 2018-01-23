@@ -138,14 +138,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
+        // Check for a valid username.
         if (TextUtils.isEmpty(username)) {
             mUserNameView.setError(getString(R.string.username_empty));
             focusView = mUserNameView;
@@ -153,6 +146,13 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
         } else if (!isUsernameValid(username)) {
             mUserNameView.setError(getString(R.string.error_invalid_username));
             focusView = mUserNameView;
+            cancel = true;
+        }
+
+        // Check for a valid password, if the user entered one.
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
             cancel = true;
         }
 

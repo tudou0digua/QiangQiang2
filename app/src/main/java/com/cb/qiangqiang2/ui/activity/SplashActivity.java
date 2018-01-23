@@ -1,20 +1,57 @@
 package com.cb.qiangqiang2.ui.activity;
 
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.data.UserManager;
+import com.cb.qiangqiang2.data.model.AccountInfoBean;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.mvpview.LoginMvpView;
 import com.cb.qiangqiang2.presenter.LoginPresenter;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+
 public class SplashActivity extends BaseActivity implements LoginMvpView{
+
+    private static final int FINISH_SPLSH = 0;
+    private static final int GOTO_LOGIN = 1;
+    private static final int GOTO_MAIN = 2;
+
+    private static final int SPLASH_TIME = 2000;
 
     @Inject
     LoginPresenter mLoginPresenter;
     @Inject
     UserManager mUserManager;
+
+    @BindView(R.id.iv_bg)
+    ImageView ivBg;
+
+    private long startLoginTime;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case FINISH_SPLSH:
+                    int type = (int) msg.obj;
+                    if (type == GOTO_MAIN) {
+                        goToMainActivity();
+                    } else if (type == GOTO_LOGIN) {
+                        goToMainActivity();
+//                        goToLoginActivity();
+                    }
+                    break;
+            }
+        }
+    };
 
     @Override
     protected int getLayoutId() {
@@ -33,14 +70,24 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
 
     @Override
     protected void initData() {
-//        AccountInfoBean accountInfoBean = mUserManager.getAccountInfo();
-//        if (accountInfoBean != null && !TextUtils.isEmpty(accountInfoBean.getAccount())
-//                && !TextUtils.isEmpty(accountInfoBean.getPassword())) {
-//            mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
-//        } else {
-//            goToLoginActivity();
-//        }
-        goToMainActivity();
+        //加载bing每日一图作为背景图
+        Glide.with(ivBg.getContext())
+                .load("https://bing.ioliu.cn/v1/rand?w=720&h=1280")
+                .asBitmap()
+                .dontAnimate()
+                .into(ivBg);
+
+        AccountInfoBean accountInfoBean = mUserManager.getAccountInfo();
+        if (accountInfoBean != null && !TextUtils.isEmpty(accountInfoBean.getAccount())
+                && !TextUtils.isEmpty(accountInfoBean.getPassword())) {
+            startLoginTime = System.currentTimeMillis();
+            mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
+        } else {
+            Message msg = Message.obtain();
+            msg.what = FINISH_SPLSH;
+            msg.obj = GOTO_LOGIN;
+            handler.sendMessageDelayed(msg, SPLASH_TIME);
+        }
     }
 
     @Override
@@ -55,17 +102,30 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
 
     @Override
     public void loadError(Throwable e) {
+        if (e != null) {
+            e.printStackTrace();
+        }
+        processLoginResult(GOTO_LOGIN);
+    }
 
+    private void processLoginResult(int obj) {
+        Message msg = Message.obtain();
+        msg.what = FINISH_SPLSH;
+        msg.obj = obj;
+        long delayMillis = SPLASH_TIME - (System.currentTimeMillis() - startLoginTime) / 1000;
+        delayMillis = delayMillis < 0 ? 0 : delayMillis;
+        handler.sendMessageDelayed(msg, delayMillis);
     }
 
     @Override
     public void loginResult(LoginModel loginModel) {
+        int msgObj =  GOTO_LOGIN;
         switch (loginModel.getHead().getErrCode()) {
             //登录成功
             case "00000000":
                 //保存用户信息
                 mUserManager.setUserInfo(loginModel);
-                goToMainActivity();
+                msgObj = GOTO_MAIN;
                 break;
             //登录失败
             default:
@@ -73,6 +133,7 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
                 goToLoginActivity();
                 break;
         }
+        processLoginResult(msgObj);
     }
 
     private void goToLoginActivity() {
@@ -83,5 +144,13 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
     private void goToMainActivity() {
         MainActivity.startActivity(this);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mLoginPresenter != null) {
+            mLoginPresenter.detachView();
+        }
     }
 }

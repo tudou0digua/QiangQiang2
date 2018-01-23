@@ -85,7 +85,7 @@
         android:id="@+id/rl_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#30000000"
+        android:background="#80000000"
         android:visibility="gone"
         tools:visibility="gone">
 
