@@ -109,6 +109,8 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     }
 
     private void initView() {
+        EventBus.getDefault().register(this);
+
         mToolbar.setTitle("");
         ((BaseActivity) getActivity()).setSupportActionBar(mToolbar);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -149,14 +151,14 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
             List<BoardBean> listSelected = gson.fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>() {
             }.getType());
             lists = listSelected;
-            setViewPager();
+            initViewPager();
         } else {
             boardPresenter.loadBoardData();
         }
 
     }
 
-    private void setViewPager() {
+    private void initViewPager() {
         fragments = new ArrayList<>();
         BoardBean boardBean = new BoardBean();
         boardBean.setId(0);
@@ -171,6 +173,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
             }
             fragments.add(PostFragment.newInstance(lists.get(i).getId(), sortBy));
         }
+        // TODO: 2018/1/24 http://blog.csdn.net/goldenfish1919/article/details/47661443 数据刷新
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -207,6 +210,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
         super.onDestroyView();
         boardPresenter.detachView();
         mCheckInPresenter.detachView();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -242,7 +246,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
             PrefUtils.putString(getActivity(), Constants.BOARD_LIST, data);
             Logger.json(PrefUtils.getString(getActivity(), Constants.BOARD_LIST));
 
-            setViewPager();
+            initViewPager();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -269,18 +273,6 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BoardChangeEvent event) {
         String boardSelectedStr = PrefUtils.getString(getActivity(), Constants.BOARD_LIST_SELECTED);
@@ -288,8 +280,10 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
             Gson gson = new Gson();
             List<BoardBean> listSelected = gson.fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>() {
             }.getType());
-            lists = listSelected;
-            setViewPager();
+            lists.clear();
+            lists.addAll(listSelected);
+//            lists = listSelected;
+            initViewPager();
         } else {
             boardPresenter.loadBoardData();
         }

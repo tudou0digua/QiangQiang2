@@ -1,5 +1,5 @@
 <resources>
     <dimen name="floating_action_button_margin">16dp</dimen>
 
-    <dimen name="toolbar_padding_top">25dp</dimen>
+    <dimen name="toolbar_padding_top">20dp</dimen>
 </resources>

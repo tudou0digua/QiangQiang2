@@ -1,0 +1,94 @@
+dependencies {
+    final SUPPORT_LIBRARY_VERSION = '24.2.1'
+    final SUPPORT_LIBRARY_VERSION_NEW = '25.0.0'
+    final BUTTERKNIFE_VERSION = '8.4.0'
+    final RETROFIT_VERSION = '2.1.0'
+    final DAGGER_VERSION = '2.6'
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    //单元测试
+    testCompile 'junit:junit:4.12'
+    testCompile('org.robolectric:robolectric:3.1.2')
+
+    def daggerCompiler = "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION_NEW"
+    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION_NEW"
+    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION_NEW"
+    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION_NEW"
+
+    //Butter Knife
+    //GitHub: https://github.com/JakeWharton/butterknife
+    //项目网页版example地址：http://jakewharton.github.io/butterknife/ (需翻墙)
+    compile "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
+    apt     "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
+
+    //Swipe Back
+    //GitHub: https://github.com/ikew0ng/SwipeBackLayout
+    compile 'me.imid.swipebacklayout.lib:library:1.1.0'
+
+    //Auto Layout
+    //GitHub: https://github.com/hongyangAndroid/AndroidAutoLayout
+    compile 'com.zhy:autolayout:1.4.3'
+
+    //图片加载
+    //Glide
+    //GitHub: https://github.com/bumptech/glide
+    //Glide使用 http://www.jianshu.com/p/4a3177b57949
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    //日志打印
+    //Timber
+    //GitHub: https://github.com/JakeWharton/timber
+    compile 'com.jakewharton.timber:timber:4.3.0'
+    //Logger
+    //GitHub: https://github.com/orhanobut/logger
+    compile 'com.orhanobut:logger:1.15'
+
+    //网络访问
+    //Retrofit2
+    //GitHub: https://github.com/square/retrofit
+    //添加retrofit2 的依赖 添加这个依赖就默认添加了okHttp依赖
+    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    //支持Gson 及 rxjava
+    compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+    compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION"
+    //okhttp log 工具
+    compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
+
+    //RxAndroid and RxJava
+    //GitHub: https://github.com/ReactiveX/RxAndroid
+    compile 'io.reactivex:rxandroid:1.2.1'
+    // Because RxAndroid releases are few and far between, it is recommended you also
+    // explicitly depend on RxJava's latest version for bug fixes and new features.
+    compile 'io.reactivex:rxjava:1.1.6'
+
+    //依赖注入
+    //Dagger
+    //GitHub: https://github.com/google/dagger
+    compile  "com.google.dagger:dagger:$DAGGER_VERSION"
+    provided 'org.glassfish:javax.annotation:10.0-b28' //Required by Dagger2
+    annotationProcessor daggerCompiler
+
+    //https://github.com/Carbs0126/AvatarImageView
+    compile 'cn.carbs.android:AvatarImageView:1.0.2'
+
+    compile 'me.zhanghai.android.materialprogressbar:library:1.2.0'
+    compile 'com.github.hackware1993:MagicIndicator:1.4.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.franmontiel:PersistentCookieJar:v1.0.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+
+    compile 'org.greenrobot:greendao:3.2.0'
+
+    compile 'com.github.mancj:MaterialSearchBar:0.3.1'
+
+    compile 'com.bm.photoview:library:2.0.7'
+
+    compile 'com.github.clans:fab:1.6.4'
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'com.blankj:utilcode:1.7.1'
+
+}

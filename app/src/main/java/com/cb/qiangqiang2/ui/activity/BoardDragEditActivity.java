@@ -130,9 +130,9 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    public void finish() {
         setSelectResult();
-        super.onBackPressed();
+        super.finish();
     }
 
     private void setSelectResult() {

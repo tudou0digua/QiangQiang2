@@ -14,6 +14,8 @@ import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.mvpview.LoginMvpView;
 import com.cb.qiangqiang2.presenter.LoginPresenter;
 
+import java.lang.ref.WeakReference;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -36,22 +38,37 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
 
     private long startLoginTime;
 
-    private Handler handler = new Handler(){
+    private SplashHandler handler;
+
+    private static class SplashHandler extends Handler{
+        private WeakReference<SplashActivity> weakReference;
+
+        public SplashHandler(SplashActivity splashActivity) {
+            weakReference = new WeakReference<SplashActivity>(splashActivity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case FINISH_SPLSH:
-                    int type = (int) msg.obj;
-                    if (type == GOTO_MAIN) {
-                        goToMainActivity();
-                    } else if (type == GOTO_LOGIN) {
-                        goToMainActivity();
-//                        goToLoginActivity();
-                    }
-                    break;
+            if (weakReference.get() != null) {
+                weakReference.get().handleMessage(msg);
             }
         }
-    };
+    }
+
+    public void handleMessage(Message msg) {
+        switch (msg.what) {
+            case FINISH_SPLSH:
+                int type = (int) msg.obj;
+                if (type == GOTO_MAIN) {
+                    goToMainActivity();
+                } else if (type == GOTO_LOGIN) {
+                    goToMainActivity();
+//                        goToLoginActivity();
+                }
+                break;
+        }
+    }
+
 
     @Override
     protected int getLayoutId() {
@@ -70,6 +87,8 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
 
     @Override
     protected void initData() {
+        handler = new SplashHandler(this);
+
         //加载bing每日一图作为背景图
         Glide.with(ivBg.getContext())
                 .load("https://bing.ioliu.cn/v1/rand?w=720&h=1280")
