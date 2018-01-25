@@ -79,6 +79,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
 
     private List<BoardBean> lists;
     private List<PostFragment> fragments;
+    private FragmentPagerAdapter adapter;
 
     public BoardFragment() {
         // Required empty public constructor
@@ -159,22 +160,14 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     }
 
     private void initViewPager() {
-        fragments = new ArrayList<>();
-        BoardBean boardBean = new BoardBean();
-        boardBean.setId(0);
-        boardBean.setName("最新");
-        lists.add(0, boardBean);
-        for (int i = 0; i < lists.size(); i++) {
-            String sortBy;
-            if (i == 0) {
-                sortBy = POST_NEW;
-            } else {
-                sortBy = POST_ALL;
+        initViewPagerData();
+        adapter = new FragmentPagerAdapter(getChildFragmentManager()) {
+
+            @Override
+            public int getItemPosition(Object object) {
+                return POSITION_NONE;
             }
-            fragments.add(PostFragment.newInstance(lists.get(i).getId(), sortBy));
-        }
-        // TODO: 2018/1/24 http://blog.csdn.net/goldenfish1919/article/details/47661443 数据刷新
-        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getChildFragmentManager()) {
+
             @Override
             public Fragment getItem(int position) {
                 return fragments.get(position);
@@ -190,9 +183,32 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
                 return lists.get(position).getName();
             }
         };
-
+        mViewPager.setOffscreenPageLimit(fragments.size());
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        AppUtils.dynamicSetTabLayoutMode(mTabLayout, getActivity());
+    }
+
+    private void initViewPagerData() {
+        fragments = new ArrayList<>();
+        BoardBean boardBean = new BoardBean();
+        boardBean.setId(0);
+        boardBean.setName("最新");
+        lists.add(0, boardBean);
+        for (int i = 0; i < lists.size(); i++) {
+            String sortBy;
+            if (i == 0) {
+                sortBy = POST_NEW;
+            } else {
+                sortBy = POST_ALL;
+            }
+            fragments.add(PostFragment.newInstance(lists.get(i).getId(), sortBy));
+        }
+    }
+
+    private void updateViewPager() {
+        initViewPagerData();
+        adapter.notifyDataSetChanged();
         AppUtils.dynamicSetTabLayoutMode(mTabLayout, getActivity());
     }
 
@@ -246,7 +262,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
             PrefUtils.putString(getActivity(), Constants.BOARD_LIST, data);
             Logger.json(PrefUtils.getString(getActivity(), Constants.BOARD_LIST));
 
-            initViewPager();
+            updateViewPager();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -282,8 +298,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
             }.getType());
             lists.clear();
             lists.addAll(listSelected);
-//            lists = listSelected;
-            initViewPager();
+            updateViewPager();
         } else {
             boardPresenter.loadBoardData();
         }
