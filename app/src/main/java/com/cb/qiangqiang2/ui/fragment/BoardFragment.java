@@ -8,7 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -79,7 +79,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
 
     private List<BoardBean> lists;
     private List<PostFragment> fragments;
-    private FragmentPagerAdapter adapter;
+    private FragmentStatePagerAdapter adapter;
 
     public BoardFragment() {
         // Required empty public constructor
@@ -161,12 +161,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
 
     private void initViewPager() {
         initViewPagerData();
-        adapter = new FragmentPagerAdapter(getChildFragmentManager()) {
-
-            @Override
-            public int getItemPosition(Object object) {
-                return POSITION_NONE;
-            }
+        adapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
 
             @Override
             public Fragment getItem(int position) {
@@ -183,8 +178,8 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
                 return lists.get(position).getName();
             }
         };
-        mViewPager.setOffscreenPageLimit(fragments.size());
         mViewPager.setAdapter(adapter);
+        mViewPager.setOffscreenPageLimit(fragments.size() > 1 ? fragments.size() - 1 : 1);
         mTabLayout.setupWithViewPager(mViewPager);
         AppUtils.dynamicSetTabLayoutMode(mTabLayout, getActivity());
     }
@@ -262,7 +257,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
             PrefUtils.putString(getActivity(), Constants.BOARD_LIST, data);
             Logger.json(PrefUtils.getString(getActivity(), Constants.BOARD_LIST));
 
-            updateViewPager();
+            initViewPager();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -298,7 +293,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
             }.getType());
             lists.clear();
             lists.addAll(listSelected);
-            updateViewPager();
+            initViewPager();
         } else {
             boardPresenter.loadBoardData();
         }

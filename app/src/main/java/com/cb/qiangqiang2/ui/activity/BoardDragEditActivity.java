@@ -11,16 +11,15 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.cb.qiangqiang2.R;
+import com.cb.qiangqiang2.adapter.BoardEditAdapter;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
-import com.cb.qiangqiang2.event.BoardChangeEvent;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.model.BoardBean;
-import com.cb.qiangqiang2.adapter.BoardEditAdapter;
+import com.cb.qiangqiang2.event.BoardChangeEvent;
 import com.cb.qiangqiang2.ui.view.dragview.ItemDragHelperCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -41,6 +40,7 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
     @BindView(R.id.activity_board_drag_edit)
     RelativeLayout mActivityBoardDragEdit;
 
+    private List<BoardBean> mSelectedListOriginal;
     private List<BoardBean> mSelectedListData;
     private List<BoardBean> mUnSelectedListData;
     private BoardEditAdapter adapter;
@@ -60,16 +60,19 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
     protected void initView() {
         initToolbar();
         //获得板块列表数据
+        mSelectedListOriginal = new ArrayList<>();
         String boardSelectedStr = PrefUtils.getString(mContext, Constants.BOARD_LIST_SELECTED);
         if (boardSelectedStr != null) {
             Gson gson = new Gson();
             List<BoardBean> listSelected = gson.fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>(){}.getType());
             mSelectedListData = listSelected;
+            mSelectedListOriginal.addAll(mSelectedListData);
         } else {
             String boards = PrefUtils.getString(mContext, Constants.BOARD_LIST);
             if (TextUtils.isEmpty(boards)) return;
             Gson gson = new Gson();
             mSelectedListData = gson.fromJson(boards, new TypeToken<List<BoardBean>>(){}.getType());
+            mSelectedListOriginal.addAll(mSelectedListData);
         }
         String boardUnSelectedStr = PrefUtils.getString(mContext, Constants.BOARD_LIST_UNSELETED);
         if (boardUnSelectedStr != null) {
@@ -131,17 +134,33 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
 
     @Override
     public void finish() {
-        setSelectResult();
+        setBoardDataChange();
         super.finish();
     }
 
-    private void setSelectResult() {
-        Gson gson = new Gson();
-        Logger.json(gson.toJson(adapter.getSelectedBoardItems()));
-        Logger.json(gson.toJson(adapter.getOtherBoardItems()));
+    private void setBoardDataChange() {
+        if (hasBoardDataChanged()) {
+            Gson gson = new Gson();
+            PrefUtils.putString(mContext, Constants.BOARD_LIST_SELECTED, gson.toJson(adapter.getSelectedBoardItems()));
+            PrefUtils.putString(mContext, Constants.BOARD_LIST_UNSELETED, gson.toJson(adapter.getOtherBoardItems()));
+            EventBus.getDefault().post(new BoardChangeEvent());
+        }
+    }
 
-        PrefUtils.putString(mContext, Constants.BOARD_LIST_SELECTED, gson.toJson(adapter.getSelectedBoardItems()));
-        PrefUtils.putString(mContext, Constants.BOARD_LIST_UNSELETED, gson.toJson(adapter.getOtherBoardItems()));
-        EventBus.getDefault().post(new BoardChangeEvent());
+    private boolean hasBoardDataChanged() {
+        if (mSelectedListOriginal.size() == mSelectedListData.size()) {
+            for (int i = 0; i < mSelectedListOriginal.size(); i++) {
+                BoardBean originalBoardBean = mSelectedListOriginal.get(i);
+                BoardBean modifyBoardBean = mSelectedListData.get(i);
+                if (originalBoardBean.getId() == modifyBoardBean.getId()) {
+                    if (i == mSelectedListOriginal.size() - 1) {
+                        return false;
+                    }
+                } else {
+                    return true;
+                }
+            }
+        }
+        return true;
     }
 }
