@@ -28,7 +28,7 @@ greendao {
 
 dependencies {
     final SUPPORT_LIBRARY_VERSION = '24.2.1'
-    final SUPPORT_LIBRARY_VERSION_NEW = '26.1.0'
+    final SUPPORT_LIBRARY_VERSION_NEW = '25.0.0'
     final BUTTERKNIFE_VERSION = '8.4.0'
     final RETROFIT_VERSION = '2.1.0'
     final DAGGER_VERSION = '2.6'

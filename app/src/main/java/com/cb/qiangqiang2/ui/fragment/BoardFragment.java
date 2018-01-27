@@ -201,12 +201,6 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
         }
     }
 
-    private void updateViewPager() {
-        initViewPagerData();
-        adapter.notifyDataSetChanged();
-        AppUtils.dynamicSetTabLayoutMode(mTabLayout, getActivity());
-    }
-
     @OnClick({R.id.iv_edit_board})
     public void onClicked(View view) {
         switch (view.getId()) {

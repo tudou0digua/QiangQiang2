@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.cb.qiangqiang2.R;
+import com.cb.qiangqiang2.adapter.PostListAdapter;
+import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
+import com.cb.qiangqiang2.adapter.listener.OnItemLongClickListener;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
 import com.cb.qiangqiang2.common.constant.Constants;
@@ -24,9 +27,6 @@ import com.cb.qiangqiang2.mvpview.PostMvpView;
 import com.cb.qiangqiang2.presenter.OtherPresenter;
 import com.cb.qiangqiang2.presenter.PostPresenter;
 import com.cb.qiangqiang2.ui.activity.PostDetailActivity;
-import com.cb.qiangqiang2.adapter.PostListAdapter;
-import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
-import com.cb.qiangqiang2.adapter.listener.OnItemLongClickListener;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -220,6 +220,13 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     public void scrollToTop() {
         if (mRecycleView != null && mRecycleView.getAdapter() != null
                 && mRecycleView.getAdapter().getItemCount() > 0) {
+            if (mRecycleView.getLayoutManager() != null && mRecycleView.getLayoutManager() instanceof LinearLayoutManager) {
+                LinearLayoutManager layoutManager = (LinearLayoutManager) mRecycleView.getLayoutManager();
+                if (layoutManager.findLastVisibleItemPosition() >= Integer.parseInt(Constants.DEFAULT_PAGE_SIZE)) {
+                    mRecycleView.scrollToPosition(0);
+                    return;
+                }
+            }
             mRecycleView.smoothScrollToPosition(0);
         }
     }
