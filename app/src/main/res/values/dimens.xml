@@ -49,7 +49,7 @@
     <dimen name="search_history_item_height">48dp</dimen>
 
     <!--帖子详情-->
-    <dimen name="post_detail_item_top_margin_top">10dp</dimen>
+    <dimen name="post_detail_item_top_margin_top">0dp</dimen>
     <dimen name="post_detail_send_min_height">52dp</dimen>
 
     <!--设置-->

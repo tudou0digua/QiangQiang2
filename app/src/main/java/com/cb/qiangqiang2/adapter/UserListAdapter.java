@@ -82,6 +82,8 @@ public class UserListAdapter extends RecyclerView.Adapter {
         final UserListModel.ListBean bean = mLists.get(position);
         Glide.with(mContext)
                 .load(bean.getIcon())
+                .placeholder(R.drawable.default_icon)
+                .error(R.drawable.default_icon)
                 .bitmapTransform(new GlideCircleTransform(mContext))
                 .crossFade(300)
                 .into(viewHolder.mIvAvatar);

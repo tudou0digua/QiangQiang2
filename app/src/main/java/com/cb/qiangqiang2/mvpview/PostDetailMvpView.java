@@ -8,4 +8,6 @@ import com.cb.qiangqiang2.data.model.PostDetailModel;
  */
 
 public interface PostDetailMvpView extends BaseMVPViewLoadMore<PostDetailModel> {
+    void operateCollectionSuccess(boolean isCollection);
+    void operateCollectionFail();
 }

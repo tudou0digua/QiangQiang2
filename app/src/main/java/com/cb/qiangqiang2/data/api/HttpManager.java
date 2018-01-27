@@ -140,7 +140,7 @@ public class HttpManager {
                                         case 100001:
                                             //TODO 未登陆 可进行登陆等操作
 //                                        Toast.makeText(context, baseModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
-                                            LoginActivity.startLoginActivity(context);
+                                            onResponse.onUnLogin(context, o);
                                             break;
                                         default:
                                             onResponse.onSuccess(o);
@@ -179,14 +179,18 @@ public class HttpManager {
         return map;
     }
 
-    public interface OnResponse {
-        void onSuccess(Object result);
+    public static abstract class OnResponse {
+        protected abstract void onSuccess(Object result);
 
-        void onError(Throwable e);
+        protected abstract void onError(Throwable e);
+
+        protected void onUnLogin(Context context, Object result){
+            LoginActivity.startLoginActivity(context);
+        }
     }
 
-    public interface OnResponseWithComplete extends OnResponse {
-        void onComplete();
+    public abstract class OnResponseWithComplete extends OnResponse {
+        abstract void onComplete();
     }
 
     /**

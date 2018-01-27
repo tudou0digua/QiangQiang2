@@ -91,7 +91,7 @@
             android:src="@drawable/collection"
             app:backgroundTint="#818aa7"
             app:fab_colorNormal="#818aa7"
-            app:fab_label="收藏"
+            app:fab_label="@string/post_detail_collection"
             app:fab_size="normal"/>
 
         <com.github.clans.fab.FloatingActionButton
@@ -101,7 +101,7 @@
             android:src="@drawable/reply"
             app:backgroundTint="@android:color/holo_red_dark"
             app:fab_colorNormal="@android:color/holo_red_dark"
-            app:fab_label="回复"
+            app:fab_label="@string/post_detail_reply"
             app:fab_size="normal"/>
 
     </com.github.clans.fab.FloatingActionMenu>

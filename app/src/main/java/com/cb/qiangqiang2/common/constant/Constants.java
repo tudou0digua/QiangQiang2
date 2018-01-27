@@ -79,6 +79,8 @@ public class Constants {
     public static final String TOPIC_ID = "topicId";
     public static final String AUTHOR_ID = "authorId";
     public static final String BOARD_ID = "boardId";
+    public static final int COLLECTED_POST = 1;//已收藏帖子
+    public static final String WEB_PAGE_URL_PRE = "http://www.qiangqiang5.com/forum.php?mod=viewthread&tid=%d&mobile=2";
 
     //回复帖子
     public static final String JSON = "json";

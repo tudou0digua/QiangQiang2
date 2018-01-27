@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.adapter.PostDetailAdapter;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
+import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.model.PostDetailModel;
@@ -182,7 +183,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
                     //用浏览器打开
                     case R.id.menu_open_with_browser:
                         Intent intent = new Intent(Intent.ACTION_VIEW);
-                        String url = String.format("http://www.qiangqiang5.com/forum.php?mod=viewthread&tid=%d&mobile=2", topicId);
+                        String url = String.format(Constants.WEB_PAGE_URL_PRE, topicId);
                         intent.setData(Uri.parse(url));
                         startActivity(intent);
                         break;
@@ -237,24 +238,38 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         floatingActionMenu.setMenuButtonShowAnimation(showAnimation);
 
         //设置回复栏
-        Glide.with(mContext).load(userManager.getAvatarUrl()).into(avatarImageView);
+        Glide.with(mContext)
+                .load(userManager.getAvatarUrl())
+                .asBitmap()
+                .into(avatarImageView);
 
         mPostDetailPresenter.getPostDetail(false, topicId, boardId, 1, 10);
         canLoadingMore = false;
     }
 
-    @OnClick({R.id.tv_send, R.id.btn_reply})
+    @OnClick({R.id.tv_send, R.id.btn_reply, R.id.btn_collection})
     public void onClicked(View view) {
         switch (view.getId()) {
+            //发送回复
             case R.id.tv_send:
                 if (postDetailModel != null) {
                     mReplyPostPresenter.replyPost(etReply.getText().toString().trim(),
                             postDetailModel.getBoardId(), postDetailModel.getTopic().getTopic_id());
                 }
                 break;
+            //回复
             case R.id.btn_reply:
                 floatingActionMenu.hideMenu(true);
                 showSendView();
+                break;
+            //收藏、取消收藏
+            case R.id.btn_collection:
+                if (postDetailModel == null || postDetailModel.getTopic() == null || postDetailModel.getTopic().getTopic_id() <= 0) {
+                    return;
+                }
+                btnCollection.setEnabled(false);
+                mPostDetailPresenter.setCollectionStatus(getString(R.string.post_detail_collection).equals(btnCollection.getLabelText()),
+                        postDetailModel.getTopic().getTopic_id());
                 break;
         }
     }
@@ -322,8 +337,24 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         }
         nextPage = 2;
         this.postDetailModel = postDetailModel;
+        initPostDetailData();
         mAdapter.setData(postDetailModel);
         canLoadingMore = true;
+    }
+
+    private void initPostDetailData() {
+        if (postDetailModel == null || postDetailModel.getTopic() == null) {
+            return;
+        }
+        PostDetailModel.TopicBean topicBean = postDetailModel.getTopic();
+        //初始化帖子收藏状态
+        if (topicBean.getIs_favor() != Constants.COLLECTED_POST) {
+            //未收藏帖子
+            btnCollection.setLabelText(getString(R.string.post_detail_collection));
+        } else {
+            //已收藏帖子
+            btnCollection.setLabelText(getString(R.string.post_detail_cancel_collection));
+        }
     }
 
     @Override
@@ -409,5 +440,22 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         if (!event.isShowSendView()) {
             hideSendView();
         }
+    }
+
+    @Override
+    public void operateCollectionSuccess(boolean isCollection) {
+        btnCollection.setEnabled(true);
+        if (isCollection) {
+            Toast.makeText(PostDetailActivity.this, getString(R.string.post_detail_collection_success), Toast.LENGTH_SHORT).show();
+            btnCollection.setLabelText(getString(R.string.post_detail_cancel_collection));
+        } else {
+            Toast.makeText(PostDetailActivity.this, getString(R.string.post_detail_cancel_collection_success), Toast.LENGTH_SHORT).show();
+            btnCollection.setLabelText(getString(R.string.post_detail_collection));
+        }
+    }
+
+    @Override
+    public void operateCollectionFail() {
+        btnCollection.setEnabled(true);
     }
 }

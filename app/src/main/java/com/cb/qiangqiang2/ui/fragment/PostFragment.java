@@ -16,15 +16,12 @@ import android.widget.Toast;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.adapter.PostListAdapter;
 import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
-import com.cb.qiangqiang2.adapter.listener.OnItemLongClickListener;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
 import com.cb.qiangqiang2.common.constant.Constants;
-import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.data.model.PostModel;
 import com.cb.qiangqiang2.event.TotalNumEvent;
 import com.cb.qiangqiang2.mvpview.PostMvpView;
-import com.cb.qiangqiang2.presenter.OtherPresenter;
 import com.cb.qiangqiang2.presenter.PostPresenter;
 import com.cb.qiangqiang2.ui.activity.PostDetailActivity;
 
@@ -51,8 +48,6 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    //    @BindView(R.id.swipe_refresh_layout)
-//    WaveSwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycle_view)
     RecyclerView mRecycleView;
     @BindView(R.id.progress_bar)
@@ -62,8 +57,6 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     PostListAdapter mAdapter;
     @Inject
     PostPresenter postPresenter;
-    @Inject
-    OtherPresenter mOtherPresenter;
 
     private int mBoardId;
     private int mUserId;
@@ -136,30 +129,6 @@ public class PostFragment extends BaseFragment implements PostMvpView {
                 resources.getColor(android.R.color.holo_red_light));
 
         //初始化下拉刷新和上拉加载布局
-        int homepage_refresh_spacing = AppUtils.dip2px(getActivity(), 10);
-//        mSwipeRefreshLayout.setProgressViewOffset(false, -homepage_refresh_spacing * 2, homepage_refresh_spacing);
-//        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
-//        mSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                postPresenter.refreshPostListData(mSortBy, 1, mBoardId);
-//            }
-//
-//            @Override
-//            public void onLoad() {
-//                postPresenter.loadMorePostListData(mSortBy, nextPage, mBoardId);
-//            }
-//
-//            @Override
-//            public boolean canLoadMore() {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean canRefresh() {
-//                return true;
-//            }
-//        });
 
         mAdapter.setOnItemClickListener(new OnItemClickListener<PostModel.ListBean>() {
             @Override
@@ -181,12 +150,6 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 //                intent.putExtra(WebViewActivity.URL, url);
 //                getActivity().startActivity(intent);
                 PostDetailActivity.startPostDetailActivity(getActivity(), listBean.getBoard_id(), listBean.getTopic_id(), listBean.getBoard_name(), listBean.getTitle());
-            }
-        });
-        mAdapter.setOnItemLongClickListener(new OnItemLongClickListener<PostModel.ListBean>() {
-            @Override
-            public void onItemLongClick(int position, View view, PostModel.ListBean listBean) {
-                mOtherPresenter.setCollectionStatus(Constants.POST_ACTION_FAVORITE, Constants.POST_ID_TYPE_TID, listBean.getTopic_id());
             }
         });
 
@@ -297,7 +260,6 @@ public class PostFragment extends BaseFragment implements PostMvpView {
 
     @Override
     public void hideLoadMoreView() {
-//        mSwipeRefreshLayout.setLoading(false);
         if (mProgressBar.getVisibility() == View.VISIBLE)
             mProgressBar.setVisibility(View.GONE);
     }

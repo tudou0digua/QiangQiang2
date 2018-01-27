@@ -88,6 +88,8 @@ public class PostListAdapter extends RecyclerView.Adapter {
         final PostModel.ListBean bean = mLists.get(position);
         Glide.with(mContext)
                 .load(bean.getUserAvatar())
+                .placeholder(R.drawable.default_icon)
+                .error(R.drawable.default_icon)
                 .bitmapTransform(new GlideCircleTransform(mContext))
                 .crossFade(300)
                 .into(viewHolder.mIvAvatar);

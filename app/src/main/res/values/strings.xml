@@ -83,6 +83,10 @@
     <string name="post_detail_publisher">楼主</string>
     <string name="post_detail_open_with_browser">浏览器打开</string>
     <string name="post_detail_reply">回复</string>
+    <string name="post_detail_collection">收藏</string>
+    <string name="post_detail_cancel_collection">取消收藏</string>
+    <string name="post_detail_collection_success">收藏成功</string>
+    <string name="post_detail_cancel_collection_success">取消收藏成功</string>
 
     <!--设置-->
     <string name="setting_title">设置</string>

@@ -249,15 +249,18 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
     public void showUserInfoData(UserInfoModel userInfoModel) {
         avatarUrl = userInfoModel.getIcon();
         Glide.with(this).load(userInfoModel.getIcon())
+                .placeholder(R.drawable.default_icon)
+                .error(R.drawable.default_icon)
                 .bitmapTransform(new BlurTransformation(mContext))
 //                .error(R.drawable.default_icon)
                 //设置gif播放次数为0
                 .into(new GlideDrawableImageViewTarget(mIvTopBg, 0));
         Glide.with(mContext)
                 .load(userInfoModel.getIcon())
+                .placeholder(R.drawable.default_icon)
+                .error(R.drawable.default_icon)
 //                .bitmapTransform(new CropCircleTransformation(mContext))
                 .bitmapTransform(new GlideCircleTransform(mContext))
-                .error(R.drawable.default_icon)
                 .crossFade(300)
                 .into(mIvAvatar);
         mTvLevel.setVisibility(View.VISIBLE);

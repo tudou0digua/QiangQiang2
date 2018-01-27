@@ -247,6 +247,8 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         if (listBean != null) {
             Glide.with(context)
                     .load(listBean.getIcon())
+                    .placeholder(R.drawable.default_icon)
+                    .error(R.drawable.default_icon)
                     .crossFade(300)
                     .into(holder.ivAvatar);
             holder.tvName.setText(listBean.getReply_name());
@@ -256,6 +258,8 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         } else if (topicBean != null) {
             Glide.with(context)
                     .load(topicBean.getIcon())
+                    .placeholder(R.drawable.default_icon)
+                    .error(R.drawable.default_icon)
                     .crossFade(300)
                     .into(holder.ivAvatar);
             holder.tvName.setText(topicBean.getUser_nick_name());
