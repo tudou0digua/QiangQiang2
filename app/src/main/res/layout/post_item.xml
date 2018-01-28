@@ -8,7 +8,7 @@
     android:background="@color/white"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:layout_marginTop="6.5dp"
+    android:layout_marginTop="@dimen/post_item_margin_top"
     app:cardElevation="2dp">
 
     <LinearLayout

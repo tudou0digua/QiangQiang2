@@ -1,8 +1,10 @@
 package com.cb.qiangqiang2.ui.activity;
 
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -100,7 +102,7 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
         if (accountInfoBean != null && !TextUtils.isEmpty(accountInfoBean.getAccount())
                 && !TextUtils.isEmpty(accountInfoBean.getPassword())) {
             startLoginTime = System.currentTimeMillis();
-            mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
+//            mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
         } else {
             Message msg = Message.obtain();
             msg.what = FINISH_SPLSH;
@@ -156,13 +158,27 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
     }
 
     private void goToLoginActivity() {
+        forceNotFullScreen();
         LoginActivity.startLoginActivity(this);
         finish();
     }
 
     private void goToMainActivity() {
+        forceNotFullScreen();
         MainActivity.startActivity(this);
         finish();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
+    private void forceNotFullScreen() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        }
     }
 
     @Override

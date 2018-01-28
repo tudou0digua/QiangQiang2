@@ -179,7 +179,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
             }
         };
         mViewPager.setAdapter(adapter);
-        mViewPager.setOffscreenPageLimit(fragments.size() > 1 ? fragments.size() - 1 : 1);
+//        mViewPager.setOffscreenPageLimit(fragments.size() > 1 ? fragments.size() - 1 : 1);
         mTabLayout.setupWithViewPager(mViewPager);
         AppUtils.dynamicSetTabLayoutMode(mTabLayout, getActivity());
     }

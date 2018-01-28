@@ -6,8 +6,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -168,9 +170,11 @@ public class BigImageActivity extends BaseActivity {
             int originHeight = imageParamBean.getViewHeight();
             int deltaY = imageParamBean.getViewTop() - (screenHeight - originHeight) / 2;
             // UserInfoActivity没有延伸到状态栏时，重新回到前台，会有个状态栏向下出现的过程
-//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 //                deltaY -= AppUtils.getStatusBarHeight(mContext);
-//            }
+            }
             float startScale = originWidth * 1.0f / screenWidth;
             enterAnimatorSet = new AnimatorSet();
             ObjectAnimator moveY = ObjectAnimator.ofFloat(imageView, "translationY", 0, deltaY);

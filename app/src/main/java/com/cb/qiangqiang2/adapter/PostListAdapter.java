@@ -91,7 +91,7 @@ public class PostListAdapter extends RecyclerView.Adapter {
                 .placeholder(R.drawable.default_icon)
                 .error(R.drawable.default_icon)
                 .bitmapTransform(new GlideCircleTransform(mContext))
-                .crossFade(300)
+                .dontAnimate()
                 .into(viewHolder.mIvAvatar);
         viewHolder.mIvAvatar.setOnClickListener(new View.OnClickListener() {
             @Override

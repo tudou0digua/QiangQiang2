@@ -249,8 +249,8 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
     public void showUserInfoData(UserInfoModel userInfoModel) {
         avatarUrl = userInfoModel.getIcon();
         Glide.with(this).load(userInfoModel.getIcon())
-                .placeholder(R.drawable.default_icon)
-                .error(R.drawable.default_icon)
+                .placeholder(R.color.grey_500)
+                .error(R.color.grey_500)
                 .bitmapTransform(new BlurTransformation(mContext))
 //                .error(R.drawable.default_icon)
                 //设置gif播放次数为0

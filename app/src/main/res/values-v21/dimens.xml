@@ -1,5 +1,5 @@
 <resources>
     <dimen name="floating_action_button_margin">16dp</dimen>
-
     <dimen name="toolbar_padding_top">20dp</dimen>
+    <dimen name="post_item_margin_top">6.5dp</dimen>
 </resources>

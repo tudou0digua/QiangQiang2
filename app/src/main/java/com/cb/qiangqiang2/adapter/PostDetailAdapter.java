@@ -249,7 +249,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
                     .load(listBean.getIcon())
                     .placeholder(R.drawable.default_icon)
                     .error(R.drawable.default_icon)
-                    .crossFade(300)
+                    .dontAnimate()
                     .into(holder.ivAvatar);
             holder.tvName.setText(listBean.getReply_name());
             holder.tvLevel.setText(listBean.getUserTitle());
@@ -260,7 +260,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
                     .load(topicBean.getIcon())
                     .placeholder(R.drawable.default_icon)
                     .error(R.drawable.default_icon)
-                    .crossFade(300)
+                    .dontAnimate()
                     .into(holder.ivAvatar);
             holder.tvName.setText(topicBean.getUser_nick_name());
             holder.tvLevel.setText(topicBean.getUserTitle());
