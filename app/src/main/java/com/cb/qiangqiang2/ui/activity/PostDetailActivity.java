@@ -172,6 +172,17 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     protected void initView() {
         tvTitle.setText(title);
         mAdapter.setBoardName(boardName);
+        mAdapter.setOnPostDetailClickListener(new PostDetailAdapter.OnPostDetailClickListener() {
+            @Override
+            public void onAvatarClick(int userId, String nickName) {
+                UserInfoActivity.startUserInfoActivity(mContext, userId, nickName);
+            }
+
+            @Override
+            public void onReplayClick(PostDetailModel.ListBean listBean) {
+
+            }
+        });
         //设置 toolbar
         toolbar.setTitle("");
         toolbar.setLogo(null);

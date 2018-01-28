@@ -12,12 +12,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
-import com.cb.qiangqiang2.common.constant.Constants;
+import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.common.glide.GlideCircleTransform;
 import com.cb.qiangqiang2.data.model.UserListModel;
 import com.cb.qiangqiang2.presenter.OtherPresenter;
-import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,18 +107,18 @@ public class UserListAdapter extends RecyclerView.Adapter {
                 }
             }
         });
-        if (bean.getIsFollow() == 0) {
-            viewHolder.mTvFollow.setText(R.string.user_list_not_followed);
-        } else {
-            viewHolder.mTvFollow.setText(R.string.user_list_followed);
-        }
-        viewHolder.mTvFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO
-                mOtherPresenter.setFollowStatus(bean.getUid(), Constants.POST_TYPE_FOLLOW);
-            }
-        });
+//        if (bean.getIsFollow() == 0) {
+//            viewHolder.mTvFollow.setText(R.string.user_list_not_followed);
+//        } else {
+//            viewHolder.mTvFollow.setText(R.string.user_list_followed);
+//        }
+//        viewHolder.mTvFollow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //TODO
+//                mOtherPresenter.setFollowStatus(bean.getUid(), Constants.POST_TYPE_FOLLOW);
+//            }
+//        });
     }
 
     @Override

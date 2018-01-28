@@ -18,8 +18,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
-import com.cb.qiangqiang2.adapter.listener.OnItemClickListener;
-import com.cb.qiangqiang2.adapter.listener.OnItemLongClickListener;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.common.util.EmojiUtils;
@@ -56,8 +54,11 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
 
     private String boardName;
     private List<PostDetailBean> lists;
-    private OnItemClickListener<PostDetailBean> onItemClickListener;
-    private OnItemLongClickListener<PostDetailBean> onItemLongClickListener;
+    private OnPostDetailClickListener onPostDetailClickListener;
+
+    public void setOnPostDetailClickListener(OnPostDetailClickListener onPostDetailClickListener) {
+        this.onPostDetailClickListener = onPostDetailClickListener;
+    }
 
     @Inject
     public PostDetailAdapter() {
@@ -66,14 +67,6 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
 
     public void setBoardName(String boardName) {
         this.boardName = boardName;
-    }
-
-    public void setOnItemClickListener(OnItemClickListener<PostDetailBean> onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
-    public void setOnItemLongClickListener(OnItemLongClickListener<PostDetailBean> onItemLongClickListener) {
-        this.onItemLongClickListener = onItemLongClickListener;
     }
 
     public void setData(@NotNull PostDetailModel postDetailModel) {
@@ -242,9 +235,13 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         }
         layoutParams.setMargins(layoutParams.leftMargin, marginTop, layoutParams.rightMargin, layoutParams.bottomMargin);
 
+        final int userId;
+        final String nickName;
         PostDetailModel.TopicBean topicBean = bean.getTopicBean();
         PostDetailModel.ListBean listBean = bean.getListBean();
         if (listBean != null) {
+            userId = listBean.getReply_id();
+            nickName = listBean.getReply_name();
             Glide.with(context)
                     .load(listBean.getIcon())
                     .placeholder(R.drawable.default_icon)
@@ -256,6 +253,8 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
             holder.tvTime.setText(DateUtil.getPassedTime(listBean.getPosts_date()));
             holder.tvFloor.setText(context.getString(R.string.post_detail_floor, listBean.getPosition() - 1));
         } else if (topicBean != null) {
+            userId = topicBean.getUser_id();
+            nickName = topicBean.getUser_nick_name();
             Glide.with(context)
                     .load(topicBean.getIcon())
                     .placeholder(R.drawable.default_icon)
@@ -266,7 +265,18 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
             holder.tvLevel.setText(topicBean.getUserTitle());
             holder.tvTime.setText(DateUtil.getPassedTime(topicBean.getCreate_date()));
             holder.tvFloor.setText(context.getString(R.string.post_detail_publisher));
+        } else {
+            userId = 0;
+            nickName = "";
         }
+        holder.ivAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onPostDetailClickListener != null && userId != 0) {
+                    onPostDetailClickListener.onAvatarClick(userId, nickName);
+                }
+            }
+        });
     }
 
     private void onBindTextViewHolder(PostDetailBean bean, TextViewHolder holder, int position) {
@@ -310,8 +320,15 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private void onBindBottomViewHolder(PostDetailBean bean, BottomViewHolder holder, int position) {
-
+    private void onBindBottomViewHolder(final PostDetailBean bean, BottomViewHolder holder, int position) {
+        holder.ivReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onPostDetailClickListener != null) {
+                    onPostDetailClickListener.onReplayClick(bean.getListBean());
+                }
+            }
+        });
     }
 
     private class NoLineClickableSpan extends ClickableSpan {
@@ -408,6 +425,11 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public interface OnPostDetailClickListener {
+        void onAvatarClick(int userId, String nickName);
+        void onReplayClick(PostDetailModel.ListBean listBean);
     }
 
 }
