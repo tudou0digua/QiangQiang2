@@ -1,5 +1,7 @@
 package com.cb.qiangqiang2.presenter;
 
+import android.content.Context;
+
 import com.cb.qiangqiang2.common.base.BasePresenter;
 import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.data.api.HttpManager;
@@ -42,6 +44,12 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                 if (getMvpView() == null) return;
                 getMvpView().hideLoading();
                 getMvpView().loadError(e);
+            }
+
+            @Override
+            protected void onUnLogin(Context context, Object result) {
+                if (getMvpView() == null) return;
+                getMvpView().loginResult((LoginModel) result);
             }
         }, mContext);
     }

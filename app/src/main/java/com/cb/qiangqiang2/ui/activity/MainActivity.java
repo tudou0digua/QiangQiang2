@@ -14,8 +14,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ScreenUtils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
@@ -45,6 +45,15 @@ public class MainActivity extends BaseSwipeBackActivity {
     NavigationView mNavigationViewLeft;
     @BindView(R.id.activity_main)
     DrawerLayout mDrawerLayout;
+
+    AvatarImageView avatarImageView;
+    TextView tvName;
+    TextView tvUnlogin;
+    TextView tvLevel;
+    ImageView ivLogout;
+    ImageView ivBg;
+    View leftDrawerHeadContainer;
+
 
     private long lastBackClickTime = Constants.DEFAULT_INVALIDE_TIME;
 
@@ -89,42 +98,63 @@ public class MainActivity extends BaseSwipeBackActivity {
     private void initNavigationView() {
 //        mNavigationViewLeft.setItemIconTintList(null);
 
-        //NavigationView Header
-        View view = mNavigationViewLeft.getHeaderView(0);
-        AvatarImageView avatarImageView = (AvatarImageView) view.findViewById(R.id.iv_avatar);
-        TextView tvName = (TextView) view.findViewById(R.id.tv_name);
-        TextView tvLevel = (TextView) view.findViewById(R.id.tv_level);
-        ImageView ivLogout = (ImageView) view.findViewById(R.id.iv_logout);
-        ImageView ivBg = (ImageView) view.findViewById(R.id.iv_bg);
-        if (!TextUtils.isEmpty(mUserManager.getAvatarUrl())) {
-            Glide.with(mContext)
-                    .load("https://api.i-meto.com/bing")
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .centerCrop()
-                    .into(ivBg);
+        //设置mNavigationViewLeft宽度
+        int width = (int) (ScreenUtils.getScreenWidth() * 0.7);
+        DrawerLayout.LayoutParams layoutParams = (DrawerLayout.LayoutParams) mNavigationViewLeft.getLayoutParams();
+        layoutParams.width = width;
 
-            Glide.with(mContext)
-                    .load(mUserManager.getAvatarUrl())
-                    .centerCrop()
-                    .into(avatarImageView);
-        }
-        tvName.setText(mUserManager.getUserName());
-        tvLevel.setText(mUserManager.getLevel());
-        ivLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 登出
-                mUserManager.logout(mContext);
-                LoginActivity.startLoginActivity(mContext, true);
-                finishActivity();
+        //NavigationView Header
+        leftDrawerHeadContainer= mNavigationViewLeft.getHeaderView(0);
+        avatarImageView = (AvatarImageView) leftDrawerHeadContainer.findViewById(R.id.iv_avatar);
+        tvName = (TextView) leftDrawerHeadContainer.findViewById(R.id.tv_name);
+        tvUnlogin = leftDrawerHeadContainer.findViewById(R.id.tv_un_login);
+        tvLevel = (TextView) leftDrawerHeadContainer.findViewById(R.id.tv_level);
+        ivLogout = (ImageView) leftDrawerHeadContainer.findViewById(R.id.iv_logout);
+        ivBg = (ImageView) leftDrawerHeadContainer.findViewById(R.id.iv_bg);
+
+        Glide.with(mContext)
+                .load("https://bing.ioliu.cn/v1/rand?w=480&h=320")
+//                    .skipMemoryCache(true)
+//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .centerCrop()
+                .into(ivBg);
+
+        if (mUserManager.getUserInfo() == null) {
+            ivLogout.setVisibility(View.GONE);
+            tvUnlogin.setVisibility(View.VISIBLE);
+            tvName.setText("");
+        } else {
+            ivLogout.setVisibility(View.VISIBLE);
+            tvUnlogin.setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(mUserManager.getAvatarUrl())) {
+                Glide.with(mContext)
+                        .load(mUserManager.getAvatarUrl())
+                        .asBitmap()
+                        .into(avatarImageView);
             }
-        });
-        view.setOnClickListener(new View.OnClickListener() {
+            tvName.setText(mUserManager.getUserName());
+            tvLevel.setText(mUserManager.getLevel());
+            ivLogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // 登出
+                    mUserManager.logout(mContext);
+                    gotoLogin();
+                    finishActivity();
+                }
+            });
+        }
+
+        leftDrawerHeadContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDrawerLayout.closeDrawer(Gravity.LEFT);
-                UserInfoActivity.startUserInfoActivity(mContext, mUserManager.getUserId(), mUserManager.getUserName());
+                if (mUserManager.getUserInfo() == null) {
+                    gotoLogin();
+                    finishActivity();
+                } else {
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    UserInfoActivity.startUserInfoActivity(mContext, mUserManager.getUserId(), mUserManager.getUserName());
+                }
             }
         });
 
@@ -148,6 +178,10 @@ public class MainActivity extends BaseSwipeBackActivity {
                 return true;
             }
         });
+    }
+
+    private void gotoLogin() {
+        LoginActivity.startLoginActivity(mContext, true);
     }
 
     @Override

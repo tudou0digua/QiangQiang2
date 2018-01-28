@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.data.UserManager;
@@ -108,11 +109,17 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
         isNeedGoToMain = getIntent().getBooleanExtra(IS_NEED_GO_TO_MAIN, false);
     }
 
-    @OnClick({R.id.btn_sign_in, R.id.rl_loading})
+    @OnClick({R.id.btn_sign_in, R.id.rl_loading, R.id.tv_skip})
     public void onClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_sign_in:
                 attemptLogin();
+                break;
+            case R.id.tv_skip:
+                if (isNeedGoToMain) {
+                    gotoMainActivity();
+                }
+                finish();
                 break;
         }
     }
@@ -163,6 +170,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            KeyboardUtils.hideSoftInput(mPasswordView);
             showProgress(true);
             mLoginPresenter.login(username, password);
         }
@@ -223,7 +231,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
                 //保存账号密码
                 mUserManager.saveAccountInfoToLocal(username, password);
                 if (isNeedGoToMain) {
-                    MainActivity.startActivity(this);
+                    gotoMainActivity();
                 }
                 finish();
                 break;
@@ -231,6 +239,10 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
                 Toast.makeText(mContext, loginModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    private void gotoMainActivity() {
+        MainActivity.startActivity(this);
     }
 
     @Override

@@ -117,6 +117,7 @@ public class UserManager {
     }
 
     public void logout(Context context) {
+        mUserInfo = null;
         PrefUtils.cleaAll(context);
         HttpManager.getInstance().clearCookie();
     }

@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class SplashActivity extends BaseActivity implements LoginMvpView{
+public class SplashActivity extends BaseActivity implements LoginMvpView {
 
     private static final int FINISH_SPLSH = 0;
     private static final int GOTO_LOGIN = 1;
@@ -42,7 +42,7 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
 
     private SplashHandler handler;
 
-    private static class SplashHandler extends Handler{
+    private static class SplashHandler extends Handler {
         private WeakReference<SplashActivity> weakReference;
 
         public SplashHandler(SplashActivity splashActivity) {
@@ -64,8 +64,8 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
                 if (type == GOTO_MAIN) {
                     goToMainActivity();
                 } else if (type == GOTO_LOGIN) {
-                    goToMainActivity();
-//                        goToLoginActivity();
+//                    goToMainActivity();
+                    goToLoginActivity();
                 }
                 break;
         }
@@ -103,12 +103,11 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
                 && !TextUtils.isEmpty(accountInfoBean.getPassword())) {
             startLoginTime = System.currentTimeMillis();
 //            mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
-        } else {
-            Message msg = Message.obtain();
-            msg.what = FINISH_SPLSH;
-            msg.obj = GOTO_LOGIN;
-            handler.sendMessageDelayed(msg, SPLASH_TIME);
         }
+        Message msg = Message.obtain();
+        msg.what = FINISH_SPLSH;
+        msg.obj = GOTO_LOGIN;
+        handler.sendMessageDelayed(msg, SPLASH_TIME);
     }
 
     @Override
@@ -140,7 +139,7 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
 
     @Override
     public void loginResult(LoginModel loginModel) {
-        int msgObj =  GOTO_LOGIN;
+        int msgObj = GOTO_LOGIN;
         switch (loginModel.getHead().getErrCode()) {
             //登录成功
             case "00000000":
@@ -151,7 +150,6 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
             //登录失败
             default:
                 mUserManager.clearAccountInfo();
-                goToLoginActivity();
                 break;
         }
         processLoginResult(msgObj);
@@ -159,7 +157,7 @@ public class SplashActivity extends BaseActivity implements LoginMvpView{
 
     private void goToLoginActivity() {
         forceNotFullScreen();
-        LoginActivity.startLoginActivity(this);
+        LoginActivity.startLoginActivity(this, true);
         finish();
     }
 

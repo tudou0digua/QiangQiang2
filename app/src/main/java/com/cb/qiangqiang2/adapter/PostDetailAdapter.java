@@ -254,7 +254,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
             holder.tvName.setText(listBean.getReply_name());
             holder.tvLevel.setText(listBean.getUserTitle());
             holder.tvTime.setText(DateUtil.getPassedTime(listBean.getPosts_date()));
-            holder.tvFloor.setText(context.getString(R.string.post_detail_floor, listBean.getPosition()));
+            holder.tvFloor.setText(context.getString(R.string.post_detail_floor, listBean.getPosition() - 1));
         } else if (topicBean != null) {
             Glide.with(context)
                     .load(topicBean.getIcon())

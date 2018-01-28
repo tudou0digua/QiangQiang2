@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_head_container"
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:background="@color/colorPrimary">
@@ -26,6 +27,20 @@
         android:src="@drawable/default_icon"/>
 
     <TextView
+        android:id="@+id/tv_un_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size2"
+        android:textColor="@color/white"
+        android:layout_above="@+id/tv_level"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_alignLeft="@id/iv_avatar"
+        android:layout_alignRight="@id/iv_avatar"
+        android:text="@string/main_menu_un_login"
+        android:visibility="gone"/>
+
+    <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +49,8 @@
         android:layout_above="@+id/tv_level"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="@dimen/padding_left"
-        tools:text="哈哈"/>
+        tools:text="哈哈"
+        tools:visibility="visible"/>
 
     <TextView
         android:id="@+id/tv_level"
