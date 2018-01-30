@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.cb.qiangqiang2.common.constant.Constants;
+import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.api.HttpManager;
 import com.cb.qiangqiang2.data.model.AccountInfoBean;
@@ -20,6 +21,7 @@ public class UserManager {
     public static final int INVALID_USER_ID = -1;
     public static final String USER_INFO_DATA = "user_info_data";
     public static final String ACCOUNT_INFO = "account_info";
+    public static final String LAST_LOGIN_SUCCESS_TIME = "last_login_success_time";
     public static final String ENCRYPT_ACCOUNT_INFO_PASSWORD = "qq";
 
     private Context mContext;
@@ -120,6 +122,26 @@ public class UserManager {
         mUserInfo = null;
         PrefUtils.cleaAll(context);
         HttpManager.getInstance().clearCookie();
+    }
+
+    public boolean isTodayHadLoginSuccess() {
+        long lastLoginSuccessTime = PrefUtils.getLong(mContext, LAST_LOGIN_SUCCESS_TIME);
+        if (lastLoginSuccessTime > 0) {
+            if (DateUtil.isToday(lastLoginSuccessTime)) {
+                return true;
+            } else {
+                clearLastLoginSuccessSuccessTime();
+            }
+        }
+        return false;
+    }
+
+    public void saveLastLoginSuccessTime() {
+        PrefUtils.putLong(mContext, LAST_LOGIN_SUCCESS_TIME, System.currentTimeMillis());
+    }
+
+    public void clearLastLoginSuccessSuccessTime() {
+        PrefUtils.delete(mContext, LAST_LOGIN_SUCCESS_TIME);
     }
 
 }

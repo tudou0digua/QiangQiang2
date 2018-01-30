@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.cb.qiangqiang2.common.base.BasePresenter;
 import com.cb.qiangqiang2.common.constant.Constants;
+import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.api.HttpManager;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.mvpview.LoginMvpView;
@@ -19,10 +20,13 @@ import javax.inject.Inject;
 public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
     @Inject
+    UserManager mUserManager;
+
+    @Inject
     public LoginPresenter() {
     }
 
-    public void login(String username, String password) {
+    public void login(final String username, final String password) {
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         map.put(Constants.USERNAME, username);
         map.put(Constants.PASSWORD, password);
@@ -33,7 +37,21 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                 if (getMvpView() == null) return;
                 getMvpView().hideLoading();
                 if (result != null) {
-                    getMvpView().loginResult((LoginModel) result);
+                    LoginModel loginModel = (LoginModel) result;
+                    switch (loginModel.getHead().getErrCode()) {
+                        //登录成功
+                        case "00000000":
+                            //保存用户信息
+                            mUserManager.setUserInfo(loginModel);
+                            //保存账号密码
+                            mUserManager.saveAccountInfoToLocal(username, password);
+                            mUserManager.saveLastLoginSuccessTime();
+                            getMvpView().loginSuccess(loginModel);
+                            break;
+                        default:
+                            getMvpView().loginFail(loginModel.getHead().getErrInfo());
+                            break;
+                    }
                 } else {
                     getMvpView().loadError(null);
                 }
@@ -49,7 +67,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
             @Override
             protected void onUnLogin(Context context, Object result) {
                 if (getMvpView() == null) return;
-                getMvpView().loginResult((LoginModel) result);
+                getMvpView().loginFail(((LoginModel) result).getHead().getErrInfo());
             }
         }, mContext);
     }

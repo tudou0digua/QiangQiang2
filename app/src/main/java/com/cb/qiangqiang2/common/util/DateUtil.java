@@ -94,6 +94,10 @@ public class DateUtil {
     public static Calendar calendar = null;
     private static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
 
+    public static boolean isToday(long time) {
+        return getDay(System.currentTimeMillis()).equals(getDay(time));
+    }
+
     /**
      * 获取输入时间（毫秒时间）和当前时间差
      * @param preMillTime 需比较的时间（毫秒）

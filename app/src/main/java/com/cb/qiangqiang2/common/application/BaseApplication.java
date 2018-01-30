@@ -21,10 +21,16 @@ import timber.log.Timber;
  */
 public class BaseApplication extends Application {
     private AppComponent appComponent;
+    private static Context instance;
+
+    public static Context getAppContext() {
+        return instance;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         //设置主题，夜间模式用到
         boolean isNightTheme = PrefUtils.getBoolean(this, Constants.IS_NIGHT_THEME, false);
         AppCompatDelegate.setDefaultNightMode(isNightTheme ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);

@@ -16,11 +16,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
+import com.cb.qiangqiang2.common.util.ToastUtil;
 import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.cb.qiangqiang2.mvpview.LoginMvpView;
@@ -220,25 +220,16 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
     }
 
     @Override
-    public void loginResult(LoginModel loginModel) {
-        switch (loginModel.getHead().getErrCode()) {
-            case "11100001":
-                Toast.makeText(mContext, loginModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
-                break;
-            case "00000000":
-                //保存用户信息
-                mUserManager.setUserInfo(loginModel);
-                //保存账号密码
-                mUserManager.saveAccountInfoToLocal(username, password);
-                if (isNeedGoToMain) {
-                    gotoMainActivity();
-                }
-                finish();
-                break;
-            default:
-                Toast.makeText(mContext, loginModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
-                break;
+    public void loginSuccess(LoginModel loginModel) {
+        if (isNeedGoToMain) {
+            gotoMainActivity();
         }
+    }
+
+    @Override
+    public void loginFail(String errMsg) {
+        ToastUtil.show(mContext, TextUtils.isEmpty(errMsg) ?
+                mContext.getString(R.string.login_error) : errMsg);
     }
 
     private void gotoMainActivity() {
@@ -259,7 +250,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
     public void loadError(Throwable e) {
         if (e != null)
             e.printStackTrace();
-        Toast.makeText(mContext, R.string.login_error, Toast.LENGTH_SHORT).show();
+        ToastUtil.show(mContext, R.string.login_error);
     }
 
     @Override

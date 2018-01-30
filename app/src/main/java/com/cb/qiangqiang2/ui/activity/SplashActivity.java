@@ -24,7 +24,7 @@ import butterknife.BindView;
 
 public class SplashActivity extends BaseActivity implements LoginMvpView {
 
-    private static final int FINISH_SPLSH = 0;
+    private static final int FINISH_SPLASH = 0;
     private static final int GOTO_LOGIN = 1;
     private static final int GOTO_MAIN = 2;
 
@@ -43,8 +43,8 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
     private SplashHandler handler;
 
     private static class SplashHandler extends Handler {
-        private WeakReference<SplashActivity> weakReference;
 
+        private WeakReference<SplashActivity> weakReference;
         public SplashHandler(SplashActivity splashActivity) {
             weakReference = new WeakReference<SplashActivity>(splashActivity);
         }
@@ -55,27 +55,26 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
                 weakReference.get().handleMessage(msg);
             }
         }
-    }
 
+    }
     public void handleMessage(Message msg) {
         switch (msg.what) {
-            case FINISH_SPLSH:
+            case FINISH_SPLASH:
                 int type = (int) msg.obj;
                 if (type == GOTO_MAIN) {
                     goToMainActivity();
                 } else if (type == GOTO_LOGIN) {
-//                    goToMainActivity();
                     goToLoginActivity();
                 }
                 break;
         }
     }
 
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_splash;
     }
+
 
     @Override
     protected void injectActivity() {
@@ -98,15 +97,21 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
                 .dontAnimate()
                 .into(ivBg);
 
-        AccountInfoBean accountInfoBean = mUserManager.getAccountInfo();
-        if (accountInfoBean != null && !TextUtils.isEmpty(accountInfoBean.getAccount())
-                && !TextUtils.isEmpty(accountInfoBean.getPassword())) {
-            startLoginTime = System.currentTimeMillis();
-//            mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
-        }
         Message msg = Message.obtain();
-        msg.what = FINISH_SPLSH;
+        msg.what = FINISH_SPLASH;
         msg.obj = GOTO_LOGIN;
+        AccountInfoBean accountInfoBean = mUserManager.getAccountInfo();
+        if (accountInfoBean != null
+                && !TextUtils.isEmpty(accountInfoBean.getAccount())
+                && !TextUtils.isEmpty(accountInfoBean.getPassword())) {
+            if (mUserManager.isTodayHadLoginSuccess()) {
+                //今天成功登录过，跳过登录
+                msg.obj = GOTO_MAIN;
+            } else {
+                startLoginTime = System.currentTimeMillis();
+                mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
+            } 
+        }
         handler.sendMessageDelayed(msg, SPLASH_TIME);
     }
 
@@ -130,7 +135,7 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
 
     private void processLoginResult(int obj) {
         Message msg = Message.obtain();
-        msg.what = FINISH_SPLSH;
+        msg.what = FINISH_SPLASH;
         msg.obj = obj;
         long delayMillis = SPLASH_TIME - (System.currentTimeMillis() - startLoginTime) / 1000;
         delayMillis = delayMillis < 0 ? 0 : delayMillis;
@@ -138,21 +143,14 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
     }
 
     @Override
-    public void loginResult(LoginModel loginModel) {
-        int msgObj = GOTO_LOGIN;
-        switch (loginModel.getHead().getErrCode()) {
-            //登录成功
-            case "00000000":
-                //保存用户信息
-                mUserManager.setUserInfo(loginModel);
-                msgObj = GOTO_MAIN;
-                break;
-            //登录失败
-            default:
-                mUserManager.clearAccountInfo();
-                break;
-        }
-        processLoginResult(msgObj);
+    public void loginSuccess(LoginModel loginModel) {
+        processLoginResult(GOTO_MAIN);
+    }
+
+    @Override
+    public void loginFail(String errMsg) {
+        mUserManager.clearAccountInfo();
+        processLoginResult(GOTO_LOGIN);
     }
 
     private void goToLoginActivity() {

@@ -8,5 +8,8 @@ import com.cb.qiangqiang2.data.model.LoginModel;
  */
 
 public interface LoginMvpView extends BaseMVPView {
-    void loginResult(LoginModel loginModel);
+
+    void loginSuccess(LoginModel loginModel);
+
+    void loginFail(String errMsg);
 }
