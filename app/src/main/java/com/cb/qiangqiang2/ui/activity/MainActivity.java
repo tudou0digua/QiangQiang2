@@ -24,6 +24,8 @@ import com.cb.qiangqiang2.event.NightThemeEvent;
 import com.cb.qiangqiang2.event.OpenDrawLayoutEvent;
 import com.cb.qiangqiang2.event.ShowExitSnackBarEvent;
 import com.cb.qiangqiang2.test.activity.TestRxJavaActivity;
+import com.cb.qiangqiang2.ui.factory.DialogFactory;
+import com.cb.qiangqiang2.ui.factory.OnDialogClickListener;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -137,10 +139,26 @@ public class MainActivity extends BaseSwipeBackActivity {
             ivLogout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // 登出
-                    mUserManager.logout(mContext);
-                    gotoLogin();
-                    finishActivity();
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    DialogFactory.showConfirmDialog(MainActivity.this,
+                            getString(R.string.logout_dialog_title),
+                            getString(R.string.logout_dialog_content),
+                            "",
+                            "",
+                            new OnDialogClickListener() {
+                                @Override
+                                public void onConfirmClick() {
+                                    // 登出
+                                    mUserManager.logout(mContext);
+                                    gotoLogin();
+                                    finishActivity();
+                                }
+
+                                @Override
+                                public void onCancelClick() {
+
+                                }
+                            });
                 }
             });
         }
