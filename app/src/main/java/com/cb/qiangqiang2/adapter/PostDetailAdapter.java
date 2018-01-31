@@ -16,9 +16,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ScreenUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
+import com.cb.qiangqiang2.common.glide.GlideCircleTransform;
 import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.common.util.EmojiUtils;
 import com.cb.qiangqiang2.data.model.PostDetailBean;
@@ -34,7 +39,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.carbs.android.avatarimageview.library.AvatarImageView;
 
 /**
  * Created by cb on 2016/12/8.
@@ -246,6 +250,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
                     .load(listBean.getIcon())
                     .placeholder(R.drawable.default_icon)
                     .error(R.drawable.default_icon)
+                    .bitmapTransform(new GlideCircleTransform(context))
                     .dontAnimate()
                     .into(holder.ivAvatar);
             holder.tvName.setText(listBean.getReply_name());
@@ -259,6 +264,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
                     .load(topicBean.getIcon())
                     .placeholder(R.drawable.default_icon)
                     .error(R.drawable.default_icon)
+                    .bitmapTransform(new GlideCircleTransform(context))
                     .dontAnimate()
                     .into(holder.ivAvatar);
             holder.tvName.setText(topicBean.getUser_nick_name());
@@ -296,8 +302,35 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
     private void onBindImageViewHolder(final PostDetailBean bean, final ImageViewHolder holder, int position) {
         final PostDetailModel.TopicBean.ContentBean contentBean = bean.getContentBean();
         if (contentBean != null) {
+            int imageWidth;
+            int imageHeight;
+            if (contentBean.getImageWidth() > 0 && contentBean.getImageHeight() > 0) {
+                imageWidth = ScreenUtils.getScreenWidth() -
+                        context.getResources().getDimensionPixelOffset(R.dimen.padding_left) * 2;
+                imageHeight = imageWidth * contentBean.getImageHeight() / contentBean.getImageWidth();
+            } else {
+                imageWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+                imageHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+            }
+            ViewGroup.LayoutParams layoutParams = holder.ivImage.getLayoutParams();
+            layoutParams.width = imageWidth;
+            layoutParams.height = imageHeight;
+
             Glide.with(context)
                     .load(contentBean.getOriginalInfo())
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            contentBean.setImageWidth(resource.getIntrinsicWidth());
+                            contentBean.setImageHeight(resource.getIntrinsicHeight());
+                            return false;
+                        }
+                    })
                     .into(holder.ivImage);
         }
         holder.ivImage.setOnClickListener(new View.OnClickListener() {
@@ -371,7 +404,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
 
     public class TopViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_avatar)
-        AvatarImageView ivAvatar;
+        ImageView ivAvatar;
         @BindView(R.id.tv_name)
         TextView tvName;
         @BindView(R.id.tv_level)

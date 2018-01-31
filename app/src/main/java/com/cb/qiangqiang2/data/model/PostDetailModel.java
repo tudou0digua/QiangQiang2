@@ -864,6 +864,24 @@ public class PostDetailModel extends BaseModel {
             private String originalInfo;
             private int aid;
             private String url;
+            private int imageWidth;//缓存图片宽度
+            private int imageHeight;//缓存图片高度
+
+            public int getImageWidth() {
+                return imageWidth;
+            }
+
+            public void setImageWidth(int imageWidth) {
+                this.imageWidth = imageWidth;
+            }
+
+            public int getImageHeight() {
+                return imageHeight;
+            }
+
+            public void setImageHeight(int imageHeight) {
+                this.imageHeight = imageHeight;
+            }
 
             public String getInfor() {
                 return infor;

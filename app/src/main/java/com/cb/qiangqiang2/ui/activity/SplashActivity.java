@@ -96,7 +96,7 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
                 .asBitmap()
                 .dontAnimate()
                 .into(ivBg);
-
+        boolean shouldHandleMsg = true;
         Message msg = Message.obtain();
         msg.what = FINISH_SPLASH;
         msg.obj = GOTO_LOGIN;
@@ -108,11 +108,14 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
                 //今天成功登录过，跳过登录
                 msg.obj = GOTO_MAIN;
             } else {
+                shouldHandleMsg = false;
                 startLoginTime = System.currentTimeMillis();
                 mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
             } 
         }
-        handler.sendMessageDelayed(msg, SPLASH_TIME);
+        if (shouldHandleMsg) {
+            handler.sendMessageDelayed(msg, SPLASH_TIME);
+        }
     }
 
     @Override
@@ -133,6 +136,10 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
         processLoginResult(GOTO_LOGIN);
     }
 
+    /**
+     * 登录结果跳转页面处理
+     * @param obj
+     */
     private void processLoginResult(int obj) {
         Message msg = Message.obtain();
         msg.what = FINISH_SPLASH;

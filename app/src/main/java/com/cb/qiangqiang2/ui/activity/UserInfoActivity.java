@@ -9,7 +9,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -213,7 +213,7 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
 
         mCollapsingToolbarLayout.setTitle(userName);
 
-        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+        FragmentStatePagerAdapter adapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 return fragments.get(position);
