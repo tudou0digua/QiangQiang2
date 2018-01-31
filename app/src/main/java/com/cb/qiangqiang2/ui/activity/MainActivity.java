@@ -140,25 +140,7 @@ public class MainActivity extends BaseSwipeBackActivity {
                 @Override
                 public void onClick(View view) {
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    DialogFactory.showConfirmDialog(MainActivity.this,
-                            getString(R.string.logout_dialog_title),
-                            getString(R.string.logout_dialog_content),
-                            "",
-                            "",
-                            new OnDialogClickListener() {
-                                @Override
-                                public void onConfirmClick() {
-                                    // 登出
-                                    mUserManager.logout(mContext);
-                                    gotoLogin();
-                                    finishActivity();
-                                }
-
-                                @Override
-                                public void onCancelClick() {
-
-                                }
-                            });
+                    showLogoutDialog();
                 }
             });
         }
@@ -196,6 +178,28 @@ public class MainActivity extends BaseSwipeBackActivity {
                 return true;
             }
         });
+    }
+
+    private void showLogoutDialog() {
+        DialogFactory.showConfirmDialog(MainActivity.this,
+                getString(R.string.logout_dialog_title),
+                getString(R.string.logout_dialog_content),
+                "",
+                "",
+                new OnDialogClickListener() {
+                    @Override
+                    public void onConfirmClick() {
+                        // 登出
+                        mUserManager.logout(mContext);
+                        gotoLogin();
+                        finishActivity();
+                    }
+
+                    @Override
+                    public void onCancelClick() {
+
+                    }
+                });
     }
 
     private void gotoLogin() {
