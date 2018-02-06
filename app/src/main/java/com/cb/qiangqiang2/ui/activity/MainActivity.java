@@ -16,9 +16,11 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ScreenUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
+import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.event.NightThemeEvent;
 import com.cb.qiangqiang2.event.OpenDrawLayoutEvent;
@@ -118,6 +120,7 @@ public class MainActivity extends BaseSwipeBackActivity {
                 .load("https://bing.ioliu.cn/v1/rand?w=480&h=320")
 //                    .skipMemoryCache(true)
 //                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .signature(new StringSignature(DateUtil.getDay(System.currentTimeMillis())))
                 .centerCrop()
                 .into(ivBg);
 

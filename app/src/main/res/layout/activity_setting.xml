@@ -5,9 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_setting"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/base_bg_grey"
-    tools:context="com.cb.qiangqiang2.ui.activity.SettingActivity">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/rl_top"
@@ -26,16 +24,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_left"
-            android:paddingRight="@dimen/padding_right"
-            android:divider="@drawable/divider_bg"
-            android:showDividers="middle"
             android:background="@color/white"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/setting_item_height">
+                android:layout_height="@dimen/setting_item_height"
+                android:paddingLeft="@dimen/padding_left"
+                android:paddingRight="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -56,6 +52,45 @@
                     android:layout_centerVertical="true"/>
 
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_clear_cache"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:paddingLeft="@dimen/padding_left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size2"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/text_primary"
+                    android:text="@string/setting_clear_cache"/>
+
+                <TextView
+                    android:id="@+id/tv_cache_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="@dimen/padding_right"
+                    android:textSize="@dimen/text_size2"
+                    android:textColor="@color/text_primary"
+                    tools:text="33.33M"
+                    android:layout_centerVertical="true"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/right_btn"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/base_bg_grey"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/base_bg_grey"/>
 
         </LinearLayout>
 

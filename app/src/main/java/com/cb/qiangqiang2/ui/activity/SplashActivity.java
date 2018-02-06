@@ -8,8 +8,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
+import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.model.AccountInfoBean;
 import com.cb.qiangqiang2.data.model.LoginModel;
@@ -93,8 +95,10 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
         //加载bing每日一图作为背景图
         Glide.with(ivBg.getContext())
                 .load("https://bing.ioliu.cn/v1/rand?w=720&h=1280")
-                .asBitmap()
+                .placeholder(R.drawable.rand)
+                .error(R.drawable.rand)
                 .dontAnimate()
+                .signature(new StringSignature(DateUtil.getDay(System.currentTimeMillis())))
                 .into(ivBg);
         boolean shouldHandleMsg = true;
         Message msg = Message.obtain();
