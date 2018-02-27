@@ -105,6 +105,9 @@
     <string name="setting_clear_cache_dialog_content">确定清除缓存？</string>
     <string name="setting_clear_cache_success">清除缓存成功</string>
 
+    <!--图片列表-->
+    <string name="image_list_indicator">%1$d/%2$d</string>
+
     <!--emoji start-->
     <string name="mc_forum_face_haha">[哈哈]</string>
     <string name="mc_forum_face_tear">[泪]</string>

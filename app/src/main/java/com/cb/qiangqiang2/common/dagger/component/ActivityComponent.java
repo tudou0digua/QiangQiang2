@@ -11,6 +11,7 @@ import com.cb.qiangqiang2.common.dagger.scope.PerActivity;
 import com.cb.qiangqiang2.test.activity.Activity2;
 import com.cb.qiangqiang2.test.activity.MainTestActivity;
 import com.cb.qiangqiang2.ui.activity.BigImageActivity;
+import com.cb.qiangqiang2.ui.activity.ImageListActivity;
 import com.cb.qiangqiang2.ui.activity.LoginActivity;
 import com.cb.qiangqiang2.ui.activity.PostDetailActivity;
 import com.cb.qiangqiang2.ui.activity.SearchActivity;
@@ -67,6 +68,8 @@ public interface ActivityComponent {
     void inject(PostDetailActivity postDetailActivity);
 
     void inject(SettingActivity settingActivity);
+
+    void inject(ImageListActivity imageListActivity);
 
 
     void inject(MainTestActivity mainTestActivity);

@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -36,6 +35,7 @@ import com.cb.qiangqiang2.presenter.BoardPresenter;
 import com.cb.qiangqiang2.presenter.CheckInPresenter;
 import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.cb.qiangqiang2.ui.activity.SearchActivity;
+import com.cb.qiangqiang2.ui.view.CustomFragmentStatePagerAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
@@ -79,7 +79,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
 
     private List<BoardBean> lists;
     private List<PostFragment> fragments;
-    private FragmentStatePagerAdapter adapter;
+    private CustomFragmentStatePagerAdapter adapter;
 
     public BoardFragment() {
         // Required empty public constructor
@@ -141,7 +141,10 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
             @Override
             public void onClick(View v) {
                 //回到帖子列表顶部
-                fragments.get(mViewPager.getCurrentItem()).scrollToTop();
+                if (adapter != null && adapter.getCurrentFragment() != null
+                        && adapter.getCurrentFragment() instanceof PostFragment){
+                    ((PostFragment)adapter.getCurrentFragment()).scrollToTop();
+                }
             }
         });
 
@@ -161,7 +164,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
 
     private void initViewPager() {
         initViewPagerData();
-        adapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
+        adapter = new CustomFragmentStatePagerAdapter(getChildFragmentManager()) {
 
             @Override
             public Fragment getItem(int position) {

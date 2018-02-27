@@ -1,6 +1,5 @@
 package com.cb.qiangqiang2.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,7 +27,7 @@ import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.common.util.EmojiUtils;
 import com.cb.qiangqiang2.data.model.PostDetailBean;
 import com.cb.qiangqiang2.data.model.PostDetailModel;
-import com.cb.qiangqiang2.ui.activity.BigImageActivity;
+import com.cb.qiangqiang2.ui.activity.ImageListActivity;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
@@ -58,6 +57,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
 
     private String boardName;
     private List<PostDetailBean> lists;
+    private ArrayList<String> imageUrls;
     private OnPostDetailClickListener onPostDetailClickListener;
 
     public void setOnPostDetailClickListener(OnPostDetailClickListener onPostDetailClickListener) {
@@ -67,6 +67,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
     @Inject
     public PostDetailAdapter() {
         lists = new ArrayList<>();
+        imageUrls = new ArrayList<>();
     }
 
     public void setBoardName(String boardName) {
@@ -75,6 +76,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
 
     public void setData(@NotNull PostDetailModel postDetailModel) {
         lists.clear();
+        imageUrls.clear();
         PostDetailModel.TopicBean topicBean = postDetailModel.getTopic();
         //帖子信息
         if (topicBean != null) {
@@ -123,6 +125,9 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
                 //图片
                 case 1:
                     detailBean.setType(TYPE_IMAGE);
+                    if (!TextUtils.isEmpty(contentBean.getOriginalInfo())) {
+                        imageUrls.add(contentBean.getOriginalInfo());
+                    }
                     break;
                 //超链接
                 case 4:
@@ -303,7 +308,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         final PostDetailModel.TopicBean.ContentBean contentBean = bean.getContentBean();
         if (contentBean != null) {
             int imageWidth;
-            int imageHeight;
+            final int imageHeight;
             if (contentBean.getImageWidth() > 0 && contentBean.getImageHeight() > 0) {
                 imageWidth = ScreenUtils.getScreenWidth() -
                         context.getResources().getDimensionPixelOffset(R.dimen.padding_left) * 2;
@@ -332,13 +337,14 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
                         }
                     })
                     .into(holder.ivImage);
+            holder.ivImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ImageListActivity.startActivity(context, contentBean.getOriginalInfo(), imageUrls);
+//                    BigImageActivity.startBigImageActivity(contentBean.getOriginalInfo(), (Activity) context, holder.ivImage);
+                }
+            });
         }
-        holder.ivImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BigImageActivity.startBigImageActivity(contentBean.getOriginalInfo(), (Activity) context, holder.ivImage);
-            }
-        });
     }
 
     private void onBindHyperlinkViewHolder(PostDetailBean bean, HyperlinkViewHolder holder, int position) {
