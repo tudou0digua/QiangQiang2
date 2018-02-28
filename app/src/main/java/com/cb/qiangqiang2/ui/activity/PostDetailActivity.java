@@ -278,6 +278,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
                 if (postDetailModel == null || postDetailModel.getTopic() == null || postDetailModel.getTopic().getTopic_id() <= 0) {
                     return;
                 }
+                floatingActionMenu.close(true);
                 btnCollection.setEnabled(false);
                 mPostDetailPresenter.setCollectionStatus(getString(R.string.post_detail_collection).equals(btnCollection.getLabelText()),
                         postDetailModel.getTopic().getTopic_id());

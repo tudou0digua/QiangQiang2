@@ -14,12 +14,12 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.data.model.ImageParamBean;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
@@ -105,8 +105,6 @@ public class BigImageActivity extends BaseActivity {
 //            layoutParams.height = (int) (screenWidth * (imageParamBean.getImageHeight() * 1.0f / imageParamBean.getImageWidth()));
 //        }
 
-//        imageView.enable();
-
         if (imageUrl != null) {
             //TODO 加载Gif有时候不显示
             Glide.with(mContext)
@@ -153,6 +151,7 @@ public class BigImageActivity extends BaseActivity {
     }
 
     private void finishActivity() {
+        imageView.setScale(1.0f, false);
         exitAnimator();
 //        ActivityCompat.finishAfterTransition(BigImageActivity.this);
     }
