@@ -1,5 +1,7 @@
 package com.cb.qiangqiang2.ui.activity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -211,7 +213,14 @@ public class ImageListActivity extends BaseActivity {
                 switch (i) {
                     case 0:
                         //复制
-
+                        try {
+                            ClipData clipData = ClipData.newPlainText("", qrcodeContent);
+                            ((ClipboardManager) ImageListActivity.this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(clipData);
+                            ToastUtil.show("复制成功");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            ToastUtil.show("复制失败");
+                        }
                         break;
                     case 1:
                         //浏览器打开
