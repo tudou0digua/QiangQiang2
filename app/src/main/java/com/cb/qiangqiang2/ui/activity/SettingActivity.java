@@ -62,6 +62,12 @@ public class SettingActivity extends BaseSwipeBackActivity {
     @Override
     protected void initView() {
         toolbar.setTitle(getString(R.string.setting_title));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         boolean isNightTheme = PrefUtils.getBoolean(this, Constants.IS_NIGHT_THEME, false);
         switchNight.setChecked(isNightTheme);

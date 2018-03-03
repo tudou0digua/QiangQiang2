@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
@@ -251,10 +252,11 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
         Glide.with(this).load(userInfoModel.getIcon())
                 .placeholder(R.color.grey_500)
                 .error(R.color.grey_500)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .bitmapTransform(new BlurTransformation(mContext))
 //                .error(R.drawable.default_icon)
                 //设置gif播放次数为0
-                .into(new GlideDrawableImageViewTarget(mIvTopBg, 0));
+                .into(new GlideDrawableImageViewTarget(mIvTopBg, 1));
         Glide.with(mContext)
                 .load(userInfoModel.getIcon())
                 .placeholder(R.drawable.default_icon)
@@ -262,6 +264,7 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
 //                .bitmapTransform(new CropCircleTransformation(mContext))
                 .bitmapTransform(new GlideCircleTransform(mContext))
                 .crossFade(300)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mIvAvatar);
         mTvLevel.setVisibility(View.VISIBLE);
         mTvLevel.setText(userInfoModel.getUserTitle());

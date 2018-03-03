@@ -1,13 +1,17 @@
 package com.cb.qiangqiang2.ui.activity;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
@@ -94,12 +98,21 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
 
         //加载bing每日一图作为背景图
         Glide.with(ivBg.getContext())
-                .load("https://bing.ioliu.cn/v1/rand?w=720&h=1280")
+                .load("https://bing.ioliu.cn/v1/rand?w=720&h=1120")
                 .placeholder(R.drawable.rand)
                 .error(R.drawable.rand)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .dontAnimate()
                 .signature(new StringSignature(DateUtil.getDay(System.currentTimeMillis())))
                 .into(ivBg);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(ivBg, "scaleX", 1.0f, 1.1f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(ivBg, "scaleY", 1.0f, 1.1f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(SPLASH_TIME);
+        animatorSet.setInterpolator(new LinearInterpolator());
+        animatorSet.play(scaleX).with(scaleY);
+        animatorSet.start();
+
         boolean shouldHandleMsg = true;
         Message msg = Message.obtain();
         msg.what = FINISH_SPLASH;

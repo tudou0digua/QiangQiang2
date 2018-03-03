@@ -1,5 +1,7 @@
 package com.cb.qiangqiang2.ui.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.util.AppUtils;
@@ -109,6 +112,7 @@ public class BigImageActivity extends BaseActivity {
             //TODO 加载Gif有时候不显示
             Glide.with(mContext)
                     .load(imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(imageView);
         }
         enterAnimator();
@@ -126,11 +130,19 @@ public class BigImageActivity extends BaseActivity {
             ObjectAnimator moveY = ObjectAnimator.ofFloat(imageView, "translationY", deltaY, 0);
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView, "scaleX", startScale, 1f);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(imageView, "scaleY", startScale, 1f);
-            enterAnimatorSet.setDuration(500);
+            enterAnimatorSet.setDuration(ANIMATOR_DURATION);
             enterAnimatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
             enterAnimatorSet.play(scaleX).with(moveY).with(scaleY);
             enterAnimatorSet.start();
-
+            enterAnimatorSet.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation, boolean isReverse) {
+//                    Glide.with(mContext)
+//                            .load(imageUrl)
+//                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                            .into(imageView);
+                }
+            });
         }
         ObjectAnimator bgAlpha = ObjectAnimator.ofFloat(tvBg, "alpha", 0f, 1f);
         bgAlpha.setInterpolator(new AccelerateDecelerateInterpolator());
