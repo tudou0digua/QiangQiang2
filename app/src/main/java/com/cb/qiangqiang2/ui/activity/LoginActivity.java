@@ -224,6 +224,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
         if (isNeedGoToMain) {
             gotoMainActivity();
         }
+        finish();
     }
 
     @Override
