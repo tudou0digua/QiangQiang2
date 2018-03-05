@@ -15,6 +15,7 @@ import com.cb.qiangqiang2.adapter.BoardEditAdapter;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
 import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.util.PrefUtils;
+import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.model.BoardBean;
 import com.cb.qiangqiang2.event.BoardChangeEvent;
 import com.cb.qiangqiang2.ui.view.dragview.ItemDragHelperCallback;
@@ -26,10 +27,15 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class BoardDragEditActivity extends BaseSwipeBackActivity {
+
+    @Inject
+    UserManager userManager;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -61,11 +67,9 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
         initToolbar();
         //获得板块列表数据
         mSelectedListOriginal = new ArrayList<>();
-        String boardSelectedStr = PrefUtils.getString(mContext, Constants.BOARD_LIST_SELECTED);
-        if (boardSelectedStr != null) {
-            Gson gson = new Gson();
-            List<BoardBean> listSelected = gson.fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>(){}.getType());
-            mSelectedListData = listSelected;
+        List<BoardBean> selectData = userManager.getSelectBoardListFromLocal();
+        if (selectData != null) {
+            mSelectedListData = selectData;
             mSelectedListOriginal.addAll(mSelectedListData);
         } else {
             String boards = PrefUtils.getString(mContext, Constants.BOARD_LIST);
@@ -74,11 +78,9 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
             mSelectedListData = gson.fromJson(boards, new TypeToken<List<BoardBean>>(){}.getType());
             mSelectedListOriginal.addAll(mSelectedListData);
         }
-        String boardUnSelectedStr = PrefUtils.getString(mContext, Constants.BOARD_LIST_UNSELETED);
-        if (boardUnSelectedStr != null) {
-            Gson gson = new Gson();
-            List<BoardBean> listUnSelected = gson.fromJson(boardUnSelectedStr, new TypeToken<List<BoardBean>>(){}.getType());
-            mUnSelectedListData = listUnSelected;
+        List<BoardBean> unSelectData = userManager.getUnSelectBoardListFromLocal();
+        if (unSelectData != null) {
+            mUnSelectedListData = unSelectData;
         } else {
             mUnSelectedListData = new ArrayList<>();
         }
@@ -141,8 +143,8 @@ public class BoardDragEditActivity extends BaseSwipeBackActivity {
     private void setBoardDataChange() {
         if (hasBoardDataChanged()) {
             Gson gson = new Gson();
-            PrefUtils.putString(mContext, Constants.BOARD_LIST_SELECTED, gson.toJson(adapter.getSelectedBoardItems()));
-            PrefUtils.putString(mContext, Constants.BOARD_LIST_UNSELETED, gson.toJson(adapter.getOtherBoardItems()));
+            userManager.saveSelectBoardListToLocal(adapter.getSelectedBoardItems());
+            userManager.saveUnSelectBoardListToLocal(adapter.getOtherBoardItems());
             EventBus.getDefault().post(new BoardChangeEvent());
         }
     }

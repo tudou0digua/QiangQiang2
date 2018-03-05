@@ -54,6 +54,32 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:paddingLeft="@dimen/padding_left"
+                android:paddingRight="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size2"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/text_primary"
+                    android:text="@string/setting_auto_sign"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switch_auto_sign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textOff="OFF"
+                    android:textOn="ON"
+                    android:paddingLeft="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/rl_clear_cache"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/setting_item_height"

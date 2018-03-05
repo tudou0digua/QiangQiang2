@@ -24,20 +24,22 @@ import com.cb.qiangqiang2.common.base.BaseFragment;
 import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.common.util.PrefUtils;
+import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.model.BoardBean;
 import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.event.BoardChangeEvent;
 import com.cb.qiangqiang2.event.OpenDrawLayoutEvent;
 import com.cb.qiangqiang2.event.ShowExitSnackBarEvent;
+import com.cb.qiangqiang2.event.SignResultEvent;
 import com.cb.qiangqiang2.mvpview.BoardMvpView;
 import com.cb.qiangqiang2.mvpview.CheckInMvpView;
 import com.cb.qiangqiang2.presenter.BoardPresenter;
-import com.cb.qiangqiang2.presenter.CheckInPresenter;
+import com.cb.qiangqiang2.presenter.SignPresenter;
 import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
+import com.cb.qiangqiang2.ui.activity.LoginActivity;
 import com.cb.qiangqiang2.ui.activity.SearchActivity;
 import com.cb.qiangqiang2.ui.view.CustomFragmentStatePagerAdapter;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -62,9 +64,11 @@ import static com.cb.qiangqiang2.common.constant.Constants.POST_NEW;
 public class BoardFragment extends BaseFragment implements BoardMvpView, CheckInMvpView {
 
     @Inject
+    UserManager mUserManager;
+    @Inject
     BoardPresenter boardPresenter;
     @Inject
-    CheckInPresenter mCheckInPresenter;
+    SignPresenter mSignPresenter;
 
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
@@ -98,7 +102,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
         ButterKnife.bind(this, view);
         ((BaseActivity) getActivity()).getActivityComponent().inject(this);
         boardPresenter.attachView(this);
-        mCheckInPresenter.attachView(this);
+        mSignPresenter.attachView(this);
         initView();
         return view;
     }
@@ -107,6 +111,16 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.main_menu, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (mUserManager.isTodaySignSuccess()) {
+            menu.findItem(R.id.menu_check_in).setTitle(R.string.main_menu_has_check_in);
+        } else {
+            menu.findItem(R.id.menu_check_in).setTitle(R.string.main_menu_check_in);
+        }
+        super.onPrepareOptionsMenu(menu);
     }
 
     private void initView() {
@@ -120,7 +134,9 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
                 switch (item.getItemId()) {
                     //签到
                     case R.id.menu_check_in:
-                        mCheckInPresenter.checkIn();
+                        if (!mUserManager.isTodaySignSuccess()) {
+                            mSignPresenter.sign();
+                        }
                         return true;
                     //搜索
                     case R.id.menu_search:
@@ -149,17 +165,18 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
         });
 
         lists = new ArrayList<>();
-        String boardSelectedStr = PrefUtils.getString(getActivity(), Constants.BOARD_LIST_SELECTED);
-        if (boardSelectedStr != null) {
-            Gson gson = new Gson();
-            List<BoardBean> listSelected = gson.fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>() {
-            }.getType());
-            lists = listSelected;
+        List<BoardBean> selectData = mUserManager.getSelectBoardListFromLocal();
+        if (selectData != null) {
+            lists = selectData;
             initViewPager();
         } else {
             boardPresenter.loadBoardData();
         }
 
+        if (mUserManager.isAutoSign() && !mUserManager.isTodaySignSuccess()) {
+            //自动签到
+            mSignPresenter.sign();
+        }
     }
 
     private void initViewPager() {
@@ -217,7 +234,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     public void onDestroyView() {
         super.onDestroyView();
         boardPresenter.detachView();
-        mCheckInPresenter.detachView();
+        mSignPresenter.detachView();
         EventBus.getDefault().unregister(this);
     }
 
@@ -283,13 +300,10 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BoardChangeEvent event) {
-        String boardSelectedStr = PrefUtils.getString(getActivity(), Constants.BOARD_LIST_SELECTED);
-        if (boardSelectedStr != null) {
-            Gson gson = new Gson();
-            List<BoardBean> listSelected = gson.fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>() {
-            }.getType());
+        List<BoardBean> selectData = mUserManager.getSelectBoardListFromLocal();
+        if (selectData != null) {
             lists.clear();
-            lists.addAll(listSelected);
+            lists.addAll(selectData);
             initViewPager();
         } else {
             boardPresenter.loadBoardData();
@@ -299,5 +313,18 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onShowExitSnackBar(ShowExitSnackBarEvent event) {
         Snackbar.make(mCoordinatorLayout, getString(R.string.exit), Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSignResult(SignResultEvent event) {
+        if (getActivity() == null) {
+            return;
+        }
+        if (event.getType() == SignResultEvent.TYPE_SIGN_SUCESS) {
+            getActivity().invalidateOptionsMenu();
+        } else if (event.getType() == SignResultEvent.TYPE_UN_LOGIN) {
+            LoginActivity.startLoginActivity(getActivity(), true);
+            getActivity().finish();
+        }
     }
 }

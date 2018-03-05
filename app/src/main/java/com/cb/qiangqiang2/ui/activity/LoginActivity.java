@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -67,12 +66,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
         intent.putExtra(IS_NEED_GO_TO_MAIN, isNeedGoToMain);
         context.startActivity(intent);
         ((Activity)context).overridePendingTransition(R.anim.slide_in_from_bottom, 0);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+//        ((Activity)context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     @Override
@@ -258,6 +252,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
     public void finish() {
         super.finish();
         overridePendingTransition(0, R.anim.slide_out_to_bottom);
+//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }
 

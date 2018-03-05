@@ -18,6 +18,7 @@
     <!--主页menu-->
     <string name="main_menu_search">搜索</string>
     <string name="main_menu_check_in">签到</string>
+    <string name="main_menu_has_check_in">已签到</string>
     <string name="main_menu_un_login">未登录</string>
 
     <!--Behavior-->
@@ -100,6 +101,7 @@
     <!--设置-->
     <string name="setting_title">设置</string>
     <string name="setting_night_theme">夜间模式</string>
+    <string name="setting_auto_sign">自动签到</string>
     <string name="setting_clear_cache">清除缓存</string>
     <string name="setting_clear_cache_dialog_title">清除缓存</string>
     <string name="setting_clear_cache_dialog_content">确定清除缓存？</string>

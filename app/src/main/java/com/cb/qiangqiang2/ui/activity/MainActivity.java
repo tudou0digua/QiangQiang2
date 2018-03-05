@@ -206,7 +206,7 @@ public class MainActivity extends BaseSwipeBackActivity {
     }
 
     private void gotoLogin() {
-        LoginActivity.startLoginActivity(mContext, true);
+        LoginActivity.startLoginActivity(MainActivity.this, true);
     }
 
     @Override

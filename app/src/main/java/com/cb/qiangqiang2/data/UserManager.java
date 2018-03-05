@@ -8,8 +8,13 @@ import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.api.HttpManager;
 import com.cb.qiangqiang2.data.model.AccountInfoBean;
+import com.cb.qiangqiang2.data.model.BoardBean;
 import com.cb.qiangqiang2.data.model.LoginModel;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 import static com.cb.qiangqiang2.common.util.PrefUtils.getString;
 
@@ -22,6 +27,7 @@ public class UserManager {
     public static final String USER_INFO_DATA = "user_info_data";
     public static final String ACCOUNT_INFO = "account_info";
     public static final String LAST_LOGIN_SUCCESS_TIME = "last_login_success_time";
+    public static final String LAST_SIGN_SUCCESS_TIME = "last_sign_success_time";
     public static final String ENCRYPT_ACCOUNT_INFO_PASSWORD = "qq";
 
     private Context mContext;
@@ -82,23 +88,27 @@ public class UserManager {
         return "";
     }
 
+    public String getSPPrefix() {
+        return (getUserId() == INVALID_USER_ID ? 0 : getUserId()) + "_";
+    }
+
     public void saveAccountInfoToLocal(String account, String password) {
         AccountInfoBean accountInfoBean = new AccountInfoBean();
 //        account = new String(EncryptUtils.encryptDES2Base64(account.getBytes(), ENCRYPT_ACCOUNT_INFO_PASSWORD.getBytes()));
         accountInfoBean.setAccount(account);
 //        password = new String(EncryptUtils.encryptDES2Base64(password.getBytes(), ENCRYPT_ACCOUNT_INFO_PASSWORD.getBytes()));
         accountInfoBean.setPassword(password);
-        PrefUtils.putString(mContext, ACCOUNT_INFO, new Gson().toJson(accountInfoBean));
+        PrefUtils.putString(mContext, getSPPrefix() + ACCOUNT_INFO, new Gson().toJson(accountInfoBean));
     }
 
     public void clearAccountInfo() {
-        PrefUtils.delete(mContext, ACCOUNT_INFO);
+        PrefUtils.delete(mContext, getSPPrefix() + ACCOUNT_INFO);
     }
 
     public AccountInfoBean getAccountInfo() {
         AccountInfoBean accountInfoBean = null;
         try {
-            String accountInfo = PrefUtils.getString(mContext, ACCOUNT_INFO);
+            String accountInfo = PrefUtils.getString(mContext, getSPPrefix() + ACCOUNT_INFO);
             if (!TextUtils.isEmpty(accountInfo)) {
                 accountInfoBean = new Gson().fromJson(accountInfo, AccountInfoBean.class);
                 String account = accountInfoBean.getAccount();
@@ -119,13 +129,52 @@ public class UserManager {
     }
 
     public void logout(Context context) {
+        clearAccountInfo();
         mUserInfo = null;
-        PrefUtils.cleaAll(context);
+        PrefUtils.delete(mContext, USER_INFO_DATA);
+        PrefUtils.delete(mContext, Constants.UID);
+        PrefUtils.delete(mContext, Constants.ACCESS_TOKEN);
+        PrefUtils.delete(mContext, Constants.ACCESS_SECRET);
+        clearLastLoginSuccessSuccessTime();
         HttpManager.getInstance().clearCookie();
     }
 
+    public void saveSelectBoardListToLocal(List<BoardBean> selectList) {
+        PrefUtils.putString(mContext, getSPPrefix() + Constants.BOARD_LIST_SELECTED, new Gson().toJson(selectList));
+    }
+
+    public List<BoardBean> getSelectBoardListFromLocal() {
+        String boardSelectedStr = PrefUtils.getString(mContext, getSPPrefix() + Constants.BOARD_LIST_SELECTED);
+        try {
+            if (!TextUtils.isEmpty(boardSelectedStr)) {
+                List<BoardBean> listSelected = new Gson().fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>(){}.getType());
+                return listSelected;
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void saveUnSelectBoardListToLocal(List<BoardBean> unSelectList) {
+        PrefUtils.putString(mContext, getSPPrefix() + Constants.BOARD_LIST_UNSELETED, new Gson().toJson(unSelectList));
+    }
+
+    public List<BoardBean> getUnSelectBoardListFromLocal() {
+        String boardSelectedStr = PrefUtils.getString(mContext, getSPPrefix() + Constants.BOARD_LIST_UNSELETED);
+        try {
+            if (!TextUtils.isEmpty(boardSelectedStr)) {
+                List<BoardBean> listUnSelected = new Gson().fromJson(boardSelectedStr, new TypeToken<List<BoardBean>>(){}.getType());
+                return listUnSelected;
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean isTodayHadLoginSuccess() {
-        long lastLoginSuccessTime = PrefUtils.getLong(mContext, LAST_LOGIN_SUCCESS_TIME);
+        long lastLoginSuccessTime = PrefUtils.getLong(mContext, getSPPrefix() +  LAST_LOGIN_SUCCESS_TIME);
         if (lastLoginSuccessTime > 0) {
             if (DateUtil.isToday(lastLoginSuccessTime)) {
                 return true;
@@ -137,11 +186,50 @@ public class UserManager {
     }
 
     public void saveLastLoginSuccessTime() {
-        PrefUtils.putLong(mContext, LAST_LOGIN_SUCCESS_TIME, System.currentTimeMillis());
+        PrefUtils.putLong(mContext, getSPPrefix() + LAST_LOGIN_SUCCESS_TIME, System.currentTimeMillis());
     }
 
     public void clearLastLoginSuccessSuccessTime() {
-        PrefUtils.delete(mContext, LAST_LOGIN_SUCCESS_TIME);
+        PrefUtils.delete(mContext, getSPPrefix() + LAST_LOGIN_SUCCESS_TIME);
+    }
+
+    public boolean isTodaySignSuccess() {
+        if (getUserId() == INVALID_USER_ID) {
+            return false;
+        }
+        long lastSignSuccessTime = PrefUtils.getLong(mContext, getSPPrefix() +  LAST_SIGN_SUCCESS_TIME);
+        if (lastSignSuccessTime > 0) {
+            if (DateUtil.isToday(lastSignSuccessTime)) {
+                return true;
+            } else {
+                clearLastSingSuccessSuccessTime();
+            }
+        }
+        return false;
+    }
+
+    public void saveLastSignSuccessTime() {
+        PrefUtils.putLong(mContext, getSPPrefix() + LAST_SIGN_SUCCESS_TIME, System.currentTimeMillis());
+    }
+
+    public void clearLastSingSuccessSuccessTime() {
+        PrefUtils.delete(mContext, getSPPrefix() + LAST_SIGN_SUCCESS_TIME);
+    }
+
+    public boolean isNightTheme() {
+        return PrefUtils.getBoolean(mContext, Constants.IS_NIGHT_THEME, false);
+    }
+
+    public void saveNightThemeStatus(boolean isNightTheme) {
+        PrefUtils.putBoolean(mContext, Constants.IS_NIGHT_THEME, isNightTheme);
+    }
+
+    public boolean isAutoSign() {
+        return PrefUtils.getBoolean(mContext, getSPPrefix() + Constants.IS_AUTO_SIGN, false);
+    }
+
+    public void saveAutoSignStatus(boolean isAutoSign) {
+        PrefUtils.putBoolean(mContext, getSPPrefix() + Constants.IS_AUTO_SIGN, isAutoSign);
     }
 
 }

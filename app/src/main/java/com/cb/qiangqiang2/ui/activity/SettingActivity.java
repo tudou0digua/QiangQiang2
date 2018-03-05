@@ -12,15 +12,15 @@ import android.widget.TextView;
 
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseSwipeBackActivity;
-import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.util.CacheUtil;
-import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.common.util.ToastUtil;
 import com.cb.qiangqiang2.event.NightThemeEvent;
 import com.cb.qiangqiang2.ui.factory.DialogFactory;
 import com.cb.qiangqiang2.ui.factory.OnDialogClickListener;
 
 import org.greenrobot.eventbus.EventBus;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -32,10 +32,15 @@ import rx.schedulers.Schedulers;
 
 public class SettingActivity extends BaseSwipeBackActivity {
 
+    @Inject
+    com.cb.qiangqiang2.data.UserManager userManager;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.switch_night)
     SwitchCompat switchNight;
+    @BindView(R.id.switch_auto_sign)
+    SwitchCompat switchAutoSign;
     @BindView(R.id.tv_cache_size)
     TextView tvCacheSize;
 
@@ -69,18 +74,28 @@ public class SettingActivity extends BaseSwipeBackActivity {
             }
         });
 
-        boolean isNightTheme = PrefUtils.getBoolean(this, Constants.IS_NIGHT_THEME, false);
+        boolean isNightTheme = userManager.isNightTheme();
         switchNight.setChecked(isNightTheme);
         AppCompatDelegate.setDefaultNightMode(isNightTheme ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+
+        boolean isAutoSign = userManager.isAutoSign();
+        switchAutoSign.setChecked(isAutoSign);
 
         switchNight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                PrefUtils.putBoolean(mContext, Constants.IS_NIGHT_THEME, b);
+                userManager.saveNightThemeStatus(b);
                 EventBus.getDefault().post(new NightThemeEvent(b));
                 AppCompatDelegate.setDefaultNightMode(b ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
                 getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
                 recreate();
+            }
+        });
+
+        switchAutoSign.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                userManager.saveAutoSignStatus(b);
             }
         });
 

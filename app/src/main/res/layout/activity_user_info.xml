@@ -34,7 +34,7 @@
                     android:id="@+id/iv_top_bg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/grey_500"
                     android:scaleType="centerCrop"/>
 
                 <ImageView

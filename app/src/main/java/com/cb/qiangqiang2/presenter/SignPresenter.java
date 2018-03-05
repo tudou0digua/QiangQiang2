@@ -1,16 +1,17 @@
 package com.cb.qiangqiang2.presenter;
 
-import android.content.Intent;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.cb.qiangqiang2.common.base.BasePresenter;
 import com.cb.qiangqiang2.common.constant.Constants;
+import com.cb.qiangqiang2.common.util.ToastUtil;
+import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.api.HttpManager;
+import com.cb.qiangqiang2.event.SignResultEvent;
 import com.cb.qiangqiang2.mvpview.CheckInMvpView;
-import com.cb.qiangqiang2.ui.activity.LoginActivity;
-import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.Map;
@@ -22,17 +23,20 @@ import javax.inject.Inject;
  * Created by cb on 2016/10/24.
  */
 
-public class CheckInPresenter extends BasePresenter<CheckInMvpView> {
+public class SignPresenter extends BasePresenter<CheckInMvpView> {
 
     @Inject
-    public CheckInPresenter() {
+    UserManager userManager;
+
+    @Inject
+    public SignPresenter() {
 
     }
 
     /**
      * 加载签到页面，获取其中formhash值
      */
-    public void checkIn() {
+    public void sign() {
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         HttpManager.toSub(mApiService.getCheckInPage(map), new HttpManager.OnResponse() {
             @Override
@@ -40,7 +44,7 @@ public class CheckInPresenter extends BasePresenter<CheckInMvpView> {
                 try {
                     String jsonString = ((okhttp3.ResponseBody)((retrofit2.Response) result).body()).string();
                     if (jsonString != null && jsonString.contains("先登录")) {
-                        LoginActivity.startLoginActivity(mContext);
+                        EventBus.getDefault().post(new SignResultEvent(SignResultEvent.TYPE_UN_LOGIN));
                         return;
                     }
                     String formHash = null;
@@ -56,12 +60,14 @@ public class CheckInPresenter extends BasePresenter<CheckInMvpView> {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    EventBus.getDefault().post(new SignResultEvent(SignResultEvent.TYPE_SIGN_FAIL));
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
+                EventBus.getDefault().post(new SignResultEvent(SignResultEvent.TYPE_SIGN_FAIL));
             }
         }, mContext);
     }
@@ -84,21 +90,27 @@ public class CheckInPresenter extends BasePresenter<CheckInMvpView> {
                     String jsonString = ((okhttp3.ResponseBody)((retrofit2.Response) result).body()).string();
                     Logger.d(jsonString);
                     if (jsonString.contains("签到成功")) {
-                        Intent intent = new Intent(mContext, WebViewActivity.class);
-                        intent.putExtra(WebViewActivity.TITLE,"签到");
-                        intent.putExtra(WebViewActivity.URL,"http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign");
-                        mContext.startActivity(intent);
+//                        Intent intent = new Intent(mContext, WebViewActivity.class);
+//                        intent.putExtra(WebViewActivity.TITLE,"签到");
+//                        intent.putExtra(WebViewActivity.URL,"http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign");
+//                        mContext.startActivity(intent);
+                        userManager.saveLastSignSuccessTime();
+                        ToastUtil.show(mContext, "签到成功！");
+                        EventBus.getDefault().post(new SignResultEvent(SignResultEvent.TYPE_SIGN_SUCESS));
                     } else if (jsonString.contains("已经签到")) {
-                        Toast.makeText(mContext, "今天已经签到！", Toast.LENGTH_SHORT).show();
+                        ToastUtil.show(mContext, "今天已经签到！");
+                        EventBus.getDefault().post(new SignResultEvent(SignResultEvent.TYPE_ALREADY_SIGN));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    EventBus.getDefault().post(new SignResultEvent(SignResultEvent.TYPE_SIGN_FAIL));
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
+                EventBus.getDefault().post(new SignResultEvent(SignResultEvent.TYPE_SIGN_FAIL));
             }
         }, mContext);
     }
