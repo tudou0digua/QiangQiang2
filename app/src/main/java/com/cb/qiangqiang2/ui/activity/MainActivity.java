@@ -25,7 +25,6 @@ import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.event.NightThemeEvent;
 import com.cb.qiangqiang2.event.OpenDrawLayoutEvent;
 import com.cb.qiangqiang2.event.ShowExitSnackBarEvent;
-import com.cb.qiangqiang2.test.activity.TestRxJavaActivity;
 import com.cb.qiangqiang2.ui.factory.DialogFactory;
 import com.cb.qiangqiang2.ui.factory.OnDialogClickListener;
 import com.cb.qiangqiang2.ui.fragment.BoardFragment;
@@ -169,7 +168,11 @@ public class MainActivity extends BaseSwipeBackActivity {
 //                        LoginActivity.startLoginActivity(mContext);
                         break;
                     case R.id.nav_publish:
-                        TestRxJavaActivity.startActivity(mContext);
+//                        TestRxJavaActivity.startActivity(mContext);
+                        Intent intent = new Intent(mContext, WebViewActivity.class);
+                        intent.putExtra(WebViewActivity.TITLE, "发表帖子");
+                        intent.putExtra(WebViewActivity.URL, Constants.PUBLISH_POST);
+                        mContext.startActivity(intent);
                         break;
                     case R.id.nav_setting:
                         SettingActivity.startSettingActivity(mContext);

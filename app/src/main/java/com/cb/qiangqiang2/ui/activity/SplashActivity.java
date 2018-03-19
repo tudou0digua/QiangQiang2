@@ -99,8 +99,9 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
         //加载bing每日一图作为背景图
         Glide.with(ivBg.getContext())
                 .load("https://bing.ioliu.cn/v1/rand?w=720&h=1120")
-                .placeholder(R.drawable.rand)
-                .error(R.drawable.rand)
+                .placeholder(R.color.white)
+                .error(R.color.white)
+                .thumbnail(0.1f)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .dontAnimate()
                 .signature(new StringSignature(DateUtil.getDay(System.currentTimeMillis())))

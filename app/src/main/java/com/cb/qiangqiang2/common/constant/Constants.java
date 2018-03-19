@@ -59,6 +59,7 @@ public class Constants {
     public static final String QD_MODE = "qdmode";
     public static final String TODAY_SAY = "todaysay";
     public static final String FAST_REPLY = "fastreply";
+    public static final String SIGN_H5 = "http://www.qiangqiang5.com/plugin.php?id=dsu_paulsign:sign";
 
     //登录
     public static final String USERNAME = "username";
@@ -86,4 +87,7 @@ public class Constants {
     //回复帖子
     public static final String JSON = "json";
     public static final String ACT = "act";
+
+    //发表帖子
+    public static final String PUBLISH_POST = "http://www.qiangqiang5.com/forum.php?mod=post&action=newthread&fid=95";
 }

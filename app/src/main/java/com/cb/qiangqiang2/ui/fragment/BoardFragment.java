@@ -38,6 +38,7 @@ import com.cb.qiangqiang2.presenter.SignPresenter;
 import com.cb.qiangqiang2.ui.activity.BoardDragEditActivity;
 import com.cb.qiangqiang2.ui.activity.LoginActivity;
 import com.cb.qiangqiang2.ui.activity.SearchActivity;
+import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.cb.qiangqiang2.ui.view.CustomFragmentStatePagerAdapter;
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
@@ -136,6 +137,13 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
                     case R.id.menu_check_in:
                         if (!mUserManager.isTodaySignSuccess()) {
                             mSignPresenter.sign();
+                        } else {
+                            if (getActivity() != null) {
+                                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                                intent.putExtra(WebViewActivity.TITLE, "签到信息");
+                                intent.putExtra(WebViewActivity.URL, Constants.SIGN_H5);
+                                getActivity().startActivity(intent);
+                            }
                         }
                         return true;
                     //搜索
