@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"
-            android:theme="@style/MainActivityTheme"></activity>
+            android:theme="@style/MainActivityTheme" />
         <activity
             android:name=".ui.activity.BoardDragEditActivity"
             android:label="@string/board_edit"
@@ -64,21 +64,21 @@
 
         <activity
             android:name=".ui.activity.SearchActivity"
-            android:theme="@style/ActivityTheme"></activity>
+            android:theme="@style/ActivityTheme" />
         <activity
             android:name=".ui.activity.BigImageActivity"
-            android:theme="@style/BigImageTheme"></activity>
+            android:theme="@style/BigImageTheme" />
         <activity
             android:name=".ui.activity.PostDetailActivity"
-            android:theme="@style/ActivityTheme"></activity>
+            android:theme="@style/ActivityTheme" />
         <activity
             android:name=".ui.activity.SettingActivity"
-            android:theme="@style/ActivityTheme"></activity>
-        <activity
-            android:name=".test.activity.TestRxJavaActivity"></activity>
+            android:theme="@style/ActivityTheme" />
+        <activity android:name=".test.activity.TestRxJavaActivity" />
         <activity
             android:name=".ui.activity.ImageListActivity"
-            android:theme="@style/BigImageTheme"></activity>
+            android:theme="@style/BigImageTheme" />
+        <activity android:name=".ui.activity.SelectPublishBoardActivity"></activity>
     </application>
 
 </manifest>

@@ -15,6 +15,7 @@ import com.cb.qiangqiang2.ui.activity.ImageListActivity;
 import com.cb.qiangqiang2.ui.activity.LoginActivity;
 import com.cb.qiangqiang2.ui.activity.PostDetailActivity;
 import com.cb.qiangqiang2.ui.activity.SearchActivity;
+import com.cb.qiangqiang2.ui.activity.SelectPublishBoardActivity;
 import com.cb.qiangqiang2.ui.activity.SettingActivity;
 import com.cb.qiangqiang2.ui.activity.SplashActivity;
 import com.cb.qiangqiang2.ui.activity.UserInfoActivity;
@@ -70,6 +71,8 @@ public interface ActivityComponent {
     void inject(SettingActivity settingActivity);
 
     void inject(ImageListActivity imageListActivity);
+
+    void inject(SelectPublishBoardActivity selectPublishBoardActivity);
 
 
     void inject(MainTestActivity mainTestActivity);

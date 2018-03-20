@@ -110,6 +110,9 @@
     <!--图片列表-->
     <string name="image_list_indicator">%1$d/%2$d</string>
 
+    <!--webview-->
+    <string name="webview_menu_open_with_browser">浏览器打开</string>
+
     <!--emoji start-->
     <string name="mc_forum_face_haha">[哈哈]</string>
     <string name="mc_forum_face_tear">[泪]</string>

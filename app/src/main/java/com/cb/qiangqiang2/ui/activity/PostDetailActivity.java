@@ -327,7 +327,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_post__detail, menu);
+        getMenuInflater().inflate(R.menu.menu_post_detail, menu);
         return true;
     }
 

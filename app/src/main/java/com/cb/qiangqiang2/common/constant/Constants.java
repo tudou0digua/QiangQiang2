@@ -89,5 +89,5 @@ public class Constants {
     public static final String ACT = "act";
 
     //发表帖子
-    public static final String PUBLISH_POST = "http://www.qiangqiang5.com/forum.php?mod=post&action=newthread&fid=95";
+    public static final String PUBLISH_POST = "http://www.qiangqiang5.com/forum.php?mod=post&action=newthread&fid=%d";
 }

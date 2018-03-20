@@ -169,10 +169,11 @@ public class MainActivity extends BaseSwipeBackActivity {
                         break;
                     case R.id.nav_publish:
 //                        TestRxJavaActivity.startActivity(mContext);
-                        Intent intent = new Intent(mContext, WebViewActivity.class);
-                        intent.putExtra(WebViewActivity.TITLE, "发表帖子");
-                        intent.putExtra(WebViewActivity.URL, Constants.PUBLISH_POST);
-                        mContext.startActivity(intent);
+//                        Intent intent = new Intent(mContext, WebViewActivity.class);
+//                        intent.putExtra(WebViewActivity.TITLE, "发表帖子");
+//                        intent.putExtra(WebViewActivity.URL, Constants.PUBLISH_POST);
+//                        mContext.startActivity(intent);
+                        SelectPublishBoardActivity.startActivity(MainActivity.this);
                         break;
                     case R.id.nav_setting:
                         SettingActivity.startSettingActivity(mContext);

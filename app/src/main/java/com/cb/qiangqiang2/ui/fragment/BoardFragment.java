@@ -23,10 +23,8 @@ import com.cb.qiangqiang2.common.base.BaseActivity;
 import com.cb.qiangqiang2.common.base.BaseFragment;
 import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.util.AppUtils;
-import com.cb.qiangqiang2.common.util.PrefUtils;
 import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.model.BoardBean;
-import com.cb.qiangqiang2.data.model.BoardModel;
 import com.cb.qiangqiang2.event.BoardChangeEvent;
 import com.cb.qiangqiang2.event.OpenDrawLayoutEvent;
 import com.cb.qiangqiang2.event.ShowExitSnackBarEvent;
@@ -40,8 +38,6 @@ import com.cb.qiangqiang2.ui.activity.LoginActivity;
 import com.cb.qiangqiang2.ui.activity.SearchActivity;
 import com.cb.qiangqiang2.ui.activity.WebViewActivity;
 import com.cb.qiangqiang2.ui.view.CustomFragmentStatePagerAdapter;
-import com.google.gson.Gson;
-import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -247,42 +243,11 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
     }
 
     @Override
-    public void loadBoardData(BoardModel boardModel) {
-        if (boardModel.getList() == null) return;
+    public void loadBoardData(List<BoardBean> list) {
+        if (list == null) return;
         lists.clear();
-        try {
-            for (int i = 0; i < boardModel.getList().size(); i++) {
-                BoardModel.ListBean listBean = boardModel.getList().get(i);
-                int categoryId = listBean.getBoard_category_id();
-                String categoryName = listBean.getBoard_category_name();
-                List<BoardModel.ListBean.BoardListBean> boardListBeen = listBean.getBoard_list();
-                if (boardListBeen == null) continue;
-                for (int j = 0; j < boardListBeen.size(); j++) {
-                    BoardModel.ListBean.BoardListBean item = boardListBeen.get(j);
-                    BoardBean bean = new BoardBean();
-                    bean.setCategoryId(categoryId);
-                    bean.setCategory(categoryName);
-                    bean.setId(item.getBoard_id());
-                    bean.setName(item.getBoard_name());
-                    bean.setDescription(item.getDescription());
-                    bean.setFavNum(item.getFavNum());
-                    bean.setImage(item.getBoard_img());
-                    bean.setLastPostsDate(item.getLast_posts_date());
-                    bean.setPostsTotalNum(item.getPosts_total_num());
-                    bean.setTodayPostsNum(item.getTd_posts_num());
-                    bean.setTopicTotalNum(item.getTopic_total_num());
-                    lists.add(bean);
-                }
-            }
-            Gson gson = new Gson();
-            String data = gson.toJson(lists);
-            PrefUtils.putString(getActivity(), Constants.BOARD_LIST, data);
-            Logger.json(PrefUtils.getString(getActivity(), Constants.BOARD_LIST));
-
-            initViewPager();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        lists.addAll(list);
+        initViewPager();
     }
 
     @Override
