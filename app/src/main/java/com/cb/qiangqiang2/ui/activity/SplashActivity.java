@@ -1,7 +1,10 @@
 package com.cb.qiangqiang2.ui.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +15,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.signature.StringSignature;
 import com.cb.qiangqiang2.R;
 import com.cb.qiangqiang2.common.base.BaseActivity;
@@ -45,6 +51,11 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
     ImageView ivBg;
 
     private long startLoginTime;
+    private boolean isStartLogin;
+    private boolean isFinishLogin;
+    private boolean isStartAnimator;
+    private boolean isAnimatorEnd;
+    private boolean isLoadingPicFinish;
 
     private SplashHandler handler;
 
@@ -101,20 +112,65 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
                 .load("https://bing.ioliu.cn/v1/rand?w=720&h=1120")
                 .placeholder(R.color.white)
                 .error(R.color.white)
-                .thumbnail(0.1f)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .dontAnimate()
                 .signature(new StringSignature(DateUtil.getDay(System.currentTimeMillis())))
-                .into(ivBg);
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(ivBg, "scaleX", 1.0f, 1.1f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(ivBg, "scaleY", 1.0f, 1.1f);
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        isLoadingPicFinish = true;
+                        ivBg.setImageDrawable(resource.getCurrent());
+                        startAnimator();
+                    }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        isLoadingPicFinish = true;
+                        launch();
+                    }
+                });
+
+        //开始登陆
+        startLogin();
+    }
+
+    private void startLogin() {
+        AccountInfoBean accountInfoBean = mUserManager.getAccountInfo();
+        if (accountInfoBean != null
+                && !TextUtils.isEmpty(accountInfoBean.getAccount())
+                && !TextUtils.isEmpty(accountInfoBean.getPassword())) {
+            if (!mUserManager.isTodayHadLoginSuccess()) {
+                startLoginTime = System.currentTimeMillis();
+                isStartLogin = true;
+                mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
+            }
+        }
+
+    }
+
+    private void startAnimator() {
+        isStartAnimator = true;
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(ivBg, "scaleX", 1.0f, 1.05f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(ivBg, "scaleY", 1.0f, 1.05f);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.setDuration(SPLASH_TIME);
         animatorSet.setInterpolator(new LinearInterpolator());
         animatorSet.play(scaleX).with(scaleY);
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                isAnimatorEnd = true;
+                launch();
+            }
+        });
         animatorSet.start();
+    }
 
-        boolean shouldHandleMsg = true;
+    private void launch() {
+        if (isStartLogin && !isFinishLogin) {
+            return;
+        }
+
         Message msg = Message.obtain();
         msg.what = FINISH_SPLASH;
         msg.obj = GOTO_LOGIN;
@@ -125,15 +181,9 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
             if (mUserManager.isTodayHadLoginSuccess()) {
                 //今天成功登录过，跳过登录
                 msg.obj = GOTO_MAIN;
-            } else {
-                shouldHandleMsg = false;
-                startLoginTime = System.currentTimeMillis();
-                mLoginPresenter.login(accountInfoBean.getAccount(), accountInfoBean.getPassword());
-            } 
+            }
         }
-        if (shouldHandleMsg) {
-            handler.sendMessageDelayed(msg, SPLASH_TIME);
-        }
+        handler.sendMessage(msg);
     }
 
     @Override
@@ -148,9 +198,23 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
 
     @Override
     public void loadError(Throwable e) {
+        isFinishLogin = true;
         if (e != null) {
             e.printStackTrace();
         }
+        processLoginResult(GOTO_LOGIN);
+    }
+
+    @Override
+    public void loginSuccess(LoginModel loginModel) {
+        isFinishLogin = true;
+        processLoginResult(GOTO_MAIN);
+    }
+
+    @Override
+    public void loginFail(String errMsg) {
+        isFinishLogin = true;
+        mUserManager.clearAccountInfo();
         processLoginResult(GOTO_LOGIN);
     }
 
@@ -159,23 +223,14 @@ public class SplashActivity extends BaseActivity implements LoginMvpView {
      * @param obj
      */
     private void processLoginResult(int obj) {
+        if (!isLoadingPicFinish || (isStartAnimator && !isAnimatorEnd)) {
+            return;
+        }
+
         Message msg = Message.obtain();
         msg.what = FINISH_SPLASH;
         msg.obj = obj;
-        long delayMillis = SPLASH_TIME - (System.currentTimeMillis() - startLoginTime) / 1000;
-        delayMillis = delayMillis < 0 ? 0 : delayMillis;
-        handler.sendMessageDelayed(msg, delayMillis);
-    }
-
-    @Override
-    public void loginSuccess(LoginModel loginModel) {
-        processLoginResult(GOTO_MAIN);
-    }
-
-    @Override
-    public void loginFail(String errMsg) {
-        mUserManager.clearAccountInfo();
-        processLoginResult(GOTO_LOGIN);
+        handler.sendMessage(msg);
     }
 
     private void goToLoginActivity() {
