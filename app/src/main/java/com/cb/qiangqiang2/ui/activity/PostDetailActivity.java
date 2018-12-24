@@ -21,6 +21,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,7 +35,6 @@ import com.cb.qiangqiang2.common.constant.Constants;
 import com.cb.qiangqiang2.common.util.AppUtils;
 import com.cb.qiangqiang2.data.UserManager;
 import com.cb.qiangqiang2.data.model.PostDetailModel;
-import com.cb.qiangqiang2.data.model.ReplyPostModel;
 import com.cb.qiangqiang2.event.SendViewEvent;
 import com.cb.qiangqiang2.mvpview.PostDetailMvpView;
 import com.cb.qiangqiang2.mvpview.ReplyPostMvpView;
@@ -57,7 +57,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 import static com.cb.qiangqiang2.common.util.AppUtils.isScrollToBottom;
 
-public class PostDetailActivity extends BaseSwipeBackActivity implements PostDetailMvpView {
+public class PostDetailActivity extends BaseSwipeBackActivity implements PostDetailMvpView, ReplyPostMvpView {
     public static final String BOARD_ID = "board_id";
     public static final String BOARD_NAME = "board_name";
     public static final String TOPIC_ID = "topic_id";
@@ -132,27 +132,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     @Override
     protected void attachPresenter() {
         mPostDetailPresenter.attachView(this);
-        mReplyPostPresenter.attachView(new ReplyPostMvpView() {
-            @Override
-            public void replyResult(ReplyPostModel replyPostModel) {
-                Toast.makeText(mContext, replyPostModel.getErrcode(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void showLoading() {
-
-            }
-
-            @Override
-            public void hideLoading() {
-
-            }
-
-            @Override
-            public void loadError(Throwable e) {
-                if (e != null) e.printStackTrace();
-            }
-        });
+        mReplyPostPresenter.attachView(this);
     }
 
     @Override
@@ -213,8 +193,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPostDetailPresenter.getPostDetail(false, topicId, boardId, 1, 10);
-                canLoadingMore = false;
+                PostDetailActivity.this.refreshPostDetailData();
             }
         });
         Resources resources = mContext.getResources();
@@ -254,6 +233,10 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
                 .asBitmap()
                 .into(avatarImageView);
 
+        refreshPostDetailData();
+    }
+
+    private void refreshPostDetailData() {
         mPostDetailPresenter.getPostDetail(false, topicId, boardId, 1, 10);
         canLoadingMore = false;
     }
@@ -302,8 +285,8 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         int start = sendContainer.getTop();
         int end = sendContainer.getTop() + sendContainer.getHeight();
         hideSendViewAnimator = ObjectAnimator.ofFloat(sendContainer, "translationY", start, end);
-        hideSendViewAnimator.setDuration(500);
-        hideSendViewAnimator.setInterpolator(new DecelerateInterpolator());
+        hideSendViewAnimator.setDuration(200);
+        hideSendViewAnimator.setInterpolator(new LinearInterpolator());
         hideSendViewAnimator.start();
         hideSendViewAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -319,10 +302,13 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         int start = sendContainer.getBottom();
         int end = sendContainer.getBottom() - sendContainer.getHeight();
         showSendViewAnimator = ObjectAnimator.ofFloat(sendContainer, "translationY", start, end);
-        showSendViewAnimator.setDuration(500);
-        showSendViewAnimator.setInterpolator(new DecelerateInterpolator());
+        showSendViewAnimator.setDuration(300);
+        showSendViewAnimator.setInterpolator(new LinearInterpolator());
         sendContainer.setVisibility(View.VISIBLE);
         showSendViewAnimator.start();
+        //show softKeyboard
+        etReply.setText("");
+        AppUtils.showSoftKeyboard(etReply, PostDetailActivity.this);
     }
 
     @Override
@@ -350,6 +336,10 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         nextPage = 2;
         this.postDetailModel = postDetailModel;
         initPostDetailData();
+        if (postDetailModel.getTopic() != null) {
+            title = postDetailModel.getTopic().getTitle();
+            tvTitle.setText(title);
+        }
         mAdapter.setData(postDetailModel);
         canLoadingMore = true;
     }
@@ -455,19 +445,37 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     }
 
     @Override
-    public void operateCollectionSuccess(boolean isCollection) {
+    public void operateCollectionSuccess(boolean isCollection, boolean showToast) {
         btnCollection.setEnabled(true);
         if (isCollection) {
-            Toast.makeText(PostDetailActivity.this, getString(R.string.post_detail_collection_success), Toast.LENGTH_SHORT).show();
             btnCollection.setLabelText(getString(R.string.post_detail_cancel_collection));
+            if (showToast) {
+                Toast.makeText(PostDetailActivity.this, getString(R.string.post_detail_collection_success), Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(PostDetailActivity.this, getString(R.string.post_detail_cancel_collection_success), Toast.LENGTH_SHORT).show();
             btnCollection.setLabelText(getString(R.string.post_detail_collection));
+            if (showToast) {
+                Toast.makeText(PostDetailActivity.this, getString(R.string.post_detail_cancel_collection_success), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
     @Override
     public void operateCollectionFail() {
         btnCollection.setEnabled(true);
+    }
+
+
+    @Override
+    public void replySuccess() {
+        Toast.makeText(mContext, "回复成功", Toast.LENGTH_SHORT).show();
+        etReply.setText("");
+        hideSendView();
+        refreshPostDetailData();
+    }
+
+    @Override
+    public void replyFail(String errorMsg) {
+        Toast.makeText(mContext, errorMsg, Toast.LENGTH_SHORT).show();
     }
 }

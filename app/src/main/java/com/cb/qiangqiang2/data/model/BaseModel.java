@@ -47,7 +47,7 @@ public class BaseModel {
 
     public static class HeadBean {
         private int alert;
-        private int errCode;
+        private String errCode;
         private String errInfo;
         private String version;
 
@@ -59,11 +59,11 @@ public class BaseModel {
             this.alert = alert;
         }
 
-        public int getErrCode() {
+        public String getErrCode() {
             return errCode;
         }
 
-        public void setErrCode(int errCode) {
+        public void setErrCode(String errCode) {
             this.errCode = errCode;
         }
 

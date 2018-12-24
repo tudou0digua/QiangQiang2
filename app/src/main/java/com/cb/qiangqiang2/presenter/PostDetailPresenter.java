@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 
 /**
@@ -79,7 +80,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailMvpView> {
         }, mContext);
     }
 
-    public void setCollectionStatus(boolean isCollection, int topicId) {
+    public void setCollectionStatus(final boolean isCollection, int topicId) {
         Map<String, String> map = HttpManager.getBaseMap(mContext);
         Observable<BaseModel> observable;
         if (isCollection) {
@@ -97,23 +98,23 @@ public class PostDetailPresenter extends BasePresenter<PostDetailMvpView> {
                 BaseModel baseModel = (BaseModel) result;
                 switch (baseModel.getHead().getErrCode()) {
                     //收藏成功
-                    case 2000030:
-                        getMvpView().operateCollectionSuccess(true);
+                    case "02000030":
+                        getMvpView().operateCollectionSuccess(true, true);
                         return;
                     //取消收藏成功
-                    case 0:
-                        getMvpView().operateCollectionSuccess(false);
+                    case "00000000":
+                        getMvpView().operateCollectionSuccess(false, true);
                         return;
                     //已收藏，重复收藏
-                    case 2000029:
-
-                        break;
+                    case "02000029":
+                        getMvpView().operateCollectionSuccess(true, false);
+                        return;
                     //未收藏，进行取消收藏
-                    case 2000031:
-
-                        break;
+                    case "02000031":
+                        getMvpView().operateCollectionSuccess(false, false);
+                        return;
                     //抱歉，您指定的信息无法收藏(传的参数不对时)
-                    case 2000028:
+                    case "02000028":
 
                         break;
                 }
@@ -123,6 +124,14 @@ public class PostDetailPresenter extends BasePresenter<PostDetailMvpView> {
 
             @Override
             public void onError(Throwable e) {
+                if (e instanceof HttpException) {
+                    HttpException exception = (HttpException) e;
+                    int code = exception.code();
+                    if (code == 500) {
+                        getMvpView().operateCollectionSuccess(isCollection, true);
+                        return;
+                    }
+                }
                 getMvpView().operateCollectionFail();
             }
 

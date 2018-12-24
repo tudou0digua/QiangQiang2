@@ -137,7 +137,7 @@ public class HttpManager {
                                     onResponse.onSuccess(o);
                                 } else {
                                     switch (baseModel.getHead().getErrCode()) {
-                                        case 100001:
+                                        case "00100001":
                                             //TODO 未登陆 可进行登陆等操作
 //                                        Toast.makeText(context, baseModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
                                             onResponse.onUnLogin(context, o);

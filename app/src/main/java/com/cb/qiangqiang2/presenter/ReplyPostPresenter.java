@@ -29,7 +29,6 @@ public class ReplyPostPresenter extends BasePresenter<ReplyPostMvpView> {
     }
 
     public void replyPost(String content, int fid, int tid) {
-        if (getMvpView() != null) getMvpView().showLoading();
         //组装回复json
         ReplyPostBody replyPostBody = new ReplyPostBody();
         ReplyPostBody.BodyBean bodyBean = new ReplyPostBody.BodyBean();
@@ -57,19 +56,22 @@ public class ReplyPostPresenter extends BasePresenter<ReplyPostMvpView> {
             @Override
             public void onSuccess(Object result) {
                 if (getMvpView() == null) return;
-                getMvpView().hideLoading();
-                if (result != null) {
-                    getMvpView().replyResult((ReplyPostModel) result);
+                if (result instanceof ReplyPostModel) {
+                    ReplyPostModel model = (ReplyPostModel) result;
+                    if ("回复成功".equals(model.getErrcode()) || "00000000".equals(model.getHead().getErrCode())) {
+                        getMvpView().replySuccess();
+                    } else {
+                        getMvpView().replyFail(model.getErrcode());
+                    }
                 } else {
-                    getMvpView().loadError(null);
+                    getMvpView().replyFail("回复失败");
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 if (getMvpView() == null) return;
-                getMvpView().hideLoading();
-                getMvpView().loadError(e);
+                getMvpView().replyFail(e.getMessage());
             }
         }, mContext);
 

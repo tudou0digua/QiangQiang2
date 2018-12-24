@@ -47,23 +47,23 @@ public class OtherPresenter {
                 Toast.makeText(mContext, baseModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
                 switch (baseModel.getHead().getErrCode()) {
                     //收藏成功
-                    case 2000030:
+                    case "02000030":
 
                         break;
                     //取消收藏成功
-                    case 0:
+                    case "00000000":
 
                         break;
                     //已收藏，重复收藏
-                    case 2000029:
+                    case "02000029":
 
                         break;
                     //未收藏，进行取消收藏
-                    case 2000031:
+                    case "02000031":
 
                         break;
                     //抱歉，您指定的信息无法收藏(传的参数不对时)
-                    case 2000028:
+                    case "02000028":
 
                         break;
                 }
@@ -90,15 +90,15 @@ public class OtherPresenter {
                 Toast.makeText(mContext, baseModel.getHead().getErrInfo(), Toast.LENGTH_SHORT).show();
                 switch (baseModel.getHead().getErrCode()) {
                     //关注成功
-                    case 2000023:
+                    case "02000023":
 
                         break;
                     //取消关注成功 未关注，进行取消关注(也提示取消关注成功)
-                    case 2000024:
+                    case "02000024":
 
                         break;
                     //已关注，重关注
-                    case 2000022:
+                    case "02000022":
 
                         break;
                 }

@@ -193,7 +193,7 @@ public class UserInfoActivity extends BaseSwipeBackActivity implements UserInfoM
 
     @Override
     protected void initView() {
-        getSwipeBackLayout().setEnableGesture(false);
+        getSwipeBackLayout().setEnableGesture(true);
         //动态设置StatusBar的marginTop等，适配5.0之前和之后的系统
         int toolBarMarginTop;
         int avatarMarginTop;

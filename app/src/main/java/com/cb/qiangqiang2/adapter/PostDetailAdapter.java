@@ -1,17 +1,24 @@
 package com.cb.qiangqiang2.adapter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,14 +32,18 @@ import com.cb.qiangqiang2.common.dagger.qualifier.ForActivity;
 import com.cb.qiangqiang2.common.glide.GlideCircleTransform;
 import com.cb.qiangqiang2.common.util.DateUtil;
 import com.cb.qiangqiang2.common.util.EmojiUtils;
+import com.cb.qiangqiang2.common.util.ToastUtil;
 import com.cb.qiangqiang2.data.model.PostDetailBean;
 import com.cb.qiangqiang2.data.model.PostDetailModel;
 import com.cb.qiangqiang2.ui.activity.ImageListActivity;
+import com.cb.qiangqiang2.ui.activity.PostDetailActivity;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -248,7 +259,11 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
         final String nickName;
         PostDetailModel.TopicBean topicBean = bean.getTopicBean();
         PostDetailModel.ListBean listBean = bean.getListBean();
+        String content = null;
         if (listBean != null) {
+            if (listBean.getReply_content() != null && listBean.getReply_content().size() > 0) {
+                content = listBean.getReply_content().get(0).getInfor();
+            }
             userId = listBean.getReply_id();
             nickName = listBean.getReply_name();
             Glide.with(context)
@@ -263,6 +278,9 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
             holder.tvTime.setText(DateUtil.getPassedTime(listBean.getPosts_date()));
             holder.tvFloor.setText(context.getString(R.string.post_detail_floor, listBean.getPosition() - 1));
         } else if (topicBean != null) {
+            if (topicBean.getContent() != null && topicBean.getContent().size() > 0) {
+                content = topicBean.getContent().get(0).getInfor();
+            }
             userId = topicBean.getUser_id();
             nickName = topicBean.getUser_nick_name();
             Glide.with(context)
@@ -288,6 +306,55 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
                 }
             }
         });
+        if (!TextUtils.isEmpty(content)) {
+            final String finalContent = content;
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    showTopViewLongClickDialog(finalContent);
+                    return true;
+                }
+            });
+        }
+    }
+
+    private void showTopViewLongClickDialog(final String content) {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog
+                .Builder(context);
+
+        final String[] list = new String[]{"复制"};
+
+        builder.setTitle(content);
+        builder.setItems(list, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        //复制
+                        try {
+                            ClipData clipData = ClipData.newPlainText("", content);
+                            ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(clipData);
+                            ToastUtil.show("复制成功");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            ToastUtil.show("复制失败");
+                        }
+                        break;
+                }
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        if (lp != null) {
+            lp.gravity = Gravity.CENTER;
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            window.setAttributes(lp);
+        }
+//        window.setWindowAnimations(R.style.StyleBottomInOut);
+        dialog.show();
     }
 
     private void onBindTextViewHolder(PostDetailBean bean, TextViewHolder holder, int position) {
@@ -385,10 +452,24 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View view) {
-            //链接处理(浏览器打开)
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(contentBean.getUrl()));
-            context.startActivity(intent);
+            String url = contentBean.getUrl();
+            if (!TextUtils.isEmpty(url)) {
+                if (url.contains("www.qiangqiang5.com/thread")) {
+                    Pattern pattern = Pattern.compile("(?<=-)\\d+");
+                    Matcher matcher = pattern.matcher(url);
+                    if (matcher.find()) {
+                        String topicId = matcher.group();
+                        PostDetailActivity.startPostDetailActivity(context,
+                                0, Integer.parseInt(topicId), "", "");
+                        return;
+                    }
+                }
+
+                //链接处理(浏览器打开)
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                context.startActivity(intent);
+            }
         }
     }
 
