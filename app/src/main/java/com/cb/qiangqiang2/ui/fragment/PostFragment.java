@@ -118,8 +118,7 @@ public class PostFragment extends BaseFragment implements PostMvpView {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                postPresenter.refreshPostListData(isFromUser, mSortBy, 1, mBoardId, mType, mUserId);
-                canLoadingMore = false;
+                refreshPostList();
             }
         });
         Resources resources = getActivity().getResources();
@@ -169,6 +168,10 @@ public class PostFragment extends BaseFragment implements PostMvpView {
             }
         });
 
+        refreshPostList();
+    }
+
+    private void refreshPostList() {
         postPresenter.refreshPostListData(isFromUser, mSortBy, 1, mBoardId, mType, mUserId);
         canLoadingMore = false;
     }
@@ -180,18 +183,19 @@ public class PostFragment extends BaseFragment implements PostMvpView {
         }
     }
 
-    public void scrollToTop() {
-        if (mRecycleView != null && mRecycleView.getAdapter() != null
-                && mRecycleView.getAdapter().getItemCount() > 0) {
-            if (mRecycleView.getLayoutManager() != null && mRecycleView.getLayoutManager() instanceof LinearLayoutManager) {
-                LinearLayoutManager layoutManager = (LinearLayoutManager) mRecycleView.getLayoutManager();
-                if (layoutManager.findLastVisibleItemPosition() >= Integer.parseInt(Constants.DEFAULT_PAGE_SIZE)) {
-                    mRecycleView.scrollToPosition(0);
-                    return;
-                }
-            }
-            mRecycleView.smoothScrollToPosition(0);
-        }
+    public void scrollToTopAndRefresh() {
+//        if (mRecycleView != null && mRecycleView.getAdapter() != null
+//                && mRecycleView.getAdapter().getItemCount() > 0) {
+//            if (mRecycleView.getLayoutManager() != null && mRecycleView.getLayoutManager() instanceof LinearLayoutManager) {
+//                LinearLayoutManager layoutManager = (LinearLayoutManager) mRecycleView.getLayoutManager();
+//                if (layoutManager.findLastVisibleItemPosition() >= Integer.parseInt(Constants.DEFAULT_PAGE_SIZE)) {
+//                    mRecycleView.scrollToPosition(0);
+//                    return;
+//                }
+//            }
+//            mRecycleView.smoothScrollToPosition(0);
+//        }
+        refreshPostList();
     }
 
     @Override

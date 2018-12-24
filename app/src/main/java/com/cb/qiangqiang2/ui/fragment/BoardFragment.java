@@ -163,7 +163,7 @@ public class BoardFragment extends BaseFragment implements BoardMvpView, CheckIn
                 //回到帖子列表顶部
                 if (adapter != null && adapter.getCurrentFragment() != null
                         && adapter.getCurrentFragment() instanceof PostFragment){
-                    ((PostFragment)adapter.getCurrentFragment()).scrollToTop();
+                    ((PostFragment)adapter.getCurrentFragment()).scrollToTopAndRefresh();
                 }
             }
         });
