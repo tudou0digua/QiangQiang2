@@ -184,18 +184,19 @@ public class PostFragment extends BaseFragment implements PostMvpView {
     }
 
     public void scrollToTopAndRefresh() {
-//        if (mRecycleView != null && mRecycleView.getAdapter() != null
-//                && mRecycleView.getAdapter().getItemCount() > 0) {
-//            if (mRecycleView.getLayoutManager() != null && mRecycleView.getLayoutManager() instanceof LinearLayoutManager) {
-//                LinearLayoutManager layoutManager = (LinearLayoutManager) mRecycleView.getLayoutManager();
-//                if (layoutManager.findLastVisibleItemPosition() >= Integer.parseInt(Constants.DEFAULT_PAGE_SIZE)) {
-//                    mRecycleView.scrollToPosition(0);
-//                    return;
-//                }
-//            }
-//            mRecycleView.smoothScrollToPosition(0);
-//        }
-        refreshPostList();
+        if (mRecycleView != null && mRecycleView.getAdapter() != null
+                && mRecycleView.getAdapter().getItemCount() > 0) {
+            if (mRecycleView.getLayoutManager() != null && mRecycleView.getLayoutManager() instanceof LinearLayoutManager) {
+                LinearLayoutManager layoutManager = (LinearLayoutManager) mRecycleView.getLayoutManager();
+                if (layoutManager.findLastVisibleItemPosition() >= Integer.parseInt(Constants.DEFAULT_PAGE_SIZE)) {
+                    mRecycleView.scrollToPosition(0);
+                    refreshPostList();
+                    return;
+                }
+            }
+            mRecycleView.scrollToPosition(0);
+            refreshPostList();
+        }
     }
 
     @Override
