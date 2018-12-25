@@ -499,6 +499,8 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         //倒序刷新帖子
         isAscendingOrder = false;
         refreshPostDetailData();
+        //刷新menu 正序、倒序按钮文案
+        supportInvalidateOptionsMenu();
     }
 
     @Override
