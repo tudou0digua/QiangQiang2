@@ -311,14 +311,14 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    showTopViewLongClickDialog(finalContent);
+                    showLongClickDialog(finalContent);
                     return true;
                 }
             });
         }
     }
 
-    private void showTopViewLongClickDialog(final String content) {
+    private void showLongClickDialog(final String content) {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog
                 .Builder(context);
 
@@ -417,11 +417,18 @@ public class PostDetailAdapter extends RecyclerView.Adapter {
     private void onBindHyperlinkViewHolder(PostDetailBean bean, HyperlinkViewHolder holder, int position) {
         PostDetailModel.TopicBean.ContentBean contentBean = bean.getContentBean();
         if (contentBean != null) {
-            String info = contentBean.getInfor();
+            final String info = contentBean.getInfor();
             if (!TextUtils.isEmpty(info)) {
                 SpannableStringBuilder builder = new SpannableStringBuilder(info);
                 builder.setSpan(new NoLineClickableSpan(contentBean), 0, info.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
                 holder.tvContent.setText(builder);
+                holder.tvContent.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        showLongClickDialog(info);
+                        return true;
+                    }
+                });
             }
         }
     }
