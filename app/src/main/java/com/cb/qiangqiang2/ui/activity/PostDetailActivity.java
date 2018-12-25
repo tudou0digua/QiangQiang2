@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -104,6 +105,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     private boolean hasLoadAllData = false;
     private int boardId;
     private int topicId;
+    private boolean isAscendingOrder = true;
     private String boardName;
     private String title;
     private PostDetailModel postDetailModel;
@@ -146,6 +148,9 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         boardName = getIntent().getStringExtra(BOARD_NAME);
         topicId = getIntent().getIntExtra(TOPIC_ID, -1);
         title = getIntent().getStringExtra(TITLE);
+        if (!TextUtils.isEmpty(title) && title.contains("倒叙")) {
+            isAscendingOrder = false;
+        }
     }
 
     @Override
@@ -177,6 +182,18 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
                         String url = String.format(Constants.WEB_PAGE_URL_PRE, topicId);
                         intent.setData(Uri.parse(url));
                         startActivity(intent);
+                        break;
+                    //正序、倒序
+                    case R.id.menu_order:
+                        isAscendingOrder = !isAscendingOrder;
+                        if (isAscendingOrder) {
+                            //变为正序排序
+                            item.setTitle(R.string.post_detail_order_descending);
+                        } else {
+                            //变为倒序序排序
+                            item.setTitle(R.string.post_detail_order_ascending);
+                        }
+                        refreshPostDetailData();
                         break;
                 }
                 return true;
@@ -211,7 +228,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
                 boolean isScrollToBottom = isScrollToBottom(recyclerView);
                 if (!hasLoadAllData && canLoadingMore && isScrollToBottom) {
                     canLoadingMore = false;
-                    mPostDetailPresenter.getPostDetail(true, topicId, boardId, nextPage, 10);
+                    mPostDetailPresenter.getPostDetail(true, topicId, boardId, nextPage, 10, isAscendingOrder);
                 }
                 super.onScrolled(recyclerView, dx, dy);
             }
@@ -237,7 +254,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     }
 
     private void refreshPostDetailData() {
-        mPostDetailPresenter.getPostDetail(false, topicId, boardId, 1, 10);
+        mPostDetailPresenter.getPostDetail(false, topicId, boardId, 1, 10, isAscendingOrder);
         canLoadingMore = false;
     }
 
@@ -315,6 +332,14 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_post_detail, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (!isAscendingOrder) {
+            menu.getItem(1).setTitle(R.string.post_detail_order_ascending);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private void finishActivity() {
@@ -471,6 +496,8 @@ public class PostDetailActivity extends BaseSwipeBackActivity implements PostDet
         Toast.makeText(mContext, "回复成功", Toast.LENGTH_SHORT).show();
         etReply.setText("");
         hideSendView();
+        //倒序刷新帖子
+        isAscendingOrder = false;
         refreshPostDetailData();
     }
 

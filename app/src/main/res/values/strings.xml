@@ -92,6 +92,8 @@
     <string name="post_detail_floor">%d楼</string>
     <string name="post_detail_publisher">楼主</string>
     <string name="post_detail_open_with_browser">浏览器打开</string>
+    <string name="post_detail_order_ascending">正序排序</string>
+    <string name="post_detail_order_descending">倒序排序</string>
     <string name="post_detail_reply">回复</string>
     <string name="post_detail_collection">收藏</string>
     <string name="post_detail_cancel_collection">取消收藏</string>

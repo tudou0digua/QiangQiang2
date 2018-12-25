@@ -28,7 +28,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailMvpView> {
     }
 
     public void getPostDetail(final boolean isLoadMore, int topicId, int boardId, int page,
-                              int pageSize) {
+                              int pageSize, boolean ascending) {
         if (getMvpView() != null) {
             if (isLoadMore) {
                 getMvpView().showLoadMoreView();
@@ -40,6 +40,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailMvpView> {
         map.put(Constants.TOPIC_ID, String.valueOf(topicId));
         map.put(Constants.BOARD_ID, String.valueOf(boardId));
         map.put(Constants.AUTHOR_ID, String.valueOf(0));
+        map.put(Constants.ORDER, ascending ? Constants.ORDER_ASCENDING : Constants.ORDER_DESCENDING);
         map.put(Constants.PAGE, String.valueOf(page));
         map.put(Constants.PAGE_SIZE, String.valueOf(pageSize));
         HttpManager.isNeedFormatDataLogger = true;
